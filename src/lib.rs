@@ -7,11 +7,16 @@
 //! use itermore::IterMore;
 //! ```
 //!
-//! Now new methods like [`chunks`][IterMore::chunks] are available.
+//! Now the new methods [`chunks`][IterMore::chunks] and
+//! [`windows`][IterMore::windows] are available.
 //!
 //! ```
 //! # use itermore::IterMore;
 //! for [x, y, z] in (1..100).chunks() {
+//!     // ...
+//! }
+//!
+//! for [a, b] in (1..33).windows() {
 //!     // ...
 //! }
 //! ```
@@ -24,8 +29,10 @@ extern crate alloc;
 
 mod array;
 mod chunks;
+mod windows;
 
 pub use crate::chunks::Chunks;
+pub use crate::windows::Windows;
 
 /// Provides extra adaptors to anything implementing [`Iterator`].
 pub trait IterMore: Iterator {
@@ -36,7 +43,7 @@ pub trait IterMore: Iterator {
     /// omitted.
     ///
     /// **Note:** if you have something that dereferences to a slice you should
-    /// consider [`slice::chunks_exact`].
+    /// consider [`slice::chunks_exact`] or [`slice::array_chunks`].
     ///
     /// # Examples
     ///
@@ -63,6 +70,54 @@ pub trait IterMore: Iterator {
         Self: Sized,
     {
         Chunks::new(self)
+    }
+
+    /// Returns an iterator over all contiguous windows of length `N`. The
+    /// windows overlap. If the iterator is shorter than `N`, the iterator
+    /// returns no values.
+    ///
+    /// `windows` clones the iterator elements so that they can be part of
+    /// successive windows, this makes this it most suited for iterators of
+    /// references and other values that are cheap to copy.
+    ///
+    /// **Note:** if you have something that dereferences to a slice you should
+    /// consider [`slice::windows`] or [`slice::array_windows`].
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// # use itermore::IterMore;
+    /// let data = [10, 8, 6, 4];
+    /// //          ^---^
+    /// //              ^--^
+    /// //                 ^--^
+    /// for [x, y] in data.iter().windows() {
+    ///     assert_eq!(x - y, 2);
+    /// }
+    /// ```
+    ///
+    /// ```
+    /// # use itermore::IterMore;
+    /// let mut iter = ['r', 'u', 's', 't'].iter().copied().windows();
+    /// assert_eq!(iter.next().unwrap(), ['r', 'u']);
+    /// assert_eq!(iter.next().unwrap(), ['u', 's']);
+    /// assert_eq!(iter.next().unwrap(), ['s', 't']);
+    /// assert!(iter.next().is_none());
+    /// ```
+    ///
+    /// If the iterator is shorter than `N`
+    /// ```
+    /// # use itermore::IterMore;
+    /// let mut iter = ['f', 'o', 'o'].iter().copied().windows::<4>();
+    /// assert!(iter.next().is_none());
+    /// ```
+    #[inline]
+    fn windows<const N: usize>(self) -> Windows<Self, Self::Item, N>
+    where
+        Self: Sized,
+        Self::Item: Clone,
+    {
+        Windows::new(self)
     }
 }
 
