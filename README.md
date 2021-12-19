@@ -11,7 +11,7 @@ Add the following to your Cargo manifest.
 
 ```toml
 [dependencies]
-itermore = "0.1"
+itermore = "0.2"
 ```
 
 And bring the [`IterMore`] trait into scope
