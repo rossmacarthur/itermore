@@ -1,3 +1,5 @@
+use core::iter::FusedIterator;
+
 use crate::array;
 
 /// An iterator that yields overlapping chunks of `N` elements of `T` at a time.
@@ -18,7 +20,7 @@ where
     I: Iterator<Item = T>,
 {
     #[inline]
-    pub fn new(iter: I) -> Self {
+    pub(crate) fn new(iter: I) -> Self {
         Self { iter, last: None }
     }
 }
@@ -49,4 +51,11 @@ where
             }
         }
     }
+}
+
+impl<I, T, const N: usize> FusedIterator for ArrayWindows<I, T, N>
+where
+    I: FusedIterator<Item = T>,
+    T: Clone,
+{
 }

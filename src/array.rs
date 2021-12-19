@@ -14,9 +14,17 @@ use core::ptr;
 ///
 // Based on the array collect implementation in the Rust standard library.
 // https://github.com/rust-lang/rust/blob/master/library/core/src/array/mod.rs#L476-L531
+#[inline]
 pub fn collect<I, T, const N: usize>(iter: &mut I) -> Option<[T; N]>
 where
     I: Iterator<Item = T>,
+{
+    collect_fn(|| iter.next())
+}
+
+pub fn collect_fn<F, T, const N: usize>(mut f: F) -> Option<[T; N]>
+where
+    F: FnMut() -> Option<T>,
 {
     struct Guard<T, const N: usize> {
         ptr: *mut T,
@@ -42,7 +50,7 @@ where
         }
     }
 
-    while let Some(item) = iter.next() {
+    while let Some(item) = f() {
         // SAFETY: `guard.initialized` starts at 0, is increased by one in the
         // loop and the loop is aborted once it reaches N (which is
         // `array.len()`).

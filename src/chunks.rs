@@ -1,3 +1,5 @@
+use core::iter::{DoubleEndedIterator, FusedIterator};
+
 use crate::array;
 
 /// An iterator that yields `N` elements of `T` at a time.
@@ -32,4 +34,21 @@ where
     fn next(&mut self) -> Option<Self::Item> {
         array::collect(&mut self.iter)
     }
+}
+
+impl<I, T, const N: usize> DoubleEndedIterator for ArrayChunks<I, T, N>
+where
+    I: DoubleEndedIterator<Item = T>,
+{
+    #[inline]
+    fn next_back(&mut self) -> Option<Self::Item> {
+        array::collect_fn(|| self.iter.next_back())
+    }
+}
+
+impl<I, T, const N: usize> FusedIterator for ArrayChunks<I, T, N>
+//
+where
+    I: FusedIterator<Item = T>
+{
 }
