@@ -36,6 +36,28 @@ pub use crate::windows::ArrayWindows;
 
 /// Provides extra adaptors to anything implementing [`Iterator`].
 pub trait Itermore: Iterator {
+    /// Advances the iterator `N` times and returns the elements as an array.
+    ///
+    /// If there are not enough elements the fill the array then `None` is
+    /// returned.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// # use itermore::Itermore;
+    /// let mut data = 1..5;
+    /// let [x, y] = data.next_array().unwrap();
+    /// assert_eq!(x, 1);
+    /// assert_eq!(y, 2);
+    /// ```
+    #[inline]
+    fn next_array<const N: usize>(&mut self) -> Option<[Self::Item; N]>
+    where
+        Self: Sized,
+    {
+        array::collect(self)
+    }
+
     /// Returns an iterator over `N` elements of the iterator at a time,
     ///
     /// The chunks are arrays and do not overlap. If `N` does not divide the

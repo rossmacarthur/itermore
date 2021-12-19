@@ -22,6 +22,17 @@ use itermore::IterMore;
 
 ## 🤸 Usage
 
+The following additional iterator methods are provided.
+
+### [`next_array`](https://docs.rs/itermore/0.2/itermore/trait.IterMore.html#method.next_array)
+
+```rust
+let mut data = 1..5;
+let [x, y] = data.next_array().unwrap();
+assert_eq!(x, 1);
+assert_eq!(y, 2);
+```
+
 The following adaptors are provided.
 
 ### [`array_chunks`](https://docs.rs/itermore/0.2/itermore/trait.IterMore.html#method.array_chunks)
