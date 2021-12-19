@@ -2,17 +2,17 @@ use crate::array;
 
 /// An iterator that yields `N` elements of `T` at a time.
 ///
-/// This struct is created by the [`chunks`][crate::IterMore::chunks] method on
-/// iterators.
+/// This struct is created by the
+/// [`array_chunks`][crate::Itermore::array_chunks] method on iterators.
 #[derive(Debug, Clone)]
-pub struct Chunks<I, T, const N: usize>
+pub struct ArrayChunks<I, T, const N: usize>
 where
     I: Iterator<Item = T>,
 {
     iter: I,
 }
 
-impl<I, T, const N: usize> Chunks<I, T, N>
+impl<I, T, const N: usize> ArrayChunks<I, T, N>
 where
     I: Iterator<Item = T>,
 {
@@ -22,7 +22,7 @@ where
     }
 }
 
-impl<I, T, const N: usize> Iterator for Chunks<I, T, N>
+impl<I, T, const N: usize> Iterator for ArrayChunks<I, T, N>
 where
     I: Iterator<Item = T>,
 {

@@ -2,10 +2,10 @@ use crate::array;
 
 /// An iterator that yields overlapping chunks of `N` elements of `T` at a time.
 ///
-/// This struct is created by the [`windows`][crate::IterMore::windows] method
-/// on iterators.
+/// This struct is created by the
+/// [`array_windows`][crate::Itermore::array_windows] method on iterators.
 #[derive(Debug, Clone)]
-pub struct Windows<I, T, const N: usize>
+pub struct ArrayWindows<I, T, const N: usize>
 where
     I: Iterator<Item = T>,
 {
@@ -13,7 +13,7 @@ where
     last: Option<[T; N]>,
 }
 
-impl<I, T, const N: usize> Windows<I, T, N>
+impl<I, T, const N: usize> ArrayWindows<I, T, N>
 where
     I: Iterator<Item = T>,
 {
@@ -23,7 +23,7 @@ where
     }
 }
 
-impl<I, T, const N: usize> Iterator for Windows<I, T, N>
+impl<I, T, const N: usize> Iterator for ArrayWindows<I, T, N>
 where
     I: Iterator<Item = T>,
     T: Clone,

@@ -1,22 +1,22 @@
 //! More iterator adaptors,
 //!
-//! To extend [`Iterator`] with methods in this crate, import the [`IterMore`]
+//! To extend [`Iterator`] with methods in this crate, import the [`Itermore`]
 //! trait
 //!
 //! ```
-//! use itermore::IterMore;
+//! use itermore::Itermore;
 //! ```
 //!
-//! Now the new methods [`chunks`][IterMore::chunks] and
-//! [`windows`][IterMore::windows] are available.
+//! Now the new methods [`array_chunks`][Itermore::array_chunks] and
+//! [`array_windows`][Itermore::array_windows] are available.
 //!
 //! ```
-//! # use itermore::IterMore;
-//! for [x, y, z] in (1..100).chunks() {
+//! # use itermore::Itermore;
+//! for [x, y, z] in (1..100).array_chunks() {
 //!     // ...
 //! }
 //!
-//! for [a, b] in (1..33).windows() {
+//! for [a, b] in (1..33).array_windows() {
 //!     // ...
 //! }
 //! ```
@@ -31,11 +31,11 @@ mod array;
 mod chunks;
 mod windows;
 
-pub use crate::chunks::Chunks;
-pub use crate::windows::Windows;
+pub use crate::chunks::ArrayChunks;
+pub use crate::windows::ArrayWindows;
 
 /// Provides extra adaptors to anything implementing [`Iterator`].
-pub trait IterMore: Iterator {
+pub trait Itermore: Iterator {
     /// Returns an iterator over `N` elements of the iterator at a time,
     ///
     /// The chunks are arrays and do not overlap. If `N` does not divide the
@@ -48,35 +48,35 @@ pub trait IterMore: Iterator {
     /// # Examples
     ///
     /// ```
-    /// # use itermore::IterMore;
+    /// # use itermore::Itermore;
     /// let data = [1, 1, 2, -2, 6, 0, 3, 1];
     /// //          ^-----^  ^------^
-    /// for [x, y, z] in data.iter().chunks() {
+    /// for [x, y, z] in data.iter().array_chunks() {
     ///     let sum = x + y + z;
     ///     assert_eq!(sum, 4);
     /// }
     /// ```
     ///
     /// ```
-    /// # use itermore::IterMore;
-    /// let mut iter = ['l', 'o', 'r', 'e', 'm'].iter().copied().chunks();
+    /// # use itermore::Itermore;
+    /// let mut iter = ['l', 'o', 'r', 'e', 'm'].iter().copied().array_chunks();
     /// assert_eq!(iter.next().unwrap(), ['l', 'o']);
     /// assert_eq!(iter.next().unwrap(), ['r', 'e']);
     /// assert!(iter.next().is_none());
     /// ```
     #[inline]
-    fn chunks<const N: usize>(self) -> Chunks<Self, Self::Item, N>
+    fn array_chunks<const N: usize>(self) -> ArrayChunks<Self, Self::Item, N>
     where
         Self: Sized,
     {
-        Chunks::new(self)
+        ArrayChunks::new(self)
     }
 
     /// Returns an iterator over all contiguous windows of length `N`. The
     /// windows overlap. If the iterator is shorter than `N`, the iterator
     /// returns no values.
     ///
-    /// `windows` clones the iterator elements so that they can be part of
+    /// `array_windows` clones the iterator elements so that they can be part of
     /// successive windows, this makes this it most suited for iterators of
     /// references and other values that are cheap to copy.
     ///
@@ -86,19 +86,19 @@ pub trait IterMore: Iterator {
     /// # Examples
     ///
     /// ```
-    /// # use itermore::IterMore;
+    /// # use itermore::Itermore;
     /// let data = [10, 8, 6, 4];
     /// //          ^---^
     /// //              ^--^
     /// //                 ^--^
-    /// for [x, y] in data.iter().windows() {
+    /// for [x, y] in data.iter().array_windows() {
     ///     assert_eq!(x - y, 2);
     /// }
     /// ```
     ///
     /// ```
-    /// # use itermore::IterMore;
-    /// let mut iter = ['r', 'u', 's', 't'].iter().copied().windows();
+    /// # use itermore::Itermore;
+    /// let mut iter = ['r', 'u', 's', 't'].iter().copied().array_windows();
     /// assert_eq!(iter.next().unwrap(), ['r', 'u']);
     /// assert_eq!(iter.next().unwrap(), ['u', 's']);
     /// assert_eq!(iter.next().unwrap(), ['s', 't']);
@@ -107,18 +107,18 @@ pub trait IterMore: Iterator {
     ///
     /// If the iterator is shorter than `N`
     /// ```
-    /// # use itermore::IterMore;
-    /// let mut iter = ['f', 'o', 'o'].iter().copied().windows::<4>();
+    /// # use itermore::Itermore;
+    /// let mut iter = ['f', 'o', 'o'].iter().copied().array_windows::<4>();
     /// assert!(iter.next().is_none());
     /// ```
     #[inline]
-    fn windows<const N: usize>(self) -> Windows<Self, Self::Item, N>
+    fn array_windows<const N: usize>(self) -> ArrayWindows<Self, Self::Item, N>
     where
         Self: Sized,
         Self::Item: Clone,
     {
-        Windows::new(self)
+        ArrayWindows::new(self)
     }
 }
 
-impl<I: ?Sized> IterMore for I where I: Iterator {}
+impl<I: ?Sized> Itermore for I where I: Iterator {}

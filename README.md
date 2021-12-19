@@ -24,24 +24,24 @@ use itermore::IterMore;
 
 The following adaptors are provided.
 
-### [`chunks`](https://docs.rs/itermore/0.1/itermore/trait.IterMore.html#method.chunks)
+### [`array_chunks`](https://docs.rs/itermore/0.2/itermore/trait.IterMore.html#method.array_chunks)
 
-*Similar to `slice::chunks_exact` but for any iterator.*
+*Similar to `slice::array_chunks` but for any iterator.*
 
 Returns an iterator over `N` elements of the iterator at a time.
 
 ```rust
 let data = [1, 1, 2, -2, 6, 0, 3, 1];
 //          ^-----^  ^------^
-for [x, y, z] in data.iter().chunks() {
+for [x, y, z] in data.iter().array_chunks() {
     let sum = x + y + z;
     assert_eq!(sum, 4);
 }
 ```
 
-### [`windows`](https://docs.rs/itermore/0.1/itermore/trait.IterMore.html#method.chunks)
+### [`array_windows`](https://docs.rs/itermore/0.2/itermore/trait.IterMore.html#method.array_windows)
 
-*Similar to `slice::windows` but for any iterator.*
+*Similar to `slice::array_windows` but for any iterator.*
 
 Returns an iterator over all contiguous windows of length `N`. The windows
 overlap.
@@ -51,7 +51,7 @@ let data = [10, 8, 6, 4];
 //          ^---^
 //              ^--^
 //                 ^--^
-for [x, y] in data.iter().windows() {
+for [x, y] in data.iter().array_windows() {
     assert_eq!(x - y, 2);
 }
 ```
