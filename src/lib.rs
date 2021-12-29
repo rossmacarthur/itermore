@@ -103,41 +103,36 @@ pub trait Itermore: Iterator {
     ///
     /// `array_windows` clones the iterator elements so that they can be part of
     /// successive windows, this makes this it most suited for iterators of
-    /// references and other values that are cheap to copy.
+    /// references and other values that are cheap to clone.
     ///
-    /// **Note:** if you have something that dereferences to a slice you should
-    /// consider [`slice::windows`] or [`slice::array_windows`].
+    /// # Panics
+    ///
+    /// If called with `N = 0`.
     ///
     /// # Examples
     ///
+    /// Basic usage:
+    ///
     /// ```
-    /// # use itermore::Itermore;
-    /// let data = [10, 8, 6, 4];
-    /// //          ^---^
-    /// //              ^--^
-    /// //                 ^--^
-    /// for [x, y] in data.iter().array_windows() {
-    ///     assert_eq!(x - y, 2);
+    /// use itermore::Itermore;
+    ///
+    /// let mut iter = "rust".chars().array_windows();
+    /// assert_eq!(iter.next(), Some(['r', 'u']));
+    /// assert_eq!(iter.next(), Some(['u', 's']));
+    /// assert_eq!(iter.next(), Some(['s', 't']));
+    /// assert_eq!(iter.next(), None);
+    /// ```
+    ///
+    /// ```
+    /// use itermore::Itermore;
+    ///
+    /// let seq: &[i32] = &[0, 1, 1, 2, 3, 5, 8, 13];
+    /// for [x, y, z] in seq.iter().copied().array_windows() {
+    ///     assert_eq!(x + y, z);
     /// }
     /// ```
-    ///
-    /// ```
-    /// # use itermore::Itermore;
-    /// let mut iter = ['r', 'u', 's', 't'].iter().copied().array_windows();
-    /// assert_eq!(iter.next().unwrap(), ['r', 'u']);
-    /// assert_eq!(iter.next().unwrap(), ['u', 's']);
-    /// assert_eq!(iter.next().unwrap(), ['s', 't']);
-    /// assert!(iter.next().is_none());
-    /// ```
-    ///
-    /// If the iterator is shorter than `N`
-    /// ```
-    /// # use itermore::Itermore;
-    /// let mut iter = ['f', 'o', 'o'].iter().copied().array_windows::<4>();
-    /// assert!(iter.next().is_none());
-    /// ```
     #[inline]
-    fn array_windows<const N: usize>(self) -> ArrayWindows<Self, Self::Item, N>
+    fn array_windows<const N: usize>(self) -> ArrayWindows<Self, N>
     where
         Self: Sized,
         Self::Item: Clone,
