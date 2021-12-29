@@ -58,36 +58,39 @@ pub trait Itermore: Iterator {
         array::collect(self)
     }
 
-    /// Returns an iterator over `N` elements of the iterator at a time,
+    /// Returns an iterator over `N` elements of the iterator at a time.
     ///
-    /// The chunks are arrays and do not overlap. If `N` does not divide the
-    /// length of the iterator, then the last up to `N-1` elements will be
-    /// omitted.
+    /// The chunks do not overlap. If `N` does not divide the length of the
+    /// iterator, then the last up to `N-1` elements will be omitted.
     ///
-    /// **Note:** if you have something that dereferences to a slice you should
-    /// consider [`slice::chunks_exact`] or [`slice::array_chunks`].
+    /// # Panics
+    ///
+    /// If called with `N = 0`.
     ///
     /// # Examples
     ///
+    /// Basic usage:
+    ///
     /// ```
-    /// # use itermore::Itermore;
-    /// let data = [1, 1, 2, -2, 6, 0, 3, 1];
-    /// //          ^-----^  ^------^
-    /// for [x, y, z] in data.iter().array_chunks() {
-    ///     let sum = x + y + z;
-    ///     assert_eq!(sum, 4);
-    /// }
+    /// use itermore::Itermore;
+    ///
+    /// let mut iter = "lorem".chars().array_chunks();
+    /// assert_eq!(iter.next(), Some(['l', 'o']));
+    /// assert_eq!(iter.next(), Some(['r', 'e']));
+    /// assert_eq!(iter.next(), None);
     /// ```
     ///
     /// ```
-    /// # use itermore::Itermore;
-    /// let mut iter = ['l', 'o', 'r', 'e', 'm'].iter().copied().array_chunks();
-    /// assert_eq!(iter.next().unwrap(), ['l', 'o']);
-    /// assert_eq!(iter.next().unwrap(), ['r', 'e']);
-    /// assert!(iter.next().is_none());
+    /// use itermore::Itermore;
+    ///
+    /// let data = [1, 1, 2, -2, 6, 0, 3, 1];
+    /// //          ^-----^  ^------^
+    /// for [x, y, z] in data.iter().array_chunks() {
+    ///     assert_eq!(x + y + z, 4);
+    /// }
     /// ```
     #[inline]
-    fn array_chunks<const N: usize>(self) -> ArrayChunks<Self, Self::Item, N>
+    fn array_chunks<const N: usize>(self) -> ArrayChunks<Self, N>
     where
         Self: Sized,
     {
