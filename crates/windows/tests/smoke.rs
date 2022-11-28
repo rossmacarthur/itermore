@@ -58,6 +58,7 @@ fn windows_count() {
     assert_eq!(iter.count(), usize::MAX - 1);
 }
 
+#[allow(clippy::iter_nth_zero)]
 #[test]
 fn windows_nth() {
     let mut iter = (0..6).windows::<4>();

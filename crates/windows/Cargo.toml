@@ -3,6 +3,7 @@ name = "iterwindows"
 version = "0.1.0"
 authors = ["Ross MacArthur <ross@macarthur.io>"]
 edition = "2021"
+rust-version = "1.56"
 description = "An iterator adapter to iterate over all contiguous windows of length N"
 readme = "README.md"
 repository = "https://github.com/rossmacarthur/itermore"

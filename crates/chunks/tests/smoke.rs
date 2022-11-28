@@ -65,6 +65,7 @@ fn chunks_next_back() {
     assert_eq!(iter.next(), None);
 }
 
+#[allow(clippy::iter_nth_zero)]
 #[test]
 fn chunks_nth() {
     let mut iter = (0..6).chunks::<2>();

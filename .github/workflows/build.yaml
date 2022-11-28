@@ -1,0 +1,68 @@
+name: build
+
+on: [push, pull_request]
+
+jobs:
+
+  # ---------------------------------------------------------------------------
+  # Lint
+  # ---------------------------------------------------------------------------
+
+  lint:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        toolchain: [stable, beta, nightly]
+
+    env:
+      RUSTFLAGS: --deny warnings
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - uses: dtolnay/rust-toolchain@master
+      with:
+        toolchain: ${{ matrix.toolchain }}
+        components: clippy, rustfmt
+
+    - name: Rustfmt
+      run: cargo fmt -- --check
+
+    - name: Clippy
+      continue-on-error: ${{ matrix.toolchain == 'nightly' }}
+      run: cargo clippy --workspace --all-targets
+
+    - name: Check (no default features)
+      run: cargo check --no-default-features
+
+
+  # ---------------------------------------------------------------------------
+  # Test
+  # ---------------------------------------------------------------------------
+
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dtolnay/rust-toolchain@stable
+
+      - name: Test
+        run: cargo test --workspace
+
+  # ---------------------------------------------------------------------------
+  # MSRV
+  # ---------------------------------------------------------------------------
+
+  msrv:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: dtolnay/rust-toolchain@1.65
+      - name: Test
+        run: cargo test
+        env:
+          RUSTFLAGS: --deny warnings
