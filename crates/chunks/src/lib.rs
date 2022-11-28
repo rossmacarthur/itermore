@@ -123,6 +123,10 @@ pub trait IterChunks: Iterator {
 
 impl<I: ?Sized> IterChunks for I where I: Iterator {}
 
+/// An iterator over `N` elements of the iterator at a time.
+///
+/// This struct is created by the [`chunks`][IterChunks::chunks] method on
+/// iterators. See its documentation for more.
 pub struct Chunks<I, const N: usize> {
     iter: I,
 }

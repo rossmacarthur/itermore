@@ -13,5 +13,13 @@ keywords = ["iterator", "chunks", "windows"]
 categories = ["algorithms", "rust-patterns"]
 
 [dependencies]
-iterchunks = { version = "0.1.0", path = "crates/chunks" }
-iterwindows = { version = "0.1.0", path = "crates/windows" }
+iterchunks = { version = "0.1.0", path = "crates/chunks", optional = true }
+iterwindows = { version = "0.1.0", path = "crates/windows", optional = true }
+
+[features]
+default = ["std", "chunks", "windows"]
+
+std = []
+
+chunks = ["dep:iterchunks"]
+windows = ["dep:iterwindows"]

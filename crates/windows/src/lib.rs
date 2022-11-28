@@ -90,8 +90,7 @@ pub trait IterWindows: Iterator {
 
 impl<I: ?Sized> IterWindows for I where I: Iterator {}
 
-/// An iterator over all contiguous windows of length `N`. The windows overlap.
-/// If the iterator is shorter than `N`, the iterator returns no values.
+/// An iterator over all contiguous windows of length `N`.
 ///
 /// This struct is created by the [`windows`][IterWindows::windows] method on
 /// iterators. See its documentation for more.
