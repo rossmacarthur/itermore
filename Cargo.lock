@@ -4,11 +4,11 @@ version = 3
 
 [[package]]
 name = "iterchunks"
-version = "0.1.0"
+version = "0.1.1"
 
 [[package]]
 name = "itermore"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "iterchunks",
  "iterwindows",
@@ -16,4 +16,4 @@ dependencies = [
 
 [[package]]
 name = "iterwindows"
-version = "0.1.0"
+version = "0.1.1"
