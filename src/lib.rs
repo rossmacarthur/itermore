@@ -24,15 +24,8 @@
 #![no_std]
 #![warn(unsafe_op_in_unsafe_fn)]
 
-#[cfg(test)]
-extern crate alloc;
-
-mod array;
-mod chunks;
-mod windows;
-
-pub use crate::chunks::ArrayChunks;
-pub use crate::windows::ArrayWindows;
+pub use iterchunks::Chunks;
+pub use iterwindows::Windows;
 
 /// Provides extra adaptors to anything implementing [`Iterator`].
 pub trait Itermore: Iterator {
@@ -46,16 +39,16 @@ pub trait Itermore: Iterator {
     /// ```
     /// # use itermore::Itermore;
     /// let mut data = 1..5;
-    /// let [x, y] = data.next_array().unwrap();
+    /// let [x, y] = data.next_chunk().unwrap();
     /// assert_eq!(x, 1);
     /// assert_eq!(y, 2);
     /// ```
     #[inline]
-    fn next_array<const N: usize>(&mut self) -> Option<[Self::Item; N]>
+    fn next_chunk<const N: usize>(&mut self) -> Option<[Self::Item; N]>
     where
         Self: Sized,
     {
-        array::collect(self)
+        iterchunks::IterChunks::next_chunk(self)
     }
 
     /// Returns an iterator over `N` elements of the iterator at a time.
@@ -90,11 +83,11 @@ pub trait Itermore: Iterator {
     /// }
     /// ```
     #[inline]
-    fn array_chunks<const N: usize>(self) -> ArrayChunks<Self, N>
+    fn array_chunks<const N: usize>(self) -> Chunks<Self, N>
     where
         Self: Sized,
     {
-        ArrayChunks::new(self)
+        iterchunks::IterChunks::chunks(self)
     }
 
     /// Returns an iterator over all contiguous windows of length `N`. The
@@ -132,12 +125,12 @@ pub trait Itermore: Iterator {
     /// }
     /// ```
     #[inline]
-    fn array_windows<const N: usize>(self) -> ArrayWindows<Self, N>
+    fn array_windows<const N: usize>(self) -> Windows<Self, N>
     where
         Self: Sized,
         Self::Item: Clone,
     {
-        ArrayWindows::new(self)
+        iterwindows::IterWindows::windows(self)
     }
 }
 
