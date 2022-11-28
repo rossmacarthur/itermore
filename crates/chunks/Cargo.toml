@@ -10,3 +10,6 @@ repository = "https://github.com/rossmacarthur/itermore"
 license = "MIT OR Apache-2.0"
 keywords = ["no_std", "iterator", "chunks"]
 categories = ["algorithms", "rust-patterns"]
+
+[dependencies]
+arrays = { path = "../arrays", version = "0.0.0"}
