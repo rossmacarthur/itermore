@@ -18,9 +18,11 @@ iterchunks = { version = "0.1.1", path = "crates/chunks", optional = true }
 iterwindows = { version = "0.1.1", path = "crates/windows", optional = true }
 
 [features]
-default = ["std", "chunks", "windows"]
+default = ["std", "chunks", "sorted", "windows"]
 
-std = []
+std = ["alloc"]
+alloc = []
 
 chunks = ["dep:iterchunks"]
+sorted = []
 windows = ["dep:iterwindows"]

@@ -34,13 +34,19 @@
 //! ```
 
 #![warn(unsafe_op_in_unsafe_fn)]
-#![cfg_attr(not(feature = "std"), no_std)]
+#![cfg_attr(not(feature = "alloc"), no_std)]
 
-#[cfg(feature = "std")]
-extern crate std;
+#[cfg(feature = "alloc")]
+extern crate alloc;
+
+#[cfg(feature = "alloc")]
+mod sorted;
 
 #[cfg(feature = "chunks")]
 pub use iterchunks::{Chunks, IterChunks};
+
+#[cfg(feature = "sorted")]
+pub use crate::sorted::IterSorted;
 
 #[cfg(feature = "windows")]
 pub use iterwindows::{IterWindows, Windows};
@@ -49,6 +55,9 @@ pub use iterwindows::{IterWindows, Windows};
 pub mod prelude {
     #[cfg(feature = "chunks")]
     pub use iterchunks::IterChunks;
+
+    #[cfg(feature = "sorted")]
+    pub use crate::sorted::IterSorted;
 
     #[cfg(feature = "windows")]
     pub use iterwindows::IterWindows;
