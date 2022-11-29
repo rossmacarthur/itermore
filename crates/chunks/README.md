@@ -9,6 +9,12 @@
 This crate provides an iterator adapter that yields N elements of the
 iterator at a time.
 
+This methods provided here have the corresponding nightly APIs:
+
+- [Iterator::next_chunk](https://doc.rust-lang.org/stable/std/iter/trait.Iterator.html#method.next_chunk)
+- [Iterator::array_chunks](https://doc.rust-lang.org/stable/std/iter/trait.Iterator.html#method.array_chunks)
+  The nightly versions will likely have better performance.
+
 ## Getting started
 
 Add the crate to your Cargo manifest.

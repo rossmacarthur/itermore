@@ -1,6 +1,10 @@
 //! This crate provides an iterator adapter that yields N elements of the
 //! iterator at a time.
 //!
+//! This methods provided here have the corresponding nightly APIs:
+//! - [Iterator::next_chunk](https://doc.rust-lang.org/stable/std/iter/trait.Iterator.html#method.next_chunk)
+//! - [Iterator::array_chunks](https://doc.rust-lang.org/stable/std/iter/trait.Iterator.html#method.array_chunks)
+//!
 //! # Getting started
 //!
 //! Add the crate to your Cargo manifest.
@@ -77,6 +81,16 @@ pub trait IterChunks: Iterator {
         arrays::collect(self.by_ref())
     }
 
+    /// Identical to [`next_chunk`][IterChunks::next_chunk] but doesn't collide
+    /// with the standard library name.
+    #[inline]
+    fn next_array<const N: usize>(&mut self) -> Option<[Self::Item; N]>
+    where
+        Self: Sized,
+    {
+        arrays::collect(self.by_ref())
+    }
+
     /// Returns an iterator over `N` elements of the iterator at a time.
     ///
     /// The chunks do not overlap. If `N` does not divide the length of the
@@ -110,6 +124,15 @@ pub trait IterChunks: Iterator {
     /// ```
     #[inline]
     fn chunks<const N: usize>(self) -> Chunks<Self, N>
+    where
+        Self: Sized,
+    {
+        Chunks::new(self)
+    }
+
+    /// Identical to [`chunks`][IterChunks::chunks] but doesn't collide with the
+    /// `itertools` method.
+    fn chunked<const N: usize>(self) -> Chunks<Self, N>
     where
         Self: Sized,
     {
