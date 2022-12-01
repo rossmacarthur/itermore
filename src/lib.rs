@@ -41,14 +41,13 @@
 #[cfg(feature = "alloc")]
 extern crate alloc;
 
-#[cfg(feature = "alloc")]
-mod sorted;
+mod adaptors;
 
 #[cfg(feature = "chunks")]
 pub use iterchunks::{ArrayChunks, IterChunks};
 
 #[cfg(feature = "sorted")]
-pub use crate::sorted::IterSorted;
+pub use crate::adaptors::sorted::IterSorted;
 
 #[cfg(feature = "windows")]
 pub use iterwindows::{ArrayWindows, IterWindows};
@@ -59,7 +58,7 @@ pub mod prelude {
     pub use iterchunks::IterChunks;
 
     #[cfg(feature = "sorted")]
-    pub use crate::sorted::IterSorted;
+    pub use crate::adaptors::sorted::IterSorted;
 
     #[cfg(feature = "windows")]
     pub use iterwindows::IterWindows;
