@@ -14,13 +14,12 @@
 //! use iterwindows::IterWindows;
 //! ```
 //!
-//! Now you can use the [`windows`][IterWindows::windows] method on any
-//! iterator.
+//! Now you can use the [`array_windows`] method on any iterator.
 //!
 //! ```
 //! # use iterwindows::IterWindows;
 //! # let iter = [1, 2, 3, 4, 5].into_iter();
-//! for [a, b, c] in iter.windows() {
+//! for [a, b, c] in iter.array_windows() {
 //!     println!("{} {} {}", a, b, c)
 //! }
 //! ```
@@ -30,14 +29,17 @@
 //! ```
 //! # use iterwindows::IterWindows;
 //! # let iter = [1, 2, 3, 4, 5].into_iter();
-//! let w = iter.windows::<3>();
+//! let w = iter.array_windows::<3>();
 //! ```
+//!
+//! [`array_windows`]: IterWindows::array_windows
 
 #![no_std]
 #![warn(unsafe_op_in_unsafe_fn)]
 
-/// An extension trait that provides the [`windows`][IterWindows::windows]
-/// method for iterators.
+/// An extension trait that provides the [`array_windows`] method for iterators.
+///
+/// [`array_windows`]: IterWindows::array_windows
 pub trait IterWindows: Iterator {
     /// Returns an iterator over all contiguous windows of length `N`.
     ///
@@ -59,7 +61,7 @@ pub trait IterWindows: Iterator {
     /// ```
     /// use iterwindows::IterWindows;
     ///
-    /// let mut iter = "rust".chars().windows();
+    /// let mut iter = "rust".chars().array_windows();
     /// assert_eq!(iter.next(), Some(['r', 'u']));
     /// assert_eq!(iter.next(), Some(['u', 's']));
     /// assert_eq!(iter.next(), Some(['s', 't']));
@@ -70,17 +72,17 @@ pub trait IterWindows: Iterator {
     /// use iterwindows::IterWindows;
     ///
     /// let seq: &[i32] = &[0, 1, 1, 2, 3, 5, 8, 13];
-    /// for [x, y, z] in seq.iter().copied().windows() {
+    /// for [x, y, z] in seq.iter().copied().array_windows() {
     ///     assert_eq!(x + y, z);
     /// }
     /// ```
     #[inline]
-    fn windows<const N: usize>(self) -> Windows<Self, N>
+    fn array_windows<const N: usize>(self) -> ArrayWindows<Self, N>
     where
         Self: Sized,
         Self::Item: Clone,
     {
-        Windows::new(self)
+        ArrayWindows::new(self)
     }
 }
 
@@ -88,11 +90,13 @@ impl<I: ?Sized> IterWindows for I where I: Iterator {}
 
 /// An iterator over all contiguous windows of length `N`.
 ///
-/// This struct is created by the [`windows`][IterWindows::windows] method on
-/// iterators. See its documentation for more.
+/// This struct is created by the [`array_windows`] method on iterators. See its
+/// documentation for more.
+///
+/// [`array_windows`]: IterWindows::array_windows
 #[derive(Debug, Clone)]
 #[must_use = "iterators are lazy and do nothing unless consumed"]
-pub struct Windows<I, const N: usize>
+pub struct ArrayWindows<I, const N: usize>
 where
     I: Iterator,
     I::Item: Clone,
@@ -101,7 +105,7 @@ where
     last: Option<[I::Item; N]>,
 }
 
-impl<I, const N: usize> Windows<I, N>
+impl<I, const N: usize> ArrayWindows<I, N>
 where
     I: Iterator,
     I::Item: Clone,
@@ -112,7 +116,7 @@ where
     }
 }
 
-impl<I: Iterator, const N: usize> Iterator for Windows<I, N>
+impl<I: Iterator, const N: usize> Iterator for ArrayWindows<I, N>
 where
     I: Iterator,
     I::Item: Clone,

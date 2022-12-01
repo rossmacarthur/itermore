@@ -13,7 +13,9 @@ This methods provided here have the corresponding nightly APIs:
 
 - [Iterator::next_chunk](https://doc.rust-lang.org/stable/std/iter/trait.Iterator.html#method.next_chunk)
 - [Iterator::array_chunks](https://doc.rust-lang.org/stable/std/iter/trait.Iterator.html#method.array_chunks)
-  The nightly versions will likely have better performance.
+
+The nightly APIs handle remainders better and will likely have better
+performance, so they should be preferred if possible.
 
 ## Getting started
 
@@ -29,10 +31,10 @@ And bring the `IterChunks` trait into scope.
 use iterchunks::IterChunks;
 ```
 
-Now you can use the `chunks` method on any iterator.
+Now you can use the [`array_chunks`] method on any iterator.
 
 ```rust
-for [a, b, c] in iter.chunks() {
+for [a, b, c] in iter.array_chunks() {
     println!("{} {} {}", a, b, c)
 }
 ```
@@ -41,8 +43,10 @@ Generally the size of `N` can be inferred by the compiler but you can also
 specify it manually.
 
 ```rust
-let c = iter.chunks::<3>();
+let c = iter.array_chunks::<3>();
 ```
+
+[`array_chunks`]: IterChunks::array_chunks
 
 ## License
 

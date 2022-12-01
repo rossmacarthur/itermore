@@ -5,6 +5,9 @@
 //! - [Iterator::next_chunk](https://doc.rust-lang.org/stable/std/iter/trait.Iterator.html#method.next_chunk)
 //! - [Iterator::array_chunks](https://doc.rust-lang.org/stable/std/iter/trait.Iterator.html#method.array_chunks)
 //!
+//! The nightly APIs handle remainders better and will likely have better
+//! performance, so they should be preferred if possible.
+//!
 //! # Getting started
 //!
 //! Add the crate to your Cargo manifest.
@@ -18,12 +21,12 @@
 //! use iterchunks::IterChunks;
 //! ```
 //!
-//! Now you can use the [`chunks`][IterChunks::chunks] method on any iterator.
+//! Now you can use the [`array_chunks`] method on any iterator.
 //!
 //! ```
 //! # use iterchunks::IterChunks;
 //! # let iter = [1, 2, 3, 4, 5].into_iter();
-//! for [a, b, c] in iter.chunks() {
+//! for [a, b, c] in iter.array_chunks() {
 //!     println!("{} {} {}", a, b, c)
 //! }
 //! ```
@@ -33,14 +36,17 @@
 //! ```
 //! # use iterchunks::IterChunks;
 //! # let iter = [1, 2, 3, 4, 5].into_iter();
-//! let c = iter.chunks::<3>();
+//! let c = iter.array_chunks::<3>();
 //! ```
+//!
+//! [`array_chunks`]: IterChunks::array_chunks
 
 #![no_std]
 #![warn(unsafe_op_in_unsafe_fn)]
 
-/// An extension trait that provides the [`chunks`][IterChunks::chunks]
-/// method for iterators.
+/// An extension trait that provides the [`array_chunks`] method for iterators.
+///
+/// [`array_chunks`]: IterChunks::array_chunks
 pub trait IterChunks: Iterator {
     /// Advances the iterator and returns an array containing the next `N`
     /// values.
@@ -107,7 +113,7 @@ pub trait IterChunks: Iterator {
     /// ```
     /// use iterchunks::IterChunks;
     ///
-    /// let mut iter = "lorem".chars().chunks();
+    /// let mut iter = "lorem".chars().array_chunks();
     /// assert_eq!(iter.next(), Some(['l', 'o']));
     /// assert_eq!(iter.next(), Some(['r', 'e']));
     /// assert_eq!(iter.next(), None);
@@ -118,25 +124,25 @@ pub trait IterChunks: Iterator {
     ///
     /// let data = [1, 1, 2, -2, 6, 0, 3, 1];
     /// //          ^-----^  ^------^
-    /// for [x, y, z] in data.iter().chunks() {
+    /// for [x, y, z] in data.iter().array_chunks() {
     ///     assert_eq!(x + y + z, 4);
     /// }
     /// ```
     #[inline]
-    fn chunks<const N: usize>(self) -> Chunks<Self, N>
+    fn array_chunks<const N: usize>(self) -> ArrayChunks<Self, N>
     where
         Self: Sized,
     {
-        Chunks::new(self)
+        ArrayChunks::new(self)
     }
 
-    /// Identical to [`chunks`][IterChunks::chunks] but doesn't collide with the
-    /// `itertools` method.
-    fn chunked<const N: usize>(self) -> Chunks<Self, N>
+    /// Identical to [`array_chunks`][IterChunks::array_chunks] but doesn't
+    /// collide with the standard library name.
+    fn array_chunked<const N: usize>(self) -> ArrayChunks<Self, N>
     where
         Self: Sized,
     {
-        Chunks::new(self)
+        ArrayChunks::new(self)
     }
 }
 
@@ -144,13 +150,15 @@ impl<I: ?Sized> IterChunks for I where I: Iterator {}
 
 /// An iterator over `N` elements of the iterator at a time.
 ///
-/// This struct is created by the [`chunks`][IterChunks::chunks] method on
-/// iterators. See its documentation for more.
-pub struct Chunks<I, const N: usize> {
+/// This struct is created by the [`array_chunks`] method on iterators. See its
+/// documentation for more.
+///
+/// [`array_chunks`]: IterChunks::array_chunks
+pub struct ArrayChunks<I, const N: usize> {
     iter: I,
 }
 
-impl<I, const N: usize> Chunks<I, N>
+impl<I, const N: usize> ArrayChunks<I, N>
 where
     I: Iterator,
 {
@@ -161,7 +169,7 @@ where
     }
 }
 
-impl<I: Iterator, const N: usize> Iterator for Chunks<I, N>
+impl<I: Iterator, const N: usize> Iterator for ArrayChunks<I, N>
 where
     I: Iterator,
 {
@@ -185,7 +193,7 @@ where
     }
 }
 
-impl<I, const N: usize> DoubleEndedIterator for Chunks<I, N>
+impl<I, const N: usize> DoubleEndedIterator for ArrayChunks<I, N>
 where
     I: DoubleEndedIterator + ExactSizeIterator,
 {

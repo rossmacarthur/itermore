@@ -23,11 +23,10 @@ And bring the `IterWindows` trait into scope.
 use iterwindows::IterWindows;
 ```
 
-Now you can use the `windows` method on any
-iterator.
+Now you can use the [`array_windows`] method on any iterator.
 
 ```rust
-for [a, b, c] in iter.windows() {
+for [a, b, c] in iter.array_windows() {
     println!("{} {} {}", a, b, c)
 }
 ```
@@ -36,8 +35,10 @@ Generally the size of `N` can be inferred by the compiler but you can also
 specify it manually.
 
 ```rust
-let w = iter.windows::<3>();
+let w = iter.array_windows::<3>();
 ```
+
+[`array_windows`]: IterWindows::array_windows
 
 ## License
 

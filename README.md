@@ -8,11 +8,11 @@
 
 🤸‍♀️ More iterator adaptors.
 
-This crate provides some useful iterator adaptors like
-`chunks` and `windows`. Unlike
-[`itertools`](https://docs.rs/itertools) this crate provides a separate
-extension trait for each adaptor. Additionally, each type of adaptor is
-feature flagged so you only have to compile the features you need.
+This crate provides some useful iterator adaptors like [`array_chunks`] and
+[`array_windows`]. Unlike [`itertools`](https://docs.rs/itertools) this
+crate provides a separate extension trait for each adaptor. Additionally,
+each type of adaptor is feature flagged so you only have to compile the
+features you need.
 
 ## Getting started
 
@@ -28,11 +28,10 @@ And bring the extension traits into scope.
 use itermore::prelude::*;
 ```
 
-Now you can use extension methods like `windows` on
-any iterator.
+Now you can use extension methods like [`array_windows`] on any iterator.
 
 ```rust
-for [a, b, c] in iter.windows() {
+for [a, b, c] in iter.array_windows() {
     println!("{} {} {}", a, b, c)
 }
 // Outputs
@@ -40,6 +39,9 @@ for [a, b, c] in iter.windows() {
 //    2 3 4
 //    3 4 5
 ```
+
+[`array_chunks`]: IterChunks::array_chunks
+[`array_windows`]: IterWindows::array_windows
 
 ## License
 
