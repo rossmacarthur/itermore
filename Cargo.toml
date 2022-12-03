@@ -14,15 +14,17 @@ keywords = ["iterator", "chunks", "windows"]
 categories = ["algorithms", "rust-patterns"]
 
 [dependencies]
+arrays = { version = "0.1.0", path = "crates/arrays", optional = true }
 iterchunks = { version = "0.2.0", path = "crates/chunks", optional = true }
 iterwindows = { version = "0.2.0", path = "crates/windows", optional = true }
 
 [features]
-default = ["std", "chunks", "sorted", "windows"]
+default = ["std", "chunks", "combinations", "sorted", "windows"]
 
 std = ["alloc"]
 alloc = []
 
 chunks = ["dep:iterchunks"]
+combinations = ["dep:arrays"]
 sorted = []
 windows = ["dep:iterwindows"]

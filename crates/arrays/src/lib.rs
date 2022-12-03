@@ -18,6 +18,7 @@
 #![no_std]
 #![warn(unsafe_op_in_unsafe_fn)]
 
+use core::hint;
 use core::mem;
 use core::mem::MaybeUninit;
 use core::ptr;
@@ -25,6 +26,10 @@ use core::ptr;
 /// Consumes `N` elements from the iterator and returns them as an array. If the
 /// iterator yields fewer than `N` items, `None` is returned and all already
 /// yielded items are dropped.
+///
+/// # Panics
+///
+/// If the iterator panics then all already yielded elements will be dropped.
 ///
 // Based on the array collect implementation in the Rust standard library.
 // https://github.com/rust-lang/rust/blob/master/library/core/src/array/mod.rs#L476-L531
@@ -85,6 +90,29 @@ where
     // SAFETY: the loop above loops exactly N times which is the size of the
     // array, so all elements in the array are initialized.
     Some(unsafe { transmute_unchecked(array) })
+}
+
+/// Consumes `N` elements from the iterator and returns them as an array.
+///
+/// # Safety
+///
+/// This function is the same as [`collect`] but the caller must guarantee that
+/// the iterator yields at least N items.
+///
+/// # Panics
+///
+/// If the iterator panics then all already yielded elements will be dropped.
+#[inline]
+pub unsafe fn collect_unchecked<I, T, const N: usize>(iter: I) -> [T; N]
+where
+    I: Iterator<Item = T>,
+{
+    match collect(iter) {
+        Some(arr) => arr,
+        None =>
+        // SAFETY: Guaranteed by the caller.
+        unsafe { hint::unreachable_unchecked() },
+    }
 }
 
 /// Size-heterogeneous transmutation.

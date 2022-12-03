@@ -46,6 +46,9 @@ mod adaptors;
 #[cfg(feature = "chunks")]
 pub use iterchunks::{ArrayChunks, IterChunks};
 
+#[cfg(feature = "combinations")]
+pub use crate::adaptors::combinations::{ArrayCombinations, IterCombinations};
+
 #[cfg(feature = "sorted")]
 pub use crate::adaptors::sorted::IterSorted;
 
@@ -56,6 +59,9 @@ pub use iterwindows::{ArrayWindows, IterWindows};
 pub mod prelude {
     #[cfg(feature = "chunks")]
     pub use iterchunks::IterChunks;
+
+    #[cfg(feature = "combinations")]
+    pub use crate::adaptors::combinations::IterCombinations;
 
     #[cfg(feature = "sorted")]
     pub use crate::adaptors::sorted::IterSorted;
