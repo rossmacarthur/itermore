@@ -25,10 +25,10 @@ Add the crate to your Cargo manifest.
 cargo add iterchunks
 ```
 
-And bring the `IterChunks` trait into scope.
+And bring the `IterArrayChunks` trait into scope.
 
 ```rust
-use iterchunks::IterChunks;
+use iterchunks::IterArrayChunks;
 ```
 
 Now you can use the [`array_chunks`] method on any iterator.
@@ -46,7 +46,7 @@ specify it manually.
 let c = iter.array_chunks::<3>();
 ```
 
-[`array_chunks`]: IterChunks::array_chunks
+[`array_chunks`]: IterArrayChunks::array_chunks
 
 ## License
 

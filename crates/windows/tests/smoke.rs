@@ -3,7 +3,7 @@ use core::iter;
 use iterwindows::IterArrayWindows;
 
 #[test]
-fn windows_infer() {
+fn array_windows_infer() {
     let s = [0, 1, 0, 1, 0, 1];
     for [a, b] in s.iter().copied().array_windows() {
         assert_eq!(a + b, 1);
@@ -14,7 +14,7 @@ fn windows_infer() {
 }
 
 #[test]
-fn windows_size_hint() {
+fn array_windows_size_hint() {
     let iter = (0..6).array_windows::<1>();
     assert_eq!(iter.size_hint(), (6, Some(6)));
 
@@ -35,7 +35,7 @@ fn windows_size_hint() {
 }
 
 #[test]
-fn windows_count() {
+fn array_windows_count() {
     let iter = (0..6).array_windows::<1>();
     assert_eq!(iter.count(), 6);
 
@@ -60,7 +60,7 @@ fn windows_count() {
 
 #[allow(clippy::iter_nth_zero)]
 #[test]
-fn windows_nth() {
+fn array_windows_nth() {
     let mut iter = (0..6).array_windows::<4>();
     assert_eq!(iter.nth(1), Some([1, 2, 3, 4]));
     assert_eq!(iter.nth(0), Some([2, 3, 4, 5]));

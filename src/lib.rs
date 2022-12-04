@@ -32,8 +32,27 @@
 //! //    3 4 5
 //! ```
 //!
-//! [`array_chunks`]: IterChunks::array_chunks
-//! [`array_windows`]: IterWindows::array_windows
+//! # Provided functionality
+//!
+//! ## Methods
+//!
+//! - [`next_chunk`]: Returns the next `N` elements of the iterator as an array.
+//! - [`sorted`] and friends: Returns a new iterator with all elements sorted.
+//!
+//! ## Adaptors
+//!
+//! - [`array_chunks`] returns an iterator over `N` elements of the iterator at
+//!   a time.
+//! - [`array_windows`] returns an iterator over all contiguous windows of
+//!   length `N.
+//! - [`array_combinations`] returns an iterator over `K` length combinations of
+//!   all the elements in the underlying iterator.
+//!
+//! [`next_chunk`]: IterArrayChunks::next_chunk
+//! [`array_chunks`]: IterArrayChunks::array_chunks
+//! [`array_combinations`]: IterArrayCombinations::array_combinations
+//! [`array_windows`]: IterArrayWindows::array_windows
+//! [`sorted`]: IterSorted::sorted
 
 #![warn(unsafe_op_in_unsafe_fn)]
 #![cfg_attr(not(feature = "alloc"), no_std)]
@@ -57,6 +76,13 @@ pub use iterwindows::{ArrayWindows, IterArrayWindows};
 pub use crate::xtraits::sorted::IterSorted;
 
 /// Re-exports all iterator extension traits.
+///
+/// The intention is that this module is used as a `*` import.
+/// ```
+/// use itermore::prelude::*;
+/// ```
+/// If you want to refer to a trait directly rather import it from the crate
+/// root.
 pub mod prelude {
     #[cfg(feature = "array_chunks")]
     pub use super::IterArrayChunks;

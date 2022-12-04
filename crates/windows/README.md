@@ -17,10 +17,10 @@ Add the crate to your Cargo manifest.
 cargo add iterwindows
 ```
 
-And bring the `IterWindows` trait into scope.
+And bring the `IterArrayWindows` trait into scope.
 
 ```rust
-use iterwindows::IterWindows;
+use iterwindows::IterArrayWindows;
 ```
 
 Now you can use the [`array_windows`] method on any iterator.
@@ -38,7 +38,7 @@ specify it manually.
 let w = iter.array_windows::<3>();
 ```
 
-[`array_windows`]: IterWindows::array_windows
+[`array_windows`]: IterArrayWindows::array_windows
 
 ## License
 

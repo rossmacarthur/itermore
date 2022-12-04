@@ -40,8 +40,21 @@ for [a, b, c] in iter.array_windows() {
 //    3 4 5
 ```
 
-[`array_chunks`]: IterChunks::array_chunks
-[`array_windows`]: IterWindows::array_windows
+## Methods
+
+- [`next_chunk`]: Returns the next `N` elements of the iterator as an array.
+
+## Adaptors
+
+- [`array_chunks`]: an iterator over `N` elements of the iterator at a time.
+- [`array_windows`]: an iterator over all contiguous windows of length \`N.
+- [`array_combinations`]: an iterator over `K` length combinations of all
+  the elements in the underlying iterator.
+
+[`array_chunks`]: IterArrayChunks::array_chunks
+[`array_windows`]: IterArrayWindows::array_windows
+[`next_chunk`]: IterArrayChunks::next_chunk
+[`array_combinations`]: IterArrayCombinations::array_combinations
 
 ## License
 
