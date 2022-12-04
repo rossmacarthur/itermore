@@ -5,8 +5,8 @@ use alloc::vec::Vec;
 /// An extension trait that provides the [`array_combinations`] method for
 /// iterators.
 ///
-/// [`array_combinations`]: IterCombinations::array_combinations
-pub trait IterCombinations: Iterator {
+/// [`array_combinations`]: IterArrayCombinations::array_combinations
+pub trait IterArrayCombinations: Iterator {
     /// Returns an iterator adaptor that iterates over `K` length combinations
     /// of all the elements in the underlying iterator.
     ///
@@ -22,7 +22,7 @@ pub trait IterCombinations: Iterator {
     /// Basic usage:
     ///
     /// ```
-    /// use itermore::IterCombinations;
+    /// use itermore::IterArrayCombinations;
     ///
     /// let mut iter = "abcd".chars().array_combinations();
     /// assert_eq!(iter.next(), Some(['a', 'b', 'c']));
@@ -41,7 +41,7 @@ pub trait IterCombinations: Iterator {
     }
 }
 
-impl<I: ?Sized> IterCombinations for I where I: Iterator {}
+impl<I: ?Sized> IterArrayCombinations for I where I: Iterator {}
 
 /// An iterator that iterates over `K` length combinations of all the elements
 /// in the underlying iterator.
@@ -49,7 +49,7 @@ impl<I: ?Sized> IterCombinations for I where I: Iterator {}
 /// This struct is created by the [`array_combinations`] method on iterators.
 /// See its documentation for more.
 ///
-/// [`array_combinations`]: IterCombinations::array_combinations
+/// [`array_combinations`]: IterArrayCombinations::array_combinations
 #[derive(Debug, Clone)]
 #[must_use = "iterators are lazy and do nothing unless consumed"]
 pub struct ArrayCombinations<I, const K: usize>
@@ -87,8 +87,7 @@ where
     {
         assert!(K != 0, "combination size must be non-zero");
 
-        // We need to be fuse the iterator because we want to use `None` as a
-        // terminating condition for the combinations algorithm.
+        // The implemented combinations algorithm requires a fused iterator.
         let iter = iter.fuse();
 
         // SAFETY: The range 0..K yields at least K elements.
@@ -97,7 +96,7 @@ where
         Self {
             iter,
             comb,
-            buf: Vec::with_capacity(K),
+            buf: Vec::new(),
             first: true,
         }
     }
@@ -112,7 +111,7 @@ where
 
     fn next(&mut self) -> Option<Self::Item> {
         if self.first {
-            // Prefill the buffer with K elements from the iterator.
+            // Fill the buffer with K elements from the iterator.
             self.buf.reserve(K);
             for _ in 0..K {
                 self.buf.push(self.iter.next()?);

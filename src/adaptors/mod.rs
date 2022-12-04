@@ -1,5 +1,2 @@
-#[cfg(feature = "sorted")]
-pub mod sorted;
-
-#[cfg(feature = "combinations")]
-pub mod combinations;
+#[cfg(feature = "array_combinations")]
+pub mod array_combinations;

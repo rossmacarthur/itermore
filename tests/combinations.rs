@@ -1,4 +1,4 @@
-use itermore::IterCombinations;
+use itermore::IterArrayCombinations;
 
 #[test]
 #[should_panic]

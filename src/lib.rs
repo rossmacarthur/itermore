@@ -42,30 +42,31 @@
 extern crate alloc;
 
 mod adaptors;
+mod xtraits;
 
-#[cfg(feature = "chunks")]
-pub use iterchunks::{ArrayChunks, IterChunks};
+#[cfg(feature = "array_chunks")]
+pub use iterchunks::{ArrayChunks, IterArrayChunks};
 
-#[cfg(feature = "combinations")]
-pub use crate::adaptors::combinations::{ArrayCombinations, IterCombinations};
+#[cfg(feature = "array_combinations")]
+pub use crate::adaptors::array_combinations::{ArrayCombinations, IterArrayCombinations};
+
+#[cfg(feature = "array_windows")]
+pub use iterwindows::{ArrayWindows, IterArrayWindows};
 
 #[cfg(feature = "sorted")]
-pub use crate::adaptors::sorted::IterSorted;
-
-#[cfg(feature = "windows")]
-pub use iterwindows::{ArrayWindows, IterWindows};
+pub use crate::xtraits::sorted::IterSorted;
 
 /// Re-exports all iterator extension traits.
 pub mod prelude {
-    #[cfg(feature = "chunks")]
-    pub use iterchunks::IterChunks;
+    #[cfg(feature = "array_chunks")]
+    pub use super::IterArrayChunks;
 
-    #[cfg(feature = "combinations")]
-    pub use crate::adaptors::combinations::IterCombinations;
+    #[cfg(feature = "array_combinations")]
+    pub use super::IterArrayCombinations;
+
+    #[cfg(feature = "array_windows")]
+    pub use super::IterArrayWindows;
 
     #[cfg(feature = "sorted")]
-    pub use crate::adaptors::sorted::IterSorted;
-
-    #[cfg(feature = "windows")]
-    pub use iterwindows::IterWindows;
+    pub use super::IterSorted;
 }

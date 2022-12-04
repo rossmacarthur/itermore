@@ -2,8 +2,11 @@ use core::cmp::Ordering;
 
 use alloc::vec::IntoIter;
 
-/// An extension trait that provides the [`sorted`][IterSorted::sorted] method
-/// and friends for iterators.
+/// An extension trait that provides the [`sorted`] method and friends for
+/// iterators.
+///
+/// [`sorted`]: IterSorted::sorted
+#[cfg(feature = "sorted")]
 pub trait IterSorted: Iterator {
     /// Sorts the iterator.
     ///

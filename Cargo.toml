@@ -19,12 +19,18 @@ iterchunks = { version = "0.2.0", path = "crates/chunks", optional = true }
 iterwindows = { version = "0.2.0", path = "crates/windows", optional = true }
 
 [features]
-default = ["std", "chunks", "combinations", "sorted", "windows"]
+default = [
+    "std",
+    "array_chunks",
+    "array_combinations",
+    "array_windows",
+    "sorted",
+]
 
 std = ["alloc"]
 alloc = []
 
-chunks = ["dep:iterchunks"]
-combinations = ["dep:arrays"]
+array_chunks = ["dep:iterchunks"]
+array_combinations = ["dep:arrays"]
+array_windows = ["dep:iterwindows"]
 sorted = []
-windows = ["dep:iterwindows"]

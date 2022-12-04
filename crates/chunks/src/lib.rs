@@ -15,16 +15,16 @@
 //! cargo add iterchunks
 //! ```
 //!
-//! And bring the [`IterChunks`] trait into scope.
+//! And bring the [`IterArrayChunks`] trait into scope.
 //!
 //! ```
-//! use iterchunks::IterChunks;
+//! use iterchunks::IterArrayChunks;
 //! ```
 //!
 //! Now you can use the [`array_chunks`] method on any iterator.
 //!
 //! ```
-//! # use iterchunks::IterChunks;
+//! # use iterchunks::IterArrayChunks;
 //! # let iter = [1, 2, 3, 4, 5].into_iter();
 //! for [a, b, c] in iter.array_chunks() {
 //!     println!("{} {} {}", a, b, c)
@@ -34,20 +34,20 @@
 //! Generally the size of `N` can be inferred by the compiler but you can also
 //! specify it manually.
 //! ```
-//! # use iterchunks::IterChunks;
+//! # use iterchunks::IterArrayChunks;
 //! # let iter = [1, 2, 3, 4, 5].into_iter();
 //! let c = iter.array_chunks::<3>();
 //! ```
 //!
-//! [`array_chunks`]: IterChunks::array_chunks
+//! [`array_chunks`]: IterArrayChunks::array_chunks
 
 #![no_std]
 #![warn(unsafe_op_in_unsafe_fn)]
 
 /// An extension trait that provides the [`array_chunks`] method for iterators.
 ///
-/// [`array_chunks`]: IterChunks::array_chunks
-pub trait IterChunks: Iterator {
+/// [`array_chunks`]: IterArrayChunks::array_chunks
+pub trait IterArrayChunks: Iterator {
     /// Advances the iterator and returns an array containing the next `N`
     /// values.
     ///
@@ -59,7 +59,7 @@ pub trait IterChunks: Iterator {
     /// Basic usage:
     ///
     /// ```
-    /// use iterchunks::IterChunks;
+    /// use iterchunks::IterArrayChunks;
     ///
     /// let mut iter = "lorem".chars();
     ///
@@ -71,7 +71,7 @@ pub trait IterChunks: Iterator {
     /// Split a string and get the first three items.
     ///
     /// ```
-    /// use iterchunks::IterChunks;
+    /// use iterchunks::IterArrayChunks;
     ///
     /// let quote = "not all those who wander are lost";
     /// let [first, second, third] = quote.split_whitespace().next_chunk().unwrap();
@@ -87,7 +87,7 @@ pub trait IterChunks: Iterator {
         arrays::collect(self.by_ref())
     }
 
-    /// Identical to [`next_chunk`][IterChunks::next_chunk] but doesn't collide
+    /// Identical to [`next_chunk`][IterArrayChunks::next_chunk] but doesn't collide
     /// with the standard library name.
     #[inline]
     fn next_array<const N: usize>(&mut self) -> Option<[Self::Item; N]>
@@ -111,7 +111,7 @@ pub trait IterChunks: Iterator {
     /// Basic usage:
     ///
     /// ```
-    /// use iterchunks::IterChunks;
+    /// use iterchunks::IterArrayChunks;
     ///
     /// let mut iter = "lorem".chars().array_chunks();
     /// assert_eq!(iter.next(), Some(['l', 'o']));
@@ -120,7 +120,7 @@ pub trait IterChunks: Iterator {
     /// ```
     ///
     /// ```
-    /// use iterchunks::IterChunks;
+    /// use iterchunks::IterArrayChunks;
     ///
     /// let data = [1, 1, 2, -2, 6, 0, 3, 1];
     /// //          ^-----^  ^------^
@@ -136,7 +136,7 @@ pub trait IterChunks: Iterator {
         ArrayChunks::new(self)
     }
 
-    /// Identical to [`array_chunks`][IterChunks::array_chunks] but doesn't
+    /// Identical to [`array_chunks`][IterArrayChunks::array_chunks] but doesn't
     /// collide with the standard library name.
     fn array_chunked<const N: usize>(self) -> ArrayChunks<Self, N>
     where
@@ -146,14 +146,14 @@ pub trait IterChunks: Iterator {
     }
 }
 
-impl<I: ?Sized> IterChunks for I where I: Iterator {}
+impl<I: ?Sized> IterArrayChunks for I where I: Iterator {}
 
 /// An iterator over `N` elements of the iterator at a time.
 ///
 /// This struct is created by the [`array_chunks`] method on iterators. See its
 /// documentation for more.
 ///
-/// [`array_chunks`]: IterChunks::array_chunks
+/// [`array_chunks`]: IterArrayChunks::array_chunks
 #[must_use = "iterators are lazy and do nothing unless consumed"]
 pub struct ArrayChunks<I, const N: usize> {
     iter: I,
@@ -202,7 +202,7 @@ where
     fn next_back(&mut self) -> Option<Self::Item> {
         let rem = self.iter.len() % N;
         let mut rev = self.iter.by_ref().rev().skip(rem);
-        let mut chunk = IterChunks::next_chunk(&mut rev)?;
+        let mut chunk = IterArrayChunks::next_chunk(&mut rev)?;
         chunk.reverse();
         Some(chunk)
     }

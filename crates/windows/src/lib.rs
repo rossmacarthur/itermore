@@ -8,16 +8,16 @@
 //! cargo add iterwindows
 //! ```
 //!
-//! And bring the [`IterWindows`] trait into scope.
+//! And bring the [`IterArrayWindows`] trait into scope.
 //!
 //! ```
-//! use iterwindows::IterWindows;
+//! use iterwindows::IterArrayWindows;
 //! ```
 //!
 //! Now you can use the [`array_windows`] method on any iterator.
 //!
 //! ```
-//! # use iterwindows::IterWindows;
+//! # use iterwindows::IterArrayWindows;
 //! # let iter = [1, 2, 3, 4, 5].into_iter();
 //! for [a, b, c] in iter.array_windows() {
 //!     println!("{} {} {}", a, b, c)
@@ -27,20 +27,20 @@
 //! Generally the size of `N` can be inferred by the compiler but you can also
 //! specify it manually.
 //! ```
-//! # use iterwindows::IterWindows;
+//! # use iterwindows::IterArrayWindows;
 //! # let iter = [1, 2, 3, 4, 5].into_iter();
 //! let w = iter.array_windows::<3>();
 //! ```
 //!
-//! [`array_windows`]: IterWindows::array_windows
+//! [`array_windows`]: IterArrayWindows::array_windows
 
 #![no_std]
 #![warn(unsafe_op_in_unsafe_fn)]
 
 /// An extension trait that provides the [`array_windows`] method for iterators.
 ///
-/// [`array_windows`]: IterWindows::array_windows
-pub trait IterWindows: Iterator {
+/// [`array_windows`]: IterArrayWindows::array_windows
+pub trait IterArrayWindows: Iterator {
     /// Returns an iterator over all contiguous windows of length `N`.
     ///
     /// The windows overlap. If the iterator is shorter than `N`, the iterator
@@ -59,7 +59,7 @@ pub trait IterWindows: Iterator {
     /// Basic usage:
     ///
     /// ```
-    /// use iterwindows::IterWindows;
+    /// use iterwindows::IterArrayWindows;
     ///
     /// let mut iter = "rust".chars().array_windows();
     /// assert_eq!(iter.next(), Some(['r', 'u']));
@@ -69,7 +69,7 @@ pub trait IterWindows: Iterator {
     /// ```
     ///
     /// ```
-    /// use iterwindows::IterWindows;
+    /// use iterwindows::IterArrayWindows;
     ///
     /// let seq: &[i32] = &[0, 1, 1, 2, 3, 5, 8, 13];
     /// for [x, y, z] in seq.iter().copied().array_windows() {
@@ -86,14 +86,14 @@ pub trait IterWindows: Iterator {
     }
 }
 
-impl<I: ?Sized> IterWindows for I where I: Iterator {}
+impl<I: ?Sized> IterArrayWindows for I where I: Iterator {}
 
 /// An iterator over all contiguous windows of length `N`.
 ///
 /// This struct is created by the [`array_windows`] method on iterators. See its
 /// documentation for more.
 ///
-/// [`array_windows`]: IterWindows::array_windows
+/// [`array_windows`]: IterArrayWindows::array_windows
 #[derive(Debug, Clone)]
 #[must_use = "iterators are lazy and do nothing unless consumed"]
 pub struct ArrayWindows<I, const N: usize>
