@@ -51,6 +51,7 @@ impl<I: ?Sized> IterCombinations for I where I: Iterator {}
 ///
 /// [`array_combinations`]: IterCombinations::array_combinations
 #[derive(Debug, Clone)]
+#[must_use = "iterators are lazy and do nothing unless consumed"]
 pub struct ArrayCombinations<I, const K: usize>
 where
     I: Iterator,

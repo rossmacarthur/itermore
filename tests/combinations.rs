@@ -3,7 +3,7 @@ use itermore::IterCombinations;
 #[test]
 #[should_panic]
 fn array_combinations_zero_k() {
-    (1..5).array_combinations::<0>();
+    let _it = (1..5).array_combinations::<0>();
 }
 
 #[test]
