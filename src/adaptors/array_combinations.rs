@@ -39,9 +39,47 @@ pub trait IterArrayCombinations: Iterator {
     {
         ArrayCombinations::new(self)
     }
+
+    /// Returns an iterator adaptor that iterates over `K` length combinations
+    /// with repetitions/replacements of all the elements in the underlying
+    /// iterator.
+    ///
+    /// The iterator is consumed as elements are required.
+    ///
+    /// # Panics
+    ///
+    /// If called with `K = 0`.
+    ///
+    /// # Examples
+    ///
+    /// Basic usage:
+    ///
+    /// ```
+    /// use itermore::IterArrayCombinations;
+    ///
+    /// let mut iter = "ab".chars().array_combinations_with_reps();
+    /// assert_eq!(iter.next(), Some(['a', 'a', 'a']));
+    /// assert_eq!(iter.next(), Some(['a', 'a', 'b']));
+    /// assert_eq!(iter.next(), Some(['a', 'b', 'a']));
+    /// assert_eq!(iter.next(), Some(['a', 'b', 'b']));
+    /// assert_eq!(iter.next(), Some(['b', 'a', 'a']));
+    /// // etc
+    /// ```
+    #[inline]
+    fn array_combinations_with_reps<const K: usize>(self) -> ArrayCombinationsWithReps<Self, K>
+    where
+        Self: Sized,
+        Self::Item: Clone,
+    {
+        ArrayCombinationsWithReps::new(self)
+    }
 }
 
 impl<I: ?Sized> IterArrayCombinations for I where I: Iterator {}
+
+////////////////////////////////////////////////////////////////////////////////
+/// Without repetitions/replacement
+////////////////////////////////////////////////////////////////////////////////
 
 /// An iterator that iterates over `K` length combinations of all the elements
 /// in the underlying iterator.
@@ -64,8 +102,8 @@ where
     /// If we consider the iterator as a number of K digits in base N where N is
     /// the length of the iterator (unknown at this point) then each digit
     /// represents a position in the iterator. Incrementing this number will
-    /// find the next permutation, to find the next combination we need to
-    /// only the cases where all digits are in increasing order.
+    /// find the next combination with replacement, to find the next combination
+    /// we need to only the cases where all digits are in increasing order.
     comb: [usize; K],
 
     /// A buffer containing already yielded elements that are needed for later
@@ -182,6 +220,133 @@ where
 }
 
 impl<I, const K: usize> FusedIterator for ArrayCombinations<I, K>
+where
+    I: Iterator,
+    I::Item: Clone,
+{
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// With repetitions/replacement
+////////////////////////////////////////////////////////////////////////////////
+
+/// An iterator that iterates over `K` length combinations with
+/// repetitions/replacements of all the elements in the underlying iterator.
+///
+/// This struct is created by the [`array_combinations_with_reps`] method on
+/// iterators. See its documentation for more.
+///
+/// [`array_combinations_with_reps`]: IterArrayCombinations::array_combinations_with_reps
+#[derive(Debug, Clone)]
+#[must_use = "iterators are lazy and do nothing unless consumed"]
+pub struct ArrayCombinationsWithReps<I, const K: usize>
+where
+    I: Iterator,
+{
+    /// The underlying iterator.
+    iter: Fuse<I>,
+
+    /// A number representing the combination.
+    ///
+    /// If we consider the iterator as a number of K digits in base N where N is
+    /// the length of the iterator (unknown at this point) then each digit
+    /// represents a position in the iterator. Incrementing this number will
+    /// find the next combination.
+    comb: [usize; K],
+
+    /// A buffer containing already yielded elements that are needed for later
+    /// combinations_with_repetitions.
+    buf: Vec<I::Item>,
+
+    /// The state of the iterator.
+    state: State,
+}
+
+#[derive(Debug, Clone, Copy)]
+enum State {
+    First,
+    Normal,
+    Done,
+}
+
+impl<I, const K: usize> ArrayCombinationsWithReps<I, K>
+where
+    I: Iterator,
+{
+    #[track_caller]
+    pub(crate) fn new(iter: I) -> Self
+    where
+        I: Iterator,
+    {
+        assert!(K != 0, "combination size must be non-zero");
+
+        // The implemented combinations algorithm requires a fused iterator.
+        let iter = iter.fuse();
+
+        Self {
+            iter,
+            comb: [0; K],
+            buf: Vec::new(),
+            state: State::First,
+        }
+    }
+}
+
+impl<I, const K: usize> Iterator for ArrayCombinationsWithReps<I, K>
+where
+    I: Iterator,
+    I::Item: Clone,
+{
+    type Item = [I::Item; K];
+
+    fn next(&mut self) -> Option<Self::Item> {
+        match self.state {
+            State::Done => return None,
+
+            State::First => match self.iter.next() {
+                Some(item) => {
+                    self.buf.push(item);
+                    self.state = State::Normal;
+                }
+                None => {
+                    self.state = State::Done;
+                }
+            },
+
+            State::Normal => {
+                if let Some(item) = self.iter.next() {
+                    self.buf.push(item);
+                }
+
+                let n = self.buf.len();
+                for (i, d) in self.comb.iter_mut().enumerate().rev() {
+                    *d += 1;
+                    if *d < n {
+                        break;
+                    }
+                    *d = 0;
+                    if i == 0 {
+                        self.buf.clear();
+                        self.state = State::Done;
+                        return None;
+                    }
+                }
+            }
+        }
+
+        let next = {
+            // Map the combination digits to actual elements in the buffer.
+            let arr = self.comb.iter().map(|&d| self.buf[d].clone());
+            // SAFETY: The iterator is guaranteed to yield K elements because
+            // `self.comb` is an array of length K.
+            unsafe { arrays::collect_unchecked(arr) }
+        };
+
+        Some(next)
+    }
+}
+
+impl<I, const K: usize> FusedIterator for ArrayCombinationsWithReps<I, K>
 where
     I: Iterator,
     I::Item: Clone,

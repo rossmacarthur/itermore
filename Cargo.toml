@@ -31,6 +31,6 @@ std = ["alloc"]
 alloc = []
 
 array_chunks = ["dep:iterchunks"]
-array_combinations = ["dep:arrays"]
+array_combinations = ["alloc", "dep:arrays"]
 array_windows = ["dep:iterwindows"]
-sorted = []
+sorted = ["alloc"]

@@ -32,6 +32,15 @@
 //! //    3 4 5
 //! ```
 //!
+//! It is recommended to only enable the features that you need, you can do this
+//! by disabling all features and turning on the ones you want. For example if
+//! you only want the [`array_combinations`] adaptor you would add the following
+//! to your Cargo manifest.
+//! ```toml
+//! [dependencies]
+//! itermore = { version = "*",  default-features = false, features = ["array_combinations"]}
+//! ```
+//!
 //! # Provided functionality
 //!
 //! ## Methods
@@ -44,13 +53,17 @@
 //! - [`array_chunks`] returns an iterator over `N` elements of the iterator at
 //!   a time.
 //! - [`array_windows`] returns an iterator over all contiguous windows of
-//!   length `N.
+//!   length `N`.
 //! - [`array_combinations`] returns an iterator over `K` length combinations of
 //!   all the elements in the underlying iterator.
+//! - [`array_combinations_with_reps`] returns an iterator over `K` length
+//!   combinations with repetitions/replacements of all the elements in the
+//!   underlying iterator.
 //!
 //! [`next_chunk`]: IterArrayChunks::next_chunk
 //! [`array_chunks`]: IterArrayChunks::array_chunks
 //! [`array_combinations`]: IterArrayCombinations::array_combinations
+//! [`array_combinations_with_reps`]: IterArrayCombinations::array_combinations_with_reps
 //! [`array_windows`]: IterArrayWindows::array_windows
 //! [`sorted`]: IterSorted::sorted
 
@@ -67,7 +80,9 @@ mod xtraits;
 pub use iterchunks::{ArrayChunks, IterArrayChunks};
 
 #[cfg(feature = "array_combinations")]
-pub use crate::adaptors::array_combinations::{ArrayCombinations, IterArrayCombinations};
+pub use crate::adaptors::array_combinations::{
+    ArrayCombinations, ArrayCombinationsWithReps, IterArrayCombinations,
+};
 
 #[cfg(feature = "array_windows")]
 pub use iterwindows::{ArrayWindows, IterArrayWindows};
