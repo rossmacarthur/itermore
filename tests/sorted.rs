@@ -1,3 +1,5 @@
+#![cfg(feature = "sorted")]
+
 use itermore::IterSorted;
 
 #[test]

@@ -1,3 +1,5 @@
+#![cfg(feature = "array_combinations")]
+
 use itermore::IterArrayCombinations;
 
 #[test]

@@ -1,3 +1,5 @@
+#![cfg(feature = "min_max")]
+
 use std::cmp::Reverse;
 use std::iter;
 
