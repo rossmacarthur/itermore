@@ -1,10 +1,9 @@
 //! 🤸‍♀️ More iterator adaptors.
 //!
-//! This crate provides some useful iterator adaptors like [`array_chunks`] and
-//! [`array_windows`]. Unlike [`itertools`](https://docs.rs/itertools) this
-//! crate provides a separate extension trait for each adaptor. Additionally,
-//! each type of adaptor is feature flagged so you only have to compile the
-//! features you need.
+//! This crate provides some useful iterator adaptors and functions. Unlike
+//! [`itertools`](https://docs.rs/itertools) this crate provides a separate
+//! extension trait for each adaptor. Additionally, each type of adaptor is
+//! feature flagged so you only have to compile the features you need.
 //!
 //! # Getting started
 //!
@@ -45,6 +44,8 @@
 //!
 //! ## Methods
 //!
+//! - [`min_max`] and friends: Returns the minimum and maximum element of an
+//!   iterator.
 //! - [`next_chunk`]: Returns the next `N` elements of the iterator as an array.
 //! - [`sorted`] and friends: Returns a new iterator with all elements sorted.
 //!
@@ -65,6 +66,7 @@
 //! [`array_combinations`]: IterArrayCombinations::array_combinations
 //! [`array_combinations_with_reps`]: IterArrayCombinations::array_combinations_with_reps
 //! [`array_windows`]: IterArrayWindows::array_windows
+//! [`min_max`]: IterMinMax::min_max
 //! [`sorted`]: IterSorted::sorted
 
 #![warn(unsafe_op_in_unsafe_fn)]
@@ -87,6 +89,9 @@ pub use crate::adaptors::array_combinations::{
 #[cfg(feature = "array_windows")]
 pub use iterwindows::{ArrayWindows, IterArrayWindows};
 
+#[cfg(feature = "min_max")]
+pub use crate::xtraits::min_max::IterMinMax;
+
 #[cfg(feature = "sorted")]
 pub use crate::xtraits::sorted::IterSorted;
 
@@ -107,6 +112,9 @@ pub mod prelude {
 
     #[cfg(feature = "array_windows")]
     pub use super::IterArrayWindows;
+
+    #[cfg(feature = "min_max")]
+    pub use super::IterMinMax;
 
     #[cfg(feature = "sorted")]
     pub use super::IterSorted;

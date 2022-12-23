@@ -6,7 +6,6 @@ use alloc::vec::IntoIter;
 /// iterators.
 ///
 /// [`sorted`]: IterSorted::sorted
-#[cfg(feature = "sorted")]
 pub trait IterSorted: Iterator {
     /// Sorts the iterator.
     ///

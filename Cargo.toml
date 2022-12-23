@@ -24,6 +24,7 @@ default = [
     "array_chunks",
     "array_combinations",
     "array_windows",
+    "min_max",
     "sorted",
 ]
 
@@ -33,4 +34,5 @@ alloc = []
 array_chunks = ["dep:iterchunks"]
 array_combinations = ["alloc", "dep:arrays"]
 array_windows = ["dep:iterwindows"]
+min_max = []
 sorted = ["alloc"]

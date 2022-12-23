@@ -4,15 +4,14 @@
 
 [![Crates.io Version](https://img.shields.io/crates/v/itermore.svg)](https://crates.io/crates/itermore)
 [![Docs.rs Latest](https://img.shields.io/badge/docs.rs-latest-blue.svg)](https://docs.rs/itermore)
-[![Build Status](https://img.shields.io/github/workflow/status/rossmacarthur/itermore/build/trunk)](https://github.com/rossmacarthur/itermore/actions?query=workflow%3Abuild)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/rossmacarthur/itermore/build.yaml?branch=trunk)](https://github.com/rossmacarthur/itermore/actions/workflows/build.yaml?query=branch%3Atrunk)
 
 🤸‍♀️ More iterator adaptors.
 
-This crate provides some useful iterator adaptors like [`array_chunks`] and
-[`array_windows`]. Unlike [`itertools`](https://docs.rs/itertools) this
-crate provides a separate extension trait for each adaptor. Additionally,
-each type of adaptor is feature flagged so you only have to compile the
-features you need.
+This crate provides some useful iterator adaptors and functions. Unlike
+[`itertools`](https://docs.rs/itertools) this crate provides a separate
+extension trait for each adaptor. Additionally, each type of adaptor is
+feature flagged so you only have to compile the features you need.
 
 ## Getting started
 
@@ -54,6 +53,8 @@ itermore = { version = "*",  default-features = false, features = ["array_combin
 
 ### Methods
 
+- [`min_max`] and friends: Returns the minimum and maximum element of an
+  iterator.
 - [`next_chunk`]: Returns the next `N` elements of the iterator as an array.
 - [`sorted`] and friends: Returns a new iterator with all elements sorted.
 
@@ -62,18 +63,19 @@ itermore = { version = "*",  default-features = false, features = ["array_combin
 - [`array_chunks`] returns an iterator over `N` elements of the iterator at
   a time.
 - [`array_windows`] returns an iterator over all contiguous windows of
-  length \`N.
+  length `N`.
 - [`array_combinations`] returns an iterator over `K` length combinations of
   all the elements in the underlying iterator.
 - [`array_combinations_with_reps`] returns an iterator over `K` length
   combinations with repetitions/replacements of all the elements in the
   underlying iterator.
 
-[`array_chunks`]: IterArrayChunks::array_chunks
 [`array_windows`]: IterArrayWindows::array_windows
 [`array_combinations`]: IterArrayCombinations::array_combinations
+[`min_max`]: IterMinMax::min_max
 [`next_chunk`]: IterArrayChunks::next_chunk
 [`sorted`]: IterSorted::sorted
+[`array_chunks`]: IterArrayChunks::array_chunks
 [`array_combinations_with_reps`]: IterArrayCombinations::array_combinations_with_reps
 
 ## License
