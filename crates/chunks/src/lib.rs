@@ -154,6 +154,7 @@ impl<I: ?Sized> IterArrayChunks for I where I: Iterator {}
 /// documentation for more.
 ///
 /// [`array_chunks`]: IterArrayChunks::array_chunks
+#[derive(Debug, Clone)]
 #[must_use = "iterators are lazy and do nothing unless consumed"]
 pub struct ArrayChunks<I, const N: usize> {
     iter: I,

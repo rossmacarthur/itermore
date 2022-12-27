@@ -29,6 +29,7 @@ impl<I: ?Sized> IterCartesianProduct for I where I: Iterator {}
 
 /// An iterator over the cartesian product of the element sets of two iterators
 /// `I` and `J`.
+#[derive(Debug, Clone)]
 #[must_use = "iterators are lazy and do nothing unless consumed"]
 pub struct CartesianProduct<I, J>
 where
