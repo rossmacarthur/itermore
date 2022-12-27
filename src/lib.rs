@@ -79,11 +79,13 @@
 extern crate alloc;
 
 mod adaptors;
+#[cfg(feature = "cartesian_product")]
 mod flatten_tuple;
 mod xtraits;
 
 // For macros
 #[doc(hidden)]
+#[cfg(feature = "cartesian_product")]
 pub use crate::flatten_tuple::flatten_tuple;
 #[doc(hidden)]
 pub use core;
