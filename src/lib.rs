@@ -79,7 +79,14 @@
 extern crate alloc;
 
 mod adaptors;
+mod flatten_tuple;
 mod xtraits;
+
+// For macros
+#[doc(hidden)]
+pub use crate::flatten_tuple::flatten_tuple;
+#[doc(hidden)]
+pub use core;
 
 #[cfg(feature = "array_chunks")]
 pub use iterchunks::{ArrayChunks, IterArrayChunks};

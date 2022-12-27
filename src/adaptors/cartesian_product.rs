@@ -3,7 +3,7 @@
 ///
 /// [`cartesian_product`]: IterCartesianProduct::cartesian_product
 pub trait IterCartesianProduct: Iterator {
-    /// Return an iterator adaptor that iterates over the cartesian product of
+    /// Returns an iterator adaptor that iterates over the cartesian product of
     /// the element sets of two iterators `self` and `other.into_iter()`.
     ///
     /// # Examples
@@ -75,4 +75,71 @@ where
         };
         self.a_item.as_ref().map(|a| (a.clone(), b_item))
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Macro
+////////////////////////////////////////////////////////////////////////////////
+
+/// Returns an iterator over the cartesian product of the element sets of
+/// multiple iterators (up to 12).
+///
+/// This is essentially the equivalent of calling [`cartesian_product`] multiple
+/// times and "flattening" each item e.g. `((A, B), C)` to `(A, B, C)`.
+///
+/// # Examples
+///
+/// ```
+/// use itermore::{cartesian_product, IterCartesianProduct};
+///
+/// // With macro
+/// let i = cartesian_product!(0..3, "αβ".chars(), [-1, 0, 1]);
+///
+/// // Without macro
+/// let j = (0..3)
+///     .cartesian_product("αβ".chars())
+///     .cartesian_product([-1, 0, 1])
+///     .map(|((a, b), c)| (a, b, c));
+///
+/// assert_eq!(Vec::from_iter(i), Vec::from_iter(j));
+/// ```
+///
+/// Iterate over the 3D coordinates of a 10 x 10 x 10 cube.
+///
+/// ```
+/// use itermore::cartesian_product;
+///
+/// // With macro
+/// for (i, j, k) in cartesian_product!(0..10, 0..10, 0..10) {
+///     // ...
+/// }
+///
+/// // Without macro
+/// for i in 0..10 {
+///     for j in 0..10 {
+///         for k in 0..10 {
+///             // ...
+///         }
+///     }
+/// }
+/// ```
+///
+/// [`cartesian_product`]: IterCartesianProduct::cartesian_product
+#[macro_export]
+macro_rules! cartesian_product {
+    ($I:expr $(,)?) => {
+        $crate::core::iter::IntoIterator::into_iter($I)
+    };
+
+    ($I:expr, $J:expr $(,)?) => {
+        $crate::IterCartesianProduct::cartesian_product(
+            $crate::cartesian_product!($I),
+            $crate::cartesian_product!($J),
+        )
+    };
+
+    ($I:expr, $J:expr, $($K:expr),+ $(,)?) => {{
+        $crate::cartesian_product!($crate::cartesian_product!($I, $J), $($K),+)
+            .map($crate::flatten_tuple)
+    }};
 }
