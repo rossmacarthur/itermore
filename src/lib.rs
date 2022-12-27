@@ -60,12 +60,15 @@
 //! - [`array_combinations_with_reps`] returns an iterator over `K` length
 //!   combinations with repetitions/replacements of all the elements in the
 //!   underlying iterator.
+//! - [`cartesian_product`] returns an iterator over the cartesian product of
+//!   the element sets of two iterators.
 //!
 //! [`next_chunk`]: IterArrayChunks::next_chunk
 //! [`array_chunks`]: IterArrayChunks::array_chunks
 //! [`array_combinations`]: IterArrayCombinations::array_combinations
 //! [`array_combinations_with_reps`]: IterArrayCombinations::array_combinations_with_reps
 //! [`array_windows`]: IterArrayWindows::array_windows
+//! [`cartesian_product`]: IterCartesianProduct::cartesian_product
 //! [`min_max`]: IterMinMax::min_max
 //! [`sorted`]: IterSorted::sorted
 
@@ -88,6 +91,9 @@ pub use crate::adaptors::array_combinations::{
 
 #[cfg(feature = "array_windows")]
 pub use iterwindows::{ArrayWindows, IterArrayWindows};
+
+#[cfg(feature = "cartesian_product")]
+pub use crate::adaptors::cartesian_product::{CartesianProduct, IterCartesianProduct};
 
 #[cfg(feature = "min_max")]
 pub use crate::xtraits::min_max::IterMinMax;
@@ -112,6 +118,9 @@ pub mod prelude {
 
     #[cfg(feature = "array_windows")]
     pub use super::IterArrayWindows;
+
+    #[cfg(feature = "cartesian_product")]
+    pub use super::IterCartesianProduct;
 
     #[cfg(feature = "min_max")]
     pub use super::IterMinMax;
