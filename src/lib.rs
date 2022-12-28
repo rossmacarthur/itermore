@@ -62,6 +62,11 @@
 //!   underlying iterator.
 //! - [`cartesian_product`] returns an iterator over the cartesian product of
 //!   the element sets of two iterators.
+//! - [`combinations`] returns an iterator over `k` length combinations of all
+//!   the elements in the underlying iterator.
+//! - [`combinations_with_reps`] returns an iterator over `k` length
+//!   combinations with repetitions/replacements of all the elements in the
+//!   underlying iterator.
 //!
 //! [`next_chunk`]: IterArrayChunks::next_chunk
 //! [`array_chunks`]: IterArrayChunks::array_chunks
@@ -69,6 +74,8 @@
 //! [`array_combinations_with_reps`]: IterArrayCombinations::array_combinations_with_reps
 //! [`array_windows`]: IterArrayWindows::array_windows
 //! [`cartesian_product`]: IterCartesianProduct::cartesian_product
+//! [`combinations`]: IterCombinations::combinations
+//! [`combinations_with_reps`]: IterCombinations::combinations_with_reps
 //! [`min_max`]: IterMinMax::min_max
 //! [`sorted`]: IterSorted::sorted
 
@@ -104,6 +111,9 @@ pub use iterwindows::{ArrayWindows, IterArrayWindows};
 #[cfg(feature = "cartesian_product")]
 pub use crate::adaptors::cartesian_product::{CartesianProduct, IterCartesianProduct};
 
+#[cfg(feature = "combinations")]
+pub use crate::adaptors::combinations::{Combinations, CombinationsWithReps, IterCombinations};
+
 #[cfg(feature = "min_max")]
 pub use crate::xtraits::min_max::IterMinMax;
 
@@ -130,6 +140,9 @@ pub mod prelude {
 
     #[cfg(feature = "cartesian_product")]
     pub use super::IterCartesianProduct;
+
+    #[cfg(feature = "combinations")]
+    pub use super::IterCombinations;
 
     #[cfg(feature = "min_max")]
     pub use super::IterMinMax;

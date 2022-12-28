@@ -64,11 +64,13 @@ where
             .finish()
     }
 
-    pub fn fill_next(&mut self, k: usize) -> Option<impl Iterator<Item = I::Item> + '_>
+    pub fn fill_next(&mut self) -> Option<impl Iterator<Item = I::Item> + '_>
     where
         I::Item: Clone,
         C: AsRef<[usize]> + AsMut<[usize]>,
     {
+        let k = self.comb.as_ref().len();
+
         match self.state {
             State::Done => return None,
 
@@ -82,9 +84,10 @@ where
             }
 
             State::Normal => {
-                // If the last digit in the combination points to the last element
-                // in the buffer then we need to get another element from the
-                // iterator because the next combination will need this element.
+                // If the last digit in the combination points to the last
+                // element in the buffer then we need to get another element
+                // from the iterator because the next combination will need this
+                // element.
                 let d = unsafe { self.comb.as_mut().last_mut().unwrap_unchecked() };
                 if *d == self.buf.len() - 1 {
                     if let Some(item) = self.iter.next() {
@@ -92,9 +95,9 @@ where
                     }
                 }
 
-                // Now we find the digit that needs to be incremented. Looking from
-                // the back we find the first digit that is not the final expected
-                // combination for that digit.
+                // Now we find the digit that needs to be incremented. Looking
+                // from the back we find the first digit that is not the final
+                // expected combination for that digit.
                 //
                 // For example given K = 3 and a total N = 5
                 //
@@ -104,8 +107,8 @@ where
                 //
                 // 0 2 3 ^--- finds this again since it is not 4 yet
                 //
-                // The base case in the above example would be the following which
-                // returns `None` and is propagated using `?`.
+                // The base case in the above example would be the following
+                // which returns `None` and is propagated using `?`.
                 //
                 // 2 3 4
                 //
