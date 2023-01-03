@@ -33,7 +33,6 @@
 //! ```
 //!
 //! [`array_windows`]: IterArrayWindows::array_windows
-
 #![no_std]
 #![warn(unsafe_op_in_unsafe_fn)]
 
@@ -102,7 +101,11 @@ where
     I::Item: Clone,
 {
     iter: I,
-    last: Option<[I::Item; N]>,
+    prev: Option<[I::Item; N]>,
+    prev_back: Option<[I::Item; N]>,
+
+    /// Items shared between `prev` and `prev_back`.
+    overlap: usize,
 }
 
 impl<I, const N: usize> ArrayWindows<I, N>
@@ -112,11 +115,50 @@ where
 {
     fn new(iter: I) -> Self {
         assert!(N != 0, "window size must be non-zero");
-        Self { iter, last: None }
+        Self {
+            iter,
+            prev: None,
+            prev_back: None,
+            overlap: 0,
+        }
+    }
+
+    fn next_overlapping(
+        prev_back: &mut Option<[I::Item; N]>,
+        overlap: &mut usize,
+    ) -> Option<I::Item> {
+        if *overlap < N {
+            if let Some(prev_back) = prev_back {
+                let item = prev_back[*overlap].clone();
+                *overlap += 1;
+                return Some(item);
+            }
+        }
+        None
+    }
+
+    fn next_back_overlapping(
+        prev: &mut Option<[I::Item; N]>,
+        overlap: &mut usize,
+    ) -> Option<I::Item> {
+        if *overlap < N {
+            if let Some(prev) = prev {
+                *overlap += 1;
+                let item = prev[prev.len() - *overlap].clone();
+                return Some(item);
+            }
+        }
+        None
+    }
+
+    fn extra_len(&self) -> usize {
+        let prev_len = self.prev.as_ref().map_or(0, |p| p.len());
+        let prev_back_len = self.prev_back.as_ref().map_or(0, |p| p.len());
+        (prev_len + prev_back_len).saturating_sub(N + 1)
     }
 }
 
-impl<I: Iterator, const N: usize> Iterator for ArrayWindows<I, N>
+impl<I, const N: usize> Iterator for ArrayWindows<I, N>
 where
     I: Iterator,
     I::Item: Clone,
@@ -125,20 +167,27 @@ where
 
     #[inline]
     fn next(&mut self) -> Option<Self::Item> {
-        let Self { iter, last } = self;
+        let Self {
+            iter,
+            prev,
+            prev_back,
+            overlap,
+        } = self;
 
-        match last {
-            Some(last) => {
-                let item = iter.next()?;
-                last.rotate_left(1);
-                if let Some(end) = last.last_mut() {
-                    *end = item;
-                }
-                Some(last.clone())
+        match prev {
+            Some(prev) => {
+                let item = iter
+                    .next()
+                    .or_else(|| Self::next_overlapping(prev_back, overlap))?;
+                prev.rotate_left(1);
+                prev[prev.len() - 1] = item;
+                Some(prev.clone())
             }
             None => {
-                let tmp = arrays::collect(iter)?;
-                *last = Some(tmp.clone());
+                let tmp = arrays::collect(iter.chain(core::iter::from_fn(|| {
+                    Self::next_overlapping(prev_back, overlap)
+                })))?;
+                *prev = Some(tmp.clone());
                 Some(tmp)
             }
         }
@@ -147,14 +196,53 @@ where
     #[inline]
     fn size_hint(&self) -> (usize, Option<usize>) {
         let (lower, upper) = self.iter.size_hint();
+        let extra = self.extra_len();
         (
-            lower.saturating_sub(N - 1),
-            upper.map(|n| n.saturating_sub(N - 1)),
+            lower.saturating_sub(N - 1) + extra,
+            upper.map(|n| n.saturating_sub(N - 1) + extra),
         )
     }
 
     #[inline]
     fn count(self) -> usize {
-        self.iter.count().saturating_sub(N - 1)
+        let extra = self.extra_len();
+        self.iter.count().saturating_sub(N - 1) + extra
     }
 }
+
+impl<I, const N: usize> DoubleEndedIterator for ArrayWindows<I, N>
+where
+    I: DoubleEndedIterator,
+    I::Item: Clone,
+{
+    #[inline]
+    fn next_back(&mut self) -> Option<Self::Item> {
+        let Self {
+            iter,
+            prev,
+            prev_back,
+            overlap,
+        } = self;
+
+        match prev_back {
+            Some(prev_back) => {
+                let item = iter
+                    .next()
+                    .or_else(|| Self::next_back_overlapping(prev, overlap))?;
+                prev_back.rotate_right(1);
+                prev_back[0] = item;
+                Some(prev_back.clone())
+            }
+            None => {
+                let tmp = arrays::collect(iter.chain(core::iter::from_fn(|| {
+                    Self::next_back_overlapping(prev, overlap)
+                })))?;
+                *prev_back = Some(tmp.clone());
+                Some(tmp)
+            }
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {}
