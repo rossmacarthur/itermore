@@ -30,7 +30,7 @@ use core::ptr;
 ///
 /// * `idxs` only returns indices in range 0..N
 /// * `curr_idx_to_range` will, for any given index given by `idxs`,
-///    return a range which exactly contains the indices yielded so far
+///    return a range which only includes indices yielded so far (preferably, all of them)
 ///
 /// Essentially, we can use `idxs` and `curr_idx_to_range` to properly write the
 /// items to the array in the right order and drop them if we don't get enough.
@@ -47,8 +47,9 @@ unsafe fn collect_impl<T, const N: usize>(
     impl<T, const N: usize> Drop for Guard<'_, T, N> {
         fn drop(&mut self) {
             for elem in &mut self.array.as_mut_slice()[self.init.clone()] {
-                // SAFETY: this raw slice defined by `self.init` will only contain
-                // the initialized objects.
+                // SAFETY: see function docs for invariants upheld by caller;
+                //   we basically guarantee that only the range defined by self.init
+                //   is actually initialized
                 unsafe { ptr::drop_in_place(elem.as_mut_ptr()) };
             }
         }
@@ -69,16 +70,17 @@ unsafe fn collect_impl<T, const N: usize>(
     let mut guard = Guard {
         array: &mut array,
 
-        // any empty range will work
+        // any empty range will work; it doesn't have to start at the right index
         init: 0..0,
     };
 
     for idx in idxs {
         match next() {
             Some(item) => {
-                // SAFETY: `guard.init` starts at zero, is increased by 1 each
-                // iteration of the loop, and the loop is aborted once M * N
-                // is reached, which is the length of the array.
+                // SAFETY: see function docs for invariants upheld by caller;
+                //   we basically guarantee that the indices used here are always
+                //   valid and the range put in the guard will cover all the
+                //   initialized indices
                 unsafe { guard.array.get_unchecked_mut(idx).write(item) };
                 guard.init = curr_idx_to_range(idx);
             }

@@ -153,6 +153,9 @@ where
         None
     }
 
+    /// Compute a `size_hint` or `len` based upon a given iterator size.
+    ///
+    /// Common code between `size_hint` and `len`
     fn compute_len(
         iter_len: usize,
         prev: &Option<[I::Item; N]>,
@@ -160,15 +163,17 @@ where
         overlap: usize,
     ) -> usize {
         match (prev, prev_back) {
-            // fresh iteration; we will pull one of these out to make room
-            // for a new window
+            // fresh iteration;
+            // needs to pull out a new window before we can have an accurate estimate
             (None, None) => iter_len.saturating_sub(N - 1),
 
-            // unidirectional iteration; number of windows equals number of items left
+            // unidirectional iteration;
+            // number of windows equals number of items left
             (Some(_), None) | (None, Some(_)) => iter_len,
 
-            // finished iteration; account for overlap
-            (Some(_), Some(_)) => iter_len + (N - overlap - 1),
+            // bidirectional iteration;
+            // account for overlap
+            (Some(_), Some(_)) => iter_len + (N - 1 - overlap),
         }
     }
 }
@@ -270,6 +275,3 @@ where
         }
     }
 }
-
-#[cfg(test)]
-mod tests {}
