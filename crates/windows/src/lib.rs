@@ -123,6 +123,7 @@ where
         }
     }
 
+    /// After `iter` is exhausted, this provides the `next` value.
     fn next_overlapping(
         prev_back: &mut Option<[I::Item; N]>,
         overlap: &mut usize,
@@ -137,6 +138,7 @@ where
         None
     }
 
+    /// After `iter` is exhausted, this provides the `next_back` value.
     fn next_back_overlapping(
         prev: &mut Option<[I::Item; N]>,
         overlap: &mut usize,
@@ -144,13 +146,14 @@ where
         if *overlap < N {
             if let Some(prev) = prev {
                 *overlap += 1;
-                let item = prev[prev.len() - *overlap].clone();
+                let item = prev[N - *overlap].clone();
                 return Some(item);
             }
         }
         None
     }
 
+    /// Number of items contained within `prev` and `prev_back` combined.
     fn extra_len(&self) -> usize {
         let prev_len = self.prev.as_ref().map_or(0, |p| p.len());
         let prev_back_len = self.prev_back.as_ref().map_or(0, |p| p.len());
@@ -180,7 +183,7 @@ where
                     .next()
                     .or_else(|| Self::next_overlapping(prev_back, overlap))?;
                 prev.rotate_left(1);
-                prev[prev.len() - 1] = item;
+                prev[N - 1] = item;
                 Some(prev.clone())
             }
             None => {
@@ -227,14 +230,14 @@ where
         match prev_back {
             Some(prev_back) => {
                 let item = iter
-                    .next()
+                    .next_back()
                     .or_else(|| Self::next_back_overlapping(prev, overlap))?;
                 prev_back.rotate_right(1);
                 prev_back[0] = item;
                 Some(prev_back.clone())
             }
             None => {
-                let tmp = arrays::collect(iter.chain(core::iter::from_fn(|| {
+                let tmp = arrays::collect_reversed(iter.rev().chain(core::iter::from_fn(|| {
                     Self::next_back_overlapping(prev, overlap)
                 })))?;
                 *prev_back = Some(tmp.clone());
