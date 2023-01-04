@@ -128,7 +128,7 @@ where
         prev_back: &mut Option<[I::Item; N]>,
         overlap: &mut usize,
     ) -> Option<I::Item> {
-        if *overlap < N {
+        if *overlap < N - 1 {
             if let Some(prev_back) = prev_back {
                 let item = prev_back[*overlap].clone();
                 *overlap += 1;
@@ -143,7 +143,7 @@ where
         prev: &mut Option<[I::Item; N]>,
         overlap: &mut usize,
     ) -> Option<I::Item> {
-        if *overlap < N {
+        if *overlap < N - 1 {
             if let Some(prev) = prev {
                 *overlap += 1;
                 let item = prev[N - *overlap].clone();
@@ -153,11 +153,23 @@ where
         None
     }
 
-    /// Number of items contained within `prev` and `prev_back` combined.
-    fn extra_len(&self) -> usize {
-        let prev_len = self.prev.as_ref().map_or(0, |p| p.len());
-        let prev_back_len = self.prev_back.as_ref().map_or(0, |p| p.len());
-        (prev_len + prev_back_len).saturating_sub(N + 1)
+    fn compute_len(
+        iter_len: usize,
+        prev: &Option<[I::Item; N]>,
+        prev_back: &Option<[I::Item; N]>,
+        overlap: usize,
+    ) -> usize {
+        match (prev, prev_back) {
+            // fresh iteration; we will pull one of these out to make room
+            // for a new window
+            (None, None) => iter_len.saturating_sub(N - 1),
+
+            // unidirectional iteration; number of windows equals number of items left
+            (Some(_), None) | (None, Some(_)) => iter_len,
+
+            // finished iteration; account for overlap
+            (Some(_), Some(_)) => iter_len + (N - overlap - 1),
+        }
     }
 }
 
@@ -198,18 +210,30 @@ where
 
     #[inline]
     fn size_hint(&self) -> (usize, Option<usize>) {
-        let (lower, upper) = self.iter.size_hint();
-        let extra = self.extra_len();
+        let Self {
+            iter,
+            prev,
+            prev_back,
+            overlap,
+        } = self;
+
+        let (lower, upper) = iter.size_hint();
         (
-            lower.saturating_sub(N - 1) + extra,
-            upper.map(|n| n.saturating_sub(N - 1) + extra),
+            Self::compute_len(lower, prev, prev_back, *overlap),
+            upper.map(|upper| Self::compute_len(upper, prev, prev_back, *overlap)),
         )
     }
 
     #[inline]
     fn count(self) -> usize {
-        let extra = self.extra_len();
-        self.iter.count().saturating_sub(N - 1) + extra
+        let Self {
+            iter,
+            prev,
+            prev_back,
+            overlap,
+        } = self;
+        let count = iter.count();
+        Self::compute_len(count, &prev, &prev_back, overlap)
     }
 }
 

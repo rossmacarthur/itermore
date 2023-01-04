@@ -8,7 +8,7 @@ fn test_iter<A: IntoIterator, E: IntoIterator<Item = A::Item>>(
     expected: E,
 ) -> proptest::test_runner::TestCaseResult
 where
-    A::IntoIter: DoubleEndedIterator,
+    A::IntoIter: DoubleEndedIterator + std::fmt::Debug,
     A::Item: std::fmt::Debug + PartialEq,
 {
     let mut rng = rand::thread_rng();
@@ -18,23 +18,38 @@ where
     let mut actual = std::collections::VecDeque::new();
     let mut count = expected.len();
     let mut rotate = 0;
+    proptest::prop_assert_eq!(actual_iter.size_hint(), (count, Some(count)));
     loop {
         if rng.gen_bool(prob) {
             let Some(item) = actual_iter.next() else { break };
+            count -= 1;
+            proptest::prop_assert_eq!(
+                actual_iter.size_hint(),
+                (count, Some(count)),
+                "forward iterand {:?} had size_hint {:?}; state: {:?}",
+                &item,
+                actual_iter.size_hint(),
+                &actual_iter
+            );
             actual.push_back(item);
-            //count -= 1;
-            //proptest::prop_assert_eq!(actual_iter.size_hint(), (count, Some(count)));
         } else {
             let Some(item) = actual_iter.next_back() else { break };
-            actual.push_front(item);
             rotate += 1;
-            // count -= 1;
-            // proptest::prop_assert_eq!(actual_iter.size_hint(), (count, Some(count)));
+            count -= 1;
+            proptest::prop_assert_eq!(
+                actual_iter.size_hint(),
+                (count, Some(count)),
+                "backward iterand {:?} had size_hint {:?}; state: {:?}",
+                &item,
+                actual_iter.size_hint(),
+                &actual_iter
+            );
+            actual.push_front(item);
         }
     }
 
     actual.rotate_left(rotate);
-    proptest::prop_assert_eq!(&actual.make_contiguous()[..], &expected[..]);
+    proptest::prop_assert_eq!(actual.make_contiguous(), &expected[..]);
 
     Ok(())
 }
