@@ -27,6 +27,7 @@ default = [
     "cartesian_product",
     "combinations",
     "min_max",
+    "power_set",
     "sorted",
 ]
 
@@ -39,4 +40,5 @@ array_windows = ["dep:iterwindows"]
 cartesian_product = []
 combinations = ["alloc"]
 min_max = []
+power_set = ["alloc"]
 sorted = ["alloc"]

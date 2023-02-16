@@ -4,5 +4,12 @@ pub mod array_combinations;
 pub mod cartesian_product;
 #[cfg(feature = "combinations")]
 pub mod combinations;
-#[cfg(any(feature = "array_combinations", feature = "combinations"))]
+#[cfg(feature = "power_set")]
+pub mod power_set;
+
+#[cfg(any(
+    feature = "array_combinations",
+    feature = "combinations",
+    feature = "power_set"
+))]
 mod generic_combinations;

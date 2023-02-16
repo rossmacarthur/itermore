@@ -117,6 +117,9 @@ pub use crate::adaptors::combinations::{Combinations, CombinationsWithReps, Iter
 #[cfg(feature = "min_max")]
 pub use crate::xtraits::min_max::IterMinMax;
 
+#[cfg(feature = "power_set")]
+pub use crate::adaptors::power_set::{IterPowerSet, PowerSet};
+
 #[cfg(feature = "sorted")]
 pub use crate::xtraits::sorted::IterSorted;
 
