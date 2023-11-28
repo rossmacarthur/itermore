@@ -71,6 +71,8 @@ itermore = { version = "*",  default-features = false, features = ["array_combin
   underlying iterator.
 - [`cartesian_product`] returns an iterator over the cartesian product of
   the element sets of two iterators.
+- [`circular_array_windows`] returns an iterator over all contiguous windows
+  of length `N` that wraps around at the end.
 - [`combinations`] returns an iterator over `k` length combinations of all
   the elements in the underlying iterator.
 - [`combinations_with_reps`] returns an iterator over `k` length
@@ -85,6 +87,7 @@ itermore = { version = "*",  default-features = false, features = ["array_combin
 [`array_chunks`]: IterArrayChunks::array_chunks
 [`array_combinations_with_reps`]: IterArrayCombinations::array_combinations_with_reps
 [`cartesian_product`]: IterCartesianProduct::cartesian_product
+[`circular_array_windows`]: IterCircularArrayWindows::circular_array_windows
 [`combinations`]: IterCombinations::combinations
 [`combinations_with_reps`]: IterCombinations::combinations_with_reps
 
