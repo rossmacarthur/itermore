@@ -62,6 +62,8 @@
 //!   underlying iterator.
 //! - [`cartesian_product`] returns an iterator over the cartesian product of
 //!   the element sets of two iterators.
+//! - [`circular_array_windows`] returns an iterator over all contiguous windows
+//!   of length `N` that wraps around at the end.
 //! - [`combinations`] returns an iterator over `k` length combinations of all
 //!   the elements in the underlying iterator.
 //! - [`combinations_with_reps`] returns an iterator over `k` length
@@ -74,6 +76,7 @@
 //! [`array_combinations_with_reps`]: IterArrayCombinations::array_combinations_with_reps
 //! [`array_windows`]: IterArrayWindows::array_windows
 //! [`cartesian_product`]: IterCartesianProduct::cartesian_product
+//! [`circular_array_windows`]: IterCircularArrayWindows::circular_array_windows
 //! [`combinations`]: IterCombinations::combinations
 //! [`combinations_with_reps`]: IterCombinations::combinations_with_reps
 //! [`min_max`]: IterMinMax::min_max
@@ -111,6 +114,9 @@ pub use crate::adaptors::array_windows::{ArrayWindows, IterArrayWindows};
 #[cfg(feature = "cartesian_product")]
 pub use crate::adaptors::cartesian_product::{CartesianProduct, IterCartesianProduct};
 
+#[cfg(feature = "circular_array_windows")]
+pub use crate::adaptors::circular_array_windows::{CircularArrayWindows, IterCircularArrayWindows};
+
 #[cfg(feature = "combinations")]
 pub use crate::adaptors::combinations::{Combinations, CombinationsWithReps, IterCombinations};
 
@@ -140,6 +146,9 @@ pub mod prelude {
 
     #[cfg(feature = "cartesian_product")]
     pub use super::IterCartesianProduct;
+
+    #[cfg(feature = "circular_array_windows")]
+    pub use super::IterCircularArrayWindows;
 
     #[cfg(feature = "combinations")]
     pub use super::IterCombinations;

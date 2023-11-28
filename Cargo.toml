@@ -24,6 +24,7 @@ default = [
     "array_combinations",
     "array_windows",
     "cartesian_product",
+    "circular_array_windows",
     "combinations",
     "min_max",
     "sorted",
@@ -36,6 +37,7 @@ array_chunks = ["dep:arrays"]
 array_combinations = ["alloc", "dep:arrays"]
 array_windows = ["dep:arrays"]
 cartesian_product = []
+circular_array_windows = ["array_windows"]
 combinations = ["alloc"]
 min_max = []
 sorted = ["alloc"]

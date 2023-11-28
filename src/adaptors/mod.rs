@@ -6,6 +6,8 @@ pub mod array_combinations;
 pub mod array_windows;
 #[cfg(feature = "cartesian_product")]
 pub mod cartesian_product;
+#[cfg(feature = "circular_array_windows")]
+pub mod circular_array_windows;
 #[cfg(feature = "combinations")]
 pub mod combinations;
 #[cfg(any(feature = "array_combinations", feature = "combinations"))]
