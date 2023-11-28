@@ -2,9 +2,9 @@
 
 # itermore
 
-[![Crates.io Version](https://img.shields.io/crates/v/itermore.svg)](https://crates.io/crates/itermore)
-[![Docs.rs Latest](https://img.shields.io/badge/docs.rs-latest-blue.svg)](https://docs.rs/itermore)
-[![Build Status](https://img.shields.io/github/actions/workflow/status/rossmacarthur/itermore/build.yaml?branch=trunk)](https://github.com/rossmacarthur/itermore/actions/workflows/build.yaml?query=branch%3Atrunk)
+[![Crates.io Version](https://badgers.space/crates/version/itermore)](https://crates.io/crates/itermore)
+[![Docs.rs Latest](https://badgers.space/badge/docs.rs/latest/blue)](https://docs.rs/itermore)
+[![Build Status](https://badgers.space/github/checks/rossmacarthur/itermore?label=build)](https://github.com/rossmacarthur/itermore/actions/workflows/build.yaml)
 
 🤸‍♀️ More iterator adaptors.
 

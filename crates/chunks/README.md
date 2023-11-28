@@ -2,9 +2,9 @@
 
 # iterchunks
 
-[![Crates.io Version](https://img.shields.io/crates/v/iterchunks.svg)](https://crates.io/crates/iterchunks)
-[![Docs.rs Latest](https://img.shields.io/badge/docs.rs-latest-blue.svg)](https://docs.rs/iterchunks)
-[![Build Status](https://img.shields.io/github/workflow/status/rossmacarthur/itermore/build/trunk)](https://github.com/rossmacarthur/itermore/actions?query=workflow%3Abuild)
+[![Crates.io Version](https://badgers.space/crates/version/iterchunks)](https://crates.io/crates/iterchunks)
+[![Docs.rs Latest](https://badgers.space/badge/docs.rs/latest/blue)](https://docs.rs/iterchunks)
+[![Build Status](https://badgers.space/github/checks/rossmacarthur/itermore?label=build)](https://github.com/rossmacarthur/itermore/actions/workflows/build.yaml)
 
 This crate provides an iterator adapter that yields N elements of the
 iterator at a time.

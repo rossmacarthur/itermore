@@ -2,9 +2,9 @@
 
 # iterwindows
 
-[![Crates.io Version](https://img.shields.io/crates/v/iterwindows.svg)](https://crates.io/crates/iterwindows)
-[![Docs.rs Latest](https://img.shields.io/badge/docs.rs-latest-blue.svg)](https://docs.rs/iterwindows)
-[![Build Status](https://img.shields.io/github/workflow/status/rossmacarthur/itermore/build/trunk)](https://github.com/rossmacarthur/itermore/actions?query=workflow%3Abuild)
+[![Crates.io Version](https://badgers.space/crates/version/iterwindows)](https://crates.io/crates/iterwindows)
+[![Docs.rs Latest](https://badgers.space/badge/docs.rs/latest/blue)](https://docs.rs/iterwindows)
+[![Build Status](https://badgers.space/github/checks/rossmacarthur/itermore?label=build)](https://github.com/rossmacarthur/itermore/actions/workflows/build.yaml)
 
 This crate provides an iterator adapter to iterate over all contiguous
 windows of length `N`.
