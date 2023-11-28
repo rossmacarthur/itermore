@@ -13,10 +13,7 @@ fn cartesian_product() {
         .collect();
     assert_eq!(v, []);
 
-    let v: Vec<_> = iter::empty::<i64>()
-        .into_iter()
-        .cartesian_product([4i32])
-        .collect();
+    let v: Vec<_> = iter::empty::<i64>().cartesian_product([4i32]).collect();
     assert_eq!(v, []);
 
     let v: Vec<_> = [1i64].into_iter().cartesian_product([4i32]).collect();
