@@ -33,8 +33,14 @@ jobs:
       continue-on-error: ${{ matrix.toolchain == 'nightly' }}
       run: cargo clippy --workspace --all-targets
 
-    - name: Check (no default features)
-      run: cargo check --no-default-features
+
+    - uses: extractions/setup-crate@v1
+      with:
+        owner: taiki-e
+        name: cargo-hack
+
+    - name: Check (each feature)
+      run: cargo hack check --each-feature --no-dev-deps
 
 
   # ---------------------------------------------------------------------------
