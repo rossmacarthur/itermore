@@ -9,6 +9,19 @@
 This crate provides an iterator adapter to iterate over all contiguous
 windows of length `N`.
 
+### Deprecated
+
+This crate is deprecated in favour of the [`itermore`] crate and it
+currently just re-exports types from there. The following dependency
+definition is the equivalent of using this crate.
+
+```toml
+# Cargo.toml
+
+[dependencies]
+itermore = { version = "...", default-features = false, features = ["array_windows"] }
+```
+
 ## Getting started
 
 Add the crate to your Cargo manifest.
@@ -38,6 +51,7 @@ specify it manually.
 let w = iter.array_windows::<3>();
 ```
 
+[`itermore`]: https://crates.io/crates/itermore
 [`array_windows`]: IterArrayWindows::array_windows
 
 ## License

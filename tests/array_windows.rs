@@ -1,6 +1,6 @@
 use core::iter;
 
-use iterwindows::IterArrayWindows;
+use itermore::IterArrayWindows;
 
 #[test]
 fn array_windows_infer() {

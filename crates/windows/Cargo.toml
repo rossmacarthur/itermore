@@ -11,5 +11,8 @@ license = "MIT OR Apache-2.0"
 keywords = ["no_std", "iterator", "windows"]
 categories = ["algorithms", "rust-patterns"]
 
-[dependencies]
-arrays = { path = "../arrays", version = "0.1.0"}
+[dependencies.itermore]
+version = "0.5.0"
+path = "../.."
+default-features = false
+features = ["array_windows"]

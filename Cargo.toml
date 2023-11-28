@@ -16,7 +16,6 @@ categories = ["algorithms", "rust-patterns"]
 [dependencies]
 arrays = { version = "0.1.1", path = "crates/arrays", optional = true }
 iterchunks = { version = "0.3.0", path = "crates/chunks", optional = true }
-iterwindows = { version = "0.3.0", path = "crates/windows", optional = true }
 
 [features]
 default = [
@@ -35,7 +34,7 @@ alloc = []
 
 array_chunks = ["dep:iterchunks"]
 array_combinations = ["alloc", "dep:arrays"]
-array_windows = ["dep:iterwindows"]
+array_windows = ["dep:arrays"]
 cartesian_product = []
 combinations = ["alloc"]
 min_max = []

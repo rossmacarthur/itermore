@@ -106,7 +106,7 @@ pub use crate::adaptors::array_combinations::{
 };
 
 #[cfg(feature = "array_windows")]
-pub use iterwindows::{ArrayWindows, IterArrayWindows};
+pub use crate::adaptors::array_windows::{ArrayWindows, IterArrayWindows};
 
 #[cfg(feature = "cartesian_product")]
 pub use crate::adaptors::cartesian_product::{CartesianProduct, IterCartesianProduct};
