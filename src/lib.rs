@@ -98,7 +98,7 @@ pub use crate::flatten_tuple::flatten_tuple;
 pub use core;
 
 #[cfg(feature = "array_chunks")]
-pub use iterchunks::{ArrayChunks, IterArrayChunks};
+pub use crate::adaptors::array_chunks::{ArrayChunks, IterArrayChunks};
 
 #[cfg(feature = "array_combinations")]
 pub use crate::adaptors::array_combinations::{

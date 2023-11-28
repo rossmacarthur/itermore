@@ -1,3 +1,5 @@
+#[cfg(feature = "array_chunks")]
+pub mod array_chunks;
 #[cfg(feature = "array_combinations")]
 pub mod array_combinations;
 #[cfg(feature = "array_windows")]

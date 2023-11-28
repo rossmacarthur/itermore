@@ -15,11 +15,11 @@ categories = ["algorithms", "rust-patterns"]
 
 [dependencies]
 arrays = { version = "0.1.1", path = "crates/arrays", optional = true }
-iterchunks = { version = "0.3.0", path = "crates/chunks", optional = true }
 
 [features]
 default = [
     "std",
+
     "array_chunks",
     "array_combinations",
     "array_windows",
@@ -32,7 +32,7 @@ default = [
 std = ["alloc"]
 alloc = []
 
-array_chunks = ["dep:iterchunks"]
+array_chunks = ["dep:arrays"]
 array_combinations = ["alloc", "dep:arrays"]
 array_windows = ["dep:arrays"]
 cartesian_product = []

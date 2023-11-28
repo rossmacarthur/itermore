@@ -9,13 +9,18 @@
 This crate provides an iterator adapter that yields N elements of the
 iterator at a time.
 
-This methods provided here have the corresponding nightly APIs:
+### Deprecated
 
-- [Iterator::next_chunk](https://doc.rust-lang.org/stable/std/iter/trait.Iterator.html#method.next_chunk)
-- [Iterator::array_chunks](https://doc.rust-lang.org/stable/std/iter/trait.Iterator.html#method.array_chunks)
+This crate is deprecated in favour of the `itermore` crate and it
+currently just re-exports types from there. The following dependency
+definition is the equivalent of using this crate.
 
-The nightly APIs handle remainders better and will likely have better
-performance, so they should be preferred if possible.
+```toml
+# Cargo.toml
+
+[dependencies]
+itermore = { version = "...", default-features = false, features = ["array_chunks"] }
+```
 
 ## Getting started
 
