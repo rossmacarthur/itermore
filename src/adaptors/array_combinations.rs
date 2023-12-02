@@ -45,10 +45,6 @@ pub trait IterArrayCombinations: Iterator {
 
 impl<I: ?Sized> IterArrayCombinations for I where I: Iterator {}
 
-////////////////////////////////////////////////////////////////////////////////
-// Without repetitions/replacement
-////////////////////////////////////////////////////////////////////////////////
-
 /// An iterator that iterates over `K` length combinations of all the elements
 /// in the underlying iterator.
 ///

@@ -80,10 +80,6 @@ pub trait IterCombinations: Iterator {
 
 impl<I: ?Sized> IterCombinations for I where I: Iterator {}
 
-////////////////////////////////////////////////////////////////////////////////
-// Without repetitions/replacement
-////////////////////////////////////////////////////////////////////////////////
-
 /// An iterator that iterates over `k` length combinations of all the elements
 /// in the underlying iterator.
 ///
@@ -147,10 +143,6 @@ where
     I::Item: Clone,
 {
 }
-
-////////////////////////////////////////////////////////////////////////////////
-// With repetitions/replacement
-////////////////////////////////////////////////////////////////////////////////
 
 /// An iterator that iterates over `K` length combinations with
 /// repetitions/replacements of all the elements in the underlying iterator.

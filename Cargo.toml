@@ -14,13 +14,25 @@ keywords = ["iterator", "chunks", "windows"]
 categories = ["algorithms", "rust-patterns"]
 
 [package.metadata.docs.rs]
+features = ["full"]
 rustdoc-args = ["--cfg", "docsrs"]
 
 [dependencies]
 arrays = { version = "0.1.1", path = "crates/arrays", optional = true }
 
 [features]
-default = [
+# Nothing is enabled by default
+default = []
+
+# Support for no_std environments in a backwards compatible way
+#
+# This feature currently just enables `alloc` but in the future it may be used
+# to enable features that rely on `std` that don't exist in `alloc`.
+std = ["alloc"]
+alloc = []
+
+# Enable everything
+full = [
     "std",
 
     "array_chunks",
@@ -34,15 +46,29 @@ default = [
     "sorted",
 ]
 
-std = ["alloc"]
-alloc = []
-
+# Enables the `.array_chunks()` adaptor for iterators
 array_chunks = ["dep:arrays"]
+
+# Enables the `.array_combinations()` adaptor for iterators
 array_combinations = ["alloc", "dep:arrays"]
+
+# Enables the `.array_combinations_with_reps()` adaptor for iterators
 array_combinations_with_reps = ["alloc", "dep:arrays"]
+
+# Enables the `.array_windows()` adaptor for iterators
 array_windows = ["dep:arrays"]
+
+# Enables the `.cartesian_product()` adaptor for iterators
 cartesian_product = []
+
+# Enables the `.circular_array_windows()` adaptor for iterators
 circular_array_windows = ["array_windows"]
+
+# Enables the `.combinations()` adaptor for iterators
 combinations = ["alloc"]
+
+# Enables the `.min_max()` and friends methods on iterators
 min_max = []
+
+# Enables the `.sorted()` and friends methods on iterators
 sorted = ["alloc"]
