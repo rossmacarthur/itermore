@@ -1,4 +1,4 @@
-//! This crate provides an iterator adapter to iterate over all contiguous
+//! This crate provides an iterator adaptor to iterate over all contiguous
 //! windows of length `N`.
 //!
 //! ## Deprecated

@@ -6,7 +6,7 @@
 [![Docs.rs Latest](https://badgers.space/badge/docs.rs/latest/blue)](https://docs.rs/iterchunks)
 [![Build Status](https://badgers.space/github/checks/rossmacarthur/itermore?label=build)](https://github.com/rossmacarthur/itermore/actions/workflows/build.yaml)
 
-This crate provides an iterator adapter that yields N elements of the
+This crate provides an iterator adaptor that yields N elements of the
 iterator at a time.
 
 ### Deprecated

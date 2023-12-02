@@ -8,7 +8,7 @@ pub trait IterArrayWindows: Iterator {
     /// The windows overlap. If the iterator is shorter than `N`, the iterator
     /// returns no values.
     ///
-    /// This adapter clones the iterator elements so that they can be part of
+    /// This adaptor clones the iterator elements so that they can be part of
     /// successive windows, this makes this it most suited for iterators of
     /// references and other values that are cheap to clone or copy.
     ///

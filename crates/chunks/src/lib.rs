@@ -1,4 +1,4 @@
-//! This crate provides an iterator adapter that yields N elements of the
+//! This crate provides an iterator adaptor that yields N elements of the
 //! iterator at a time.
 //!
 //! ## Deprecated

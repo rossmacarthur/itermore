@@ -8,7 +8,7 @@ pub trait IterCircularArrayWindows: Iterator {
     /// back to the first elements when the window would otherwise exceed the
     /// length of the iterator.
     ///
-    /// This adapter clones the iterator elements so that they can be part of
+    /// This adaptor clones the iterator elements so that they can be part of
     /// successive windows, this makes this it most suited for iterators of
     /// references and other values that are cheap to clone or copy.
     ///

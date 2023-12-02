@@ -6,7 +6,7 @@
 [![Docs.rs Latest](https://badgers.space/badge/docs.rs/latest/blue)](https://docs.rs/iterwindows)
 [![Build Status](https://badgers.space/github/checks/rossmacarthur/itermore?label=build)](https://github.com/rossmacarthur/itermore/actions/workflows/build.yaml)
 
-This crate provides an iterator adapter to iterate over all contiguous
+This crate provides an iterator adaptor to iterate over all contiguous
 windows of length `N`.
 
 ### Deprecated
