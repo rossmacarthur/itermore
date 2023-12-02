@@ -10,6 +10,7 @@
 ///
 /// [`next_chunk`]: IterArrayChunks::next_chunk
 /// [`array_chunks`]: IterArrayChunks::array_chunks
+#[cfg_attr(docsrs, doc(cfg(feature = "array_chunks")))]
 pub trait IterArrayChunks: Iterator {
     /// Advances the iterator and returns an array containing the next `N`
     /// values.
@@ -117,6 +118,7 @@ impl<I: ?Sized> IterArrayChunks for I where I: Iterator {}
 /// documentation for more.
 ///
 /// [`array_chunks`]: IterArrayChunks::array_chunks
+#[cfg_attr(docsrs, doc(cfg(feature = "array_chunks")))]
 #[derive(Debug, Clone)]
 #[must_use = "iterators are lazy and do nothing unless consumed"]
 pub struct ArrayChunks<I, const N: usize> {

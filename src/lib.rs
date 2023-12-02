@@ -84,6 +84,7 @@
 
 #![warn(unsafe_op_in_unsafe_fn)]
 #![cfg_attr(not(feature = "alloc"), no_std)]
+#![cfg_attr(docsrs, feature(doc_cfg))]
 
 #[cfg(feature = "alloc")]
 extern crate alloc;

@@ -1,6 +1,7 @@
 /// An extension trait that provides the [`array_windows`] method for iterators.
 ///
 /// [`array_windows`]: IterArrayWindows::array_windows
+#[cfg_attr(docsrs, doc(cfg(feature = "array_windows")))]
 pub trait IterArrayWindows: Iterator {
     /// Returns an iterator over all contiguous windows of length `N`.
     ///
@@ -55,6 +56,7 @@ impl<I: ?Sized> IterArrayWindows for I where I: Iterator {}
 /// documentation for more.
 ///
 /// [`array_windows`]: IterArrayWindows::array_windows
+#[cfg_attr(docsrs, doc(cfg(feature = "array_windows")))]
 #[derive(Debug, Clone)]
 #[must_use = "iterators are lazy and do nothing unless consumed"]
 pub struct ArrayWindows<I, const N: usize>

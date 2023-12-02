@@ -4,6 +4,7 @@ use core::cmp::Ordering;
 /// iterators.
 ///
 /// [`min_max`]: IterMinMax::min_max
+#[cfg_attr(docsrs, doc(cfg(feature = "min_max")))]
 pub trait IterMinMax: Iterator {
     /// Returns the minimum and maximum element in the iterator.
     ///

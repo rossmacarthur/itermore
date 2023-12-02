@@ -13,6 +13,9 @@ license = "MIT OR Apache-2.0"
 keywords = ["iterator", "chunks", "windows"]
 categories = ["algorithms", "rust-patterns"]
 
+[package.metadata.docs.rs]
+rustdoc-args = ["--cfg", "docsrs"]
+
 [dependencies]
 arrays = { version = "0.1.1", path = "crates/arrays", optional = true }
 
