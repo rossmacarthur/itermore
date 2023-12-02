@@ -19,7 +19,7 @@ jobs:
       RUSTFLAGS: --deny warnings
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - uses: dtolnay/rust-toolchain@master
       with:
@@ -51,7 +51,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
 
       - name: Test
@@ -65,7 +65,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@nightly
         with:
           components: miri
@@ -81,10 +81,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
-
+      - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@1.65
+
       - name: Test
         run: cargo test
         env:
           RUSTFLAGS: --deny warnings
+
+  # ---------------------------------------------------------------------------
+  # Check READMEs
+  # ---------------------------------------------------------------------------
+
+  readme:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - uses: dtolnay/rust-toolchain@stable
+
+    - name: Install cargo-onedoc
+      run: cargo install cargo-onedoc --locked
+
+    - name: Check READMEs
+      run: |
+        cargo onedoc --check
+        cargo onedoc --check --package arrays
+        cargo onedoc --check --package iterchunks
+        cargo onedoc --check --package iterwindows
