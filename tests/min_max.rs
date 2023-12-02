@@ -3,7 +3,7 @@
 use std::cmp::Reverse;
 use std::iter;
 
-use itermore::IterMinMax;
+use itermore::prelude::*;
 
 #[test]
 fn min_max() {

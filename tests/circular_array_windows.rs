@@ -1,6 +1,6 @@
 #![cfg(feature = "circular_array_windows")]
 
-use itermore::IterCircularArrayWindows;
+use itermore::prelude::*;
 
 #[test]
 fn circular_array_windows_infer() {

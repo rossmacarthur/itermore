@@ -42,6 +42,7 @@ full = [
     "cartesian_product",
     "circular_array_windows",
     "combinations",
+    "combinations_with_reps",
     "min_max",
     "next_chunk",
     "sorted",
@@ -67,6 +68,9 @@ circular_array_windows = ["array_windows"]
 
 # Enables the `.combinations()` adaptor for iterators
 combinations = ["alloc"]
+
+# Enables the `.combinations_with_reps()` adaptor for iterators
+combinations_with_reps = ["alloc"]
 
 # Enables the `.min_max()` and friends methods on iterators
 min_max = []

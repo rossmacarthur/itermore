@@ -3,7 +3,7 @@
 
 use core::iter;
 
-use itermore::IterArrayChunks;
+use itermore::prelude::*;
 
 #[test]
 fn array_chunks_infer() {

@@ -2,7 +2,7 @@
 
 use core::iter;
 
-use itermore::IterArrayWindows;
+use itermore::prelude::*;
 
 #[test]
 fn array_windows_infer() {

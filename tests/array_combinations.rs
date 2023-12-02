@@ -1,6 +1,6 @@
 #![cfg(feature = "array_combinations")]
 
-use itermore::IterArrayCombinations;
+use itermore::prelude::*;
 
 #[test]
 #[should_panic]

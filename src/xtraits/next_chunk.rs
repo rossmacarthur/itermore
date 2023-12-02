@@ -1,8 +1,7 @@
 /// An extension trait that provides the [`next_chunk`] method for iterators.
 ///
-/// Note: the method provided here has a nightly API: [`Iterator::next_chunk`].
-/// The nightly APIs handle remainders better and will likely have better
-/// performance, so they should be preferred if possible.
+/// **Note:** the method provided here has a nightly API:
+/// [`Iterator::next_chunk`].
 ///
 /// [`next_chunk`]: IterNextChunk::next_chunk
 #[cfg_attr(docsrs, doc(cfg(feature = "next_chunk")))]

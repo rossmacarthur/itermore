@@ -1,9 +1,8 @@
 /// An extension trait that provides the [`array_chunks`] method for iterators.
 ///
 /// Note: the method provided here has a nightly API:
-/// [`Iterator::array_chunks`]. The nightly APIs handle remainders better and
-/// will likely have better performance, so they should be preferred if
-/// possible.
+/// [`Iterator::array_chunks`]. The nightly API handles remainders better and
+/// will likely have better performance, so it should be preferred if possible.
 ///
 /// [`array_chunks`]: IterArrayChunks::array_chunks
 #[cfg_attr(docsrs, doc(cfg(feature = "array_chunks")))]

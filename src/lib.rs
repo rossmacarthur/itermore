@@ -9,7 +9,7 @@
 //!
 //! Add the crate to Cargo manifest.
 //! ```sh
-//! cargo add itermore
+//! cargo add itermore --features full
 //! ```
 //!
 //! And bring the extension traits into scope.
@@ -31,13 +31,12 @@
 //! //    3 4 5
 //! ```
 //!
-//! It is recommended to only enable the features that you need, you can do this
-//! by disabling all features and turning on the ones you want. For example if
+//! It is recommended to only enable the features that you need. For example if
 //! you only want the [`array_combinations`] adaptor you would add the following
 //! to your Cargo manifest.
 //! ```toml
 //! [dependencies]
-//! itermore = { version = "*",  default-features = false, features = ["array_combinations"]}
+//! itermore = { version = "*", features = ["array_combinations"]}
 //! ```
 //!
 //! # Provided functionality
@@ -78,7 +77,7 @@
 //! [`cartesian_product`]: IterCartesianProduct::cartesian_product
 //! [`circular_array_windows`]: IterCircularArrayWindows::circular_array_windows
 //! [`combinations`]: IterCombinations::combinations
-//! [`combinations_with_reps`]: IterCombinations::combinations_with_reps
+//! [`combinations_with_reps`]: IterCombinationsWithReps::combinations_with_reps
 //! [`min_max`]: IterMinMax::min_max
 //! [`sorted`]: IterSorted::sorted
 
@@ -122,7 +121,10 @@ pub use crate::adaptors::cartesian_product::{CartesianProduct, IterCartesianProd
 pub use crate::adaptors::circular_array_windows::{CircularArrayWindows, IterCircularArrayWindows};
 
 #[cfg(feature = "combinations")]
-pub use crate::adaptors::combinations::{Combinations, CombinationsWithReps, IterCombinations};
+pub use crate::adaptors::combinations::{Combinations, IterCombinations};
+
+#[cfg(feature = "combinations_with_reps")]
+pub use crate::adaptors::combinations_with_reps::{CombinationsWithReps, IterCombinationsWithReps};
 
 #[cfg(feature = "min_max")]
 pub use crate::xtraits::min_max::IterMinMax;
@@ -162,6 +164,9 @@ pub mod prelude {
 
     #[cfg(feature = "combinations")]
     pub use super::IterCombinations;
+
+    #[cfg(feature = "combinations_with_reps")]
+    pub use super::IterCombinationsWithReps;
 
     #[cfg(feature = "min_max")]
     pub use super::IterMinMax;

@@ -18,7 +18,7 @@ feature flagged so you only have to compile the features you need.
 Add the crate to Cargo manifest.
 
 ```sh
-cargo add itermore
+cargo add itermore --features full
 ```
 
 And bring the extension traits into scope.
@@ -39,14 +39,13 @@ for [a, b, c] in iter.array_windows() {
 //    3 4 5
 ```
 
-It is recommended to only enable the features that you need, you can do this
-by disabling all features and turning on the ones you want. For example if
+It is recommended to only enable the features that you need. For example if
 you only want the [`array_combinations`] adaptor you would add the following
 to your Cargo manifest.
 
 ```toml
 [dependencies]
-itermore = { version = "*",  default-features = false, features = ["array_combinations"]}
+itermore = { version = "*", features = ["array_combinations"]}
 ```
 
 ## Provided functionality
@@ -89,7 +88,7 @@ itermore = { version = "*",  default-features = false, features = ["array_combin
 [`cartesian_product`]: IterCartesianProduct::cartesian_product
 [`circular_array_windows`]: IterCircularArrayWindows::circular_array_windows
 [`combinations`]: IterCombinations::combinations
-[`combinations_with_reps`]: IterCombinations::combinations_with_reps
+[`combinations_with_reps`]: IterCombinationsWithReps::combinations_with_reps
 
 ## License
 

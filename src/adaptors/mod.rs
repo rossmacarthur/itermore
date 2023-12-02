@@ -12,9 +12,12 @@ pub mod cartesian_product;
 pub mod circular_array_windows;
 #[cfg(feature = "combinations")]
 pub mod combinations;
+#[cfg(feature = "combinations_with_reps")]
+pub mod combinations_with_reps;
 #[cfg(any(
     feature = "array_combinations",
     feature = "array_combinations_with_reps",
-    feature = "combinations"
+    feature = "combinations",
+    feature = "combinations_with_reps"
 ))]
 mod generic_combinations;

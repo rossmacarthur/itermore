@@ -1,6 +1,6 @@
 #![cfg(feature = "sorted")]
 
-use itermore::IterSorted;
+use itermore::prelude::*;
 
 #[test]
 fn sorted() {

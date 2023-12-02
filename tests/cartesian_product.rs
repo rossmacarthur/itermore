@@ -3,7 +3,8 @@
 
 use std::iter;
 
-use itermore::{cartesian_product, IterCartesianProduct};
+use itermore::cartesian_product;
+use itermore::prelude::*;
 
 #[test]
 fn cartesian_product() {
