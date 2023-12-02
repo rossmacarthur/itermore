@@ -1,66 +1,13 @@
-/// An extension trait that provides the [`next_chunk`] and [`array_chunks`]
-/// methods for iterators.
+/// An extension trait that provides the [`array_chunks`] method for iterators.
 ///
-/// The methods provided here have the corresponding nightly APIs:
-/// - [`Iterator::next_chunk`]
-/// - [`Iterator::array_chunks`]
+/// Note: the method provided here has a nightly API:
+/// [`Iterator::array_chunks`]. The nightly APIs handle remainders better and
+/// will likely have better performance, so they should be preferred if
+/// possible.
 ///
-/// The nightly APIs handle remainders better and will likely have better
-/// performance, so they should be preferred if possible.
-///
-/// [`next_chunk`]: IterArrayChunks::next_chunk
 /// [`array_chunks`]: IterArrayChunks::array_chunks
 #[cfg_attr(docsrs, doc(cfg(feature = "array_chunks")))]
 pub trait IterArrayChunks: Iterator {
-    /// Advances the iterator and returns an array containing the next `N`
-    /// values.
-    ///
-    /// If there are not enough elements to fill the array then `None` is
-    /// returned.
-    ///
-    /// # Examples
-    ///
-    /// Basic usage:
-    ///
-    /// ```
-    /// use itermore::IterArrayChunks;
-    ///
-    /// let mut iter = "lorem".chars();
-    ///
-    /// assert_eq!(iter.next_chunk().unwrap(), ['l', 'o']);              // N is inferred as 2
-    /// assert_eq!(iter.next_chunk().unwrap(), ['r', 'e', 'm']);         // N is inferred as 3
-    /// assert!(iter.next_chunk::<4>().is_none()); // N is explicitly 4
-    /// ```
-    ///
-    /// Split a string and get the first three items.
-    ///
-    /// ```
-    /// use itermore::IterArrayChunks;
-    ///
-    /// let quote = "not all those who wander are lost";
-    /// let [first, second, third] = quote.split_whitespace().next_chunk().unwrap();
-    /// assert_eq!(first, "not");
-    /// assert_eq!(second, "all");
-    /// assert_eq!(third, "those");
-    /// ```
-    #[inline]
-    fn next_chunk<const N: usize>(&mut self) -> Option<[Self::Item; N]>
-    where
-        Self: Sized,
-    {
-        arrays::collect(self.by_ref())
-    }
-
-    /// Identical to [`next_chunk`][IterArrayChunks::next_chunk] but doesn't collide
-    /// with the standard library name.
-    #[inline]
-    fn next_array<const N: usize>(&mut self) -> Option<[Self::Item; N]>
-    where
-        Self: Sized,
-    {
-        arrays::collect(self.by_ref())
-    }
-
     /// Returns an iterator over `N` elements of the iterator at a time.
     ///
     /// The chunks do not overlap. If `N` does not divide the length of the
@@ -145,7 +92,7 @@ where
     #[inline]
     fn next(&mut self) -> Option<Self::Item> {
         let Self { iter } = self;
-        arrays::collect(iter.by_ref())
+        arrays::collect(iter)
     }
 
     #[inline]
@@ -168,7 +115,7 @@ where
     fn next_back(&mut self) -> Option<Self::Item> {
         let rem = self.iter.len() % N;
         let mut rev = self.iter.by_ref().rev().skip(rem);
-        let mut chunk = IterArrayChunks::next_chunk(&mut rev)?;
+        let mut chunk = arrays::collect(&mut rev)?;
         chunk.reverse();
         Some(chunk)
     }

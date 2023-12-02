@@ -43,6 +43,7 @@ full = [
     "circular_array_windows",
     "combinations",
     "min_max",
+    "next_chunk",
     "sorted",
 ]
 
@@ -69,6 +70,9 @@ combinations = ["alloc"]
 
 # Enables the `.min_max()` and friends methods on iterators
 min_max = []
+
+# Enables the `.next_chunk()` method on iterators
+next_chunk = ["dep:arrays"]
 
 # Enables the `.sorted()` and friends methods on iterators
 sorted = ["alloc"]

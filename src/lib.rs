@@ -70,7 +70,7 @@
 //!   combinations with repetitions/replacements of all the elements in the
 //!   underlying iterator.
 //!
-//! [`next_chunk`]: IterArrayChunks::next_chunk
+//! [`next_chunk`]: IterNextChunk::next_chunk
 //! [`array_chunks`]: IterArrayChunks::array_chunks
 //! [`array_combinations`]: IterArrayCombinations::array_combinations
 //! [`array_combinations_with_reps`]: IterArrayCombinationsWithReps::array_combinations_with_reps
@@ -127,6 +127,9 @@ pub use crate::adaptors::combinations::{Combinations, CombinationsWithReps, Iter
 #[cfg(feature = "min_max")]
 pub use crate::xtraits::min_max::IterMinMax;
 
+#[cfg(feature = "next_chunk")]
+pub use crate::xtraits::next_chunk::IterNextChunk;
+
 #[cfg(feature = "sorted")]
 pub use crate::xtraits::sorted::IterSorted;
 
@@ -162,6 +165,9 @@ pub mod prelude {
 
     #[cfg(feature = "min_max")]
     pub use super::IterMinMax;
+
+    #[cfg(feature = "next_chunk")]
+    pub use super::IterNextChunk;
 
     #[cfg(feature = "sorted")]
     pub use super::IterSorted;

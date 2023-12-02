@@ -82,7 +82,7 @@ itermore = { version = "*",  default-features = false, features = ["array_combin
 [`array_windows`]: IterArrayWindows::array_windows
 [`array_combinations`]: IterArrayCombinations::array_combinations
 [`min_max`]: IterMinMax::min_max
-[`next_chunk`]: IterArrayChunks::next_chunk
+[`next_chunk`]: IterNextChunk::next_chunk
 [`sorted`]: IterSorted::sorted
 [`array_chunks`]: IterArrayChunks::array_chunks
 [`array_combinations_with_reps`]: IterArrayCombinationsWithReps::array_combinations_with_reps
