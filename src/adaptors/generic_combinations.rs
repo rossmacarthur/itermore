@@ -34,6 +34,7 @@ where
 enum State {
     First,
     Normal,
+    #[cfg(any(feature = "array_combinations_with_reps", feature = "combinations"))]
     Done,
 }
 
@@ -64,6 +65,7 @@ where
             .finish()
     }
 
+    #[cfg(any(feature = "array_combinations", feature = "combinations"))]
     pub fn fill_next(&mut self) -> Option<impl Iterator<Item = I::Item> + '_>
     where
         I::Item: Clone,
@@ -72,6 +74,7 @@ where
         let k = self.comb.as_ref().len();
 
         match self.state {
+            #[cfg(any(feature = "array_combinations_with_reps", feature = "combinations"))]
             State::Done => return None,
 
             State::First => {
@@ -141,6 +144,7 @@ where
         Some(self.comb.as_ref().iter().map(|&d| self.buf[d].clone()))
     }
 
+    #[cfg(any(feature = "array_combinations_with_reps", feature = "combinations"))]
     pub fn fill_next_with_reps(&mut self) -> Option<impl Iterator<Item = I::Item> + '_>
     where
         I::Item: Clone,

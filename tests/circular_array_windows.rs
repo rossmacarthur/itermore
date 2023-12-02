@@ -1,3 +1,5 @@
+#![cfg(feature = "circular_array_windows")]
+
 use itermore::IterCircularArrayWindows;
 
 #[test]

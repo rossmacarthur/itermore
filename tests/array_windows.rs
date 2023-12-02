@@ -1,3 +1,5 @@
+#![cfg(feature = "array_windows")]
+
 use core::iter;
 
 use itermore::IterArrayWindows;

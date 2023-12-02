@@ -85,7 +85,7 @@ itermore = { version = "*",  default-features = false, features = ["array_combin
 [`next_chunk`]: IterArrayChunks::next_chunk
 [`sorted`]: IterSorted::sorted
 [`array_chunks`]: IterArrayChunks::array_chunks
-[`array_combinations_with_reps`]: IterArrayCombinations::array_combinations_with_reps
+[`array_combinations_with_reps`]: IterArrayCombinationsWithReps::array_combinations_with_reps
 [`cartesian_product`]: IterCartesianProduct::cartesian_product
 [`circular_array_windows`]: IterCircularArrayWindows::circular_array_windows
 [`combinations`]: IterCombinations::combinations

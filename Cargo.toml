@@ -25,6 +25,7 @@ default = [
 
     "array_chunks",
     "array_combinations",
+    "array_combinations_with_reps",
     "array_windows",
     "cartesian_product",
     "circular_array_windows",
@@ -38,6 +39,7 @@ alloc = []
 
 array_chunks = ["dep:arrays"]
 array_combinations = ["alloc", "dep:arrays"]
+array_combinations_with_reps = ["alloc", "dep:arrays"]
 array_windows = ["dep:arrays"]
 cartesian_product = []
 circular_array_windows = ["array_windows"]

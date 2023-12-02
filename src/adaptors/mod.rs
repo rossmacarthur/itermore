@@ -2,6 +2,8 @@
 pub mod array_chunks;
 #[cfg(feature = "array_combinations")]
 pub mod array_combinations;
+#[cfg(feature = "array_combinations_with_reps")]
+pub mod array_combinations_with_reps;
 #[cfg(feature = "array_windows")]
 pub mod array_windows;
 #[cfg(feature = "cartesian_product")]
@@ -10,5 +12,9 @@ pub mod cartesian_product;
 pub mod circular_array_windows;
 #[cfg(feature = "combinations")]
 pub mod combinations;
-#[cfg(any(feature = "array_combinations", feature = "combinations"))]
+#[cfg(any(
+    feature = "array_combinations",
+    feature = "array_combinations_with_reps",
+    feature = "combinations"
+))]
 mod generic_combinations;

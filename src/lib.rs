@@ -73,7 +73,7 @@
 //! [`next_chunk`]: IterArrayChunks::next_chunk
 //! [`array_chunks`]: IterArrayChunks::array_chunks
 //! [`array_combinations`]: IterArrayCombinations::array_combinations
-//! [`array_combinations_with_reps`]: IterArrayCombinations::array_combinations_with_reps
+//! [`array_combinations_with_reps`]: IterArrayCombinationsWithReps::array_combinations_with_reps
 //! [`array_windows`]: IterArrayWindows::array_windows
 //! [`cartesian_product`]: IterCartesianProduct::cartesian_product
 //! [`circular_array_windows`]: IterCircularArrayWindows::circular_array_windows
@@ -105,8 +105,11 @@ pub use core;
 pub use crate::adaptors::array_chunks::{ArrayChunks, IterArrayChunks};
 
 #[cfg(feature = "array_combinations")]
-pub use crate::adaptors::array_combinations::{
-    ArrayCombinations, ArrayCombinationsWithReps, IterArrayCombinations,
+pub use crate::adaptors::array_combinations::{ArrayCombinations, IterArrayCombinations};
+
+#[cfg(feature = "array_combinations_with_reps")]
+pub use crate::adaptors::array_combinations_with_reps::{
+    ArrayCombinationsWithReps, IterArrayCombinationsWithReps,
 };
 
 #[cfg(feature = "array_windows")]
@@ -141,6 +144,9 @@ pub mod prelude {
 
     #[cfg(feature = "array_combinations")]
     pub use super::IterArrayCombinations;
+
+    #[cfg(feature = "array_combinations_with_reps")]
+    pub use super::IterArrayCombinationsWithReps;
 
     #[cfg(feature = "array_windows")]
     pub use super::IterArrayWindows;

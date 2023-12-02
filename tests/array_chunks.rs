@@ -1,3 +1,4 @@
+#![cfg(feature = "array_chunks")]
 #![allow(unstable_name_collisions)]
 
 use core::iter;
