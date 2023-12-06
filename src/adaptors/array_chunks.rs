@@ -119,3 +119,13 @@ where
         Some(chunk)
     }
 }
+
+impl<I, const N: usize> ExactSizeIterator for ArrayChunks<I, N>
+where
+    I: ExactSizeIterator,
+{
+    #[inline]
+    fn len(&self) -> usize {
+        self.iter.len() / N
+    }
+}

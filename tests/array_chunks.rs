@@ -76,3 +76,15 @@ fn array_chunks_nth() {
     assert_eq!(iter.nth(0), Some([4, 5]));
     assert_eq!(iter.nth(1), None);
 }
+
+#[test]
+fn array_chunks_len() {
+    let iter = (0..6).array_chunks::<2>();
+    assert_eq!(iter.len(), 3);
+
+    let iter = (0..6).array_chunks::<3>();
+    assert_eq!(iter.len(), 2);
+
+    let iter = (0..6).array_chunks::<4>();
+    assert_eq!(iter.len(), 1);
+}
