@@ -93,6 +93,9 @@ fn array_chunks_nth() {
 
 #[test]
 fn array_chunks_len() {
+    let iter = (0..6).array_chunks::<1>();
+    assert_eq!(iter.len(), 6);
+
     let iter = (0..6).array_chunks::<2>();
     assert_eq!(iter.len(), 3);
 
@@ -101,4 +104,19 @@ fn array_chunks_len() {
 
     let iter = (0..6).array_chunks::<4>();
     assert_eq!(iter.len(), 1);
+
+    let iter = (0..6).array_chunks::<5>();
+    assert_eq!(iter.len(), 1);
+
+    let iter = (0..6).array_chunks::<6>();
+    assert_eq!(iter.len(), 1);
+
+    let iter = (0..6).array_chunks::<7>();
+    assert_eq!(iter.len(), 0);
+
+    let iter = iter::empty::<i32>().array_chunks::<2>();
+    assert_eq!(iter.len(), 0);
+
+    let iter = [(); usize::MAX].iter().array_chunks::<2>();
+    assert_eq!(iter.len(), usize::MAX / 2);
 }

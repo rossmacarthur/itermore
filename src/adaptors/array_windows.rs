@@ -123,6 +123,17 @@ where
     }
 }
 
+impl<I, const N: usize> ExactSizeIterator for ArrayWindows<I, N>
+where
+    I: ExactSizeIterator,
+    I::Item: Clone,
+{
+    #[inline]
+    fn len(&self) -> usize {
+        self.iter.len().saturating_sub(N - 1)
+    }
+}
+
 impl<I, const N: usize> FusedIterator for ArrayWindows<I, N>
 where
     I: FusedIterator + Clone,

@@ -82,3 +82,33 @@ fn array_windows_nth() {
     assert_eq!(iter.nth(0), Some([2, 3, 4, 5]));
     assert_eq!(iter.nth(1), None);
 }
+
+#[test]
+fn array_windows_len() {
+    let iter = (0..6).array_windows::<1>();
+    assert_eq!(iter.len(), 6);
+
+    let iter = (0..6).array_windows::<2>();
+    assert_eq!(iter.len(), 5);
+
+    let iter = (0..6).array_windows::<3>();
+    assert_eq!(iter.len(), 4);
+
+    let iter = (0..6).array_windows::<4>();
+    assert_eq!(iter.len(), 3);
+
+    let iter = (0..6).array_windows::<5>();
+    assert_eq!(iter.len(), 2);
+
+    let iter = (0..6).array_windows::<6>();
+    assert_eq!(iter.len(), 1);
+
+    let iter = (0..6).array_windows::<7>();
+    assert_eq!(iter.len(), 0);
+
+    let iter = iter::empty::<i32>().array_windows::<2>();
+    assert_eq!(iter.len(), 0);
+
+    let iter = [(); usize::MAX].iter().array_windows::<2>();
+    assert_eq!(iter.len(), usize::MAX - 1);
+}
