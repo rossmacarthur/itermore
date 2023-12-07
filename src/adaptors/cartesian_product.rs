@@ -1,3 +1,5 @@
+use core::iter::FusedIterator;
+
 /// An extension trait that provides the [`cartesian_product`] method for
 /// iterators.
 ///
@@ -83,6 +85,14 @@ where
         };
         self.a_item.as_ref().map(|a| (a.clone(), b_item))
     }
+}
+
+impl<I, J> FusedIterator for CartesianProduct<I, J>
+where
+    I: FusedIterator,
+    J: FusedIterator + Clone,
+    I::Item: Clone,
+{
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -1,3 +1,5 @@
+use core::iter::FusedIterator;
+
 /// An extension trait that provides the [`array_chunks`] method for iterators.
 ///
 /// Note: the method provided here has a nightly API:
@@ -129,3 +131,5 @@ where
         self.iter.len() / N
     }
 }
+
+impl<I, const N: usize> FusedIterator for ArrayChunks<I, N> where I: FusedIterator {}

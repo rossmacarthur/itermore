@@ -1,3 +1,5 @@
+use core::iter::FusedIterator;
+
 /// An extension trait that provides the [`array_windows`] method for iterators.
 ///
 /// [`array_windows`]: IterArrayWindows::array_windows
@@ -119,4 +121,11 @@ where
     fn count(self) -> usize {
         self.iter.count().saturating_sub(N - 1)
     }
+}
+
+impl<I, const N: usize> FusedIterator for ArrayWindows<I, N>
+where
+    I: FusedIterator + Clone,
+    I::Item: Clone,
+{
 }
