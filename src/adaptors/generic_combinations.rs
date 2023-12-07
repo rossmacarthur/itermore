@@ -2,6 +2,7 @@
 //! combinations adaptors.
 
 use core::fmt;
+use core::fmt::Debug;
 use core::iter::Fuse;
 
 #[derive(Clone)]
@@ -56,9 +57,9 @@ where
 
     pub fn fmt_with(&self, f: &mut fmt::Formatter<'_>, name: &str) -> fmt::Result
     where
-        I: fmt::Debug,
-        I::Item: fmt::Debug,
-        C: fmt::Debug,
+        I: Debug,
+        I::Item: Debug,
+        C: Debug,
     {
         f.debug_struct(name)
             .field("iter", &self.iter)

@@ -3,6 +3,20 @@
 use itermore::prelude::*;
 
 #[test]
+fn combinations_with_reps_debug() {
+    let iter = (0..6).combinations_with_reps(2);
+    let _ = format!("{:?}", iter);
+}
+
+#[test]
+fn combinations_with_reps_clone() {
+    let mut iter = (0..6).combinations_with_reps(2);
+    let mut iter2 = iter.clone();
+    assert_eq!(iter.next(), Some(vec![0, 0]));
+    assert_eq!(iter2.next(), Some(vec![0, 0]));
+}
+
+#[test]
 fn combinations_with_reps_smoke() {
     // N = 4, K = 1
     let v = Vec::from_iter((1..5).combinations_with_reps(1));

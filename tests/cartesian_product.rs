@@ -7,6 +7,20 @@ use itermore::cartesian_product;
 use itermore::prelude::*;
 
 #[test]
+fn cartesian_product_debug() {
+    let iter = (0..6).cartesian_product(0..6);
+    let _ = format!("{:?}", iter);
+}
+
+#[test]
+fn cartesian_product_clone() {
+    let mut iter = (0..6).cartesian_product(0..6);
+    let mut iter2 = iter.clone();
+    assert_eq!(iter.next(), Some((0, 0)));
+    assert_eq!(iter2.next(), Some((0, 0)));
+}
+
+#[test]
 fn cartesian_product() {
     let v: Vec<_> = [1i64]
         .into_iter()

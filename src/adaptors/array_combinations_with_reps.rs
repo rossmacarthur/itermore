@@ -1,4 +1,5 @@
 use core::fmt;
+use core::fmt::Debug;
 use core::iter::FusedIterator;
 
 use crate::adaptors::generic_combinations::GenericCombinations;
@@ -70,10 +71,20 @@ where
     }
 }
 
-impl<I, const K: usize> fmt::Debug for ArrayCombinationsWithReps<I, K>
+impl<I, const K: usize> Clone for ArrayCombinationsWithReps<I, K>
 where
-    I: Iterator + fmt::Debug,
-    I::Item: fmt::Debug,
+    I: Iterator + Clone,
+    I::Item: Clone,
+{
+    fn clone(&self) -> Self {
+        Self(self.0.clone())
+    }
+}
+
+impl<I, const K: usize> Debug for ArrayCombinationsWithReps<I, K>
+where
+    I: Iterator + Debug,
+    I::Item: Debug,
 {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         self.0.fmt_with(f, "ArrayCombinationsWithReps")

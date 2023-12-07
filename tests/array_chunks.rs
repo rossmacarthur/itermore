@@ -6,6 +6,20 @@ use core::iter;
 use itermore::prelude::*;
 
 #[test]
+fn array_chunks_debug() {
+    let iter = (0..6).array_chunks::<2>();
+    let _ = format!("{:?}", iter);
+}
+
+#[test]
+fn array_chunks_clone() {
+    let mut iter = (0..6).array_chunks::<2>();
+    let mut iter2 = iter.clone();
+    assert_eq!(iter.next(), Some([0, 1]));
+    assert_eq!(iter2.next(), Some([0, 1]));
+}
+
+#[test]
 fn array_chunks_infer() {
     let s = [1, 1, 2, -2, 6, 0, 3, 1];
     for [a, b, c] in s.iter().copied().array_chunks() {

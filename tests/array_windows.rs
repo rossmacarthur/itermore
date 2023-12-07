@@ -5,6 +5,20 @@ use core::iter;
 use itermore::prelude::*;
 
 #[test]
+fn array_windows_debug() {
+    let iter = (0..6).array_windows::<2>();
+    let _ = format!("{:?}", iter);
+}
+
+#[test]
+fn array_windows_clone() {
+    let mut iter = (0..6).array_windows::<3>();
+    let mut iter2 = iter.clone();
+    assert_eq!(iter.next(), Some([0, 1, 2]));
+    assert_eq!(iter2.next(), Some([0, 1, 2]));
+}
+
+#[test]
 fn array_windows_infer() {
     let s = [0, 1, 0, 1, 0, 1];
     for [a, b] in s.iter().copied().array_windows() {

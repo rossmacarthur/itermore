@@ -62,7 +62,6 @@ impl<I: ?Sized> IterArrayWindows for I where I: Iterator {}
 pub struct ArrayWindows<I, const N: usize>
 where
     I: Iterator,
-    I::Item: Clone,
 {
     iter: I,
     last: Option<[I::Item; N]>,

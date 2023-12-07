@@ -3,6 +3,26 @@
 use itermore::prelude::*;
 
 #[test]
+fn array_combinations_with_reps_debug() {
+    let iter = (0..6).array_combinations_with_reps::<2>();
+    let _ = format!("{:?}", iter);
+}
+
+#[test]
+fn array_combinations_with_reps_clone() {
+    let mut iter = (0..6).array_combinations_with_reps::<2>();
+    let mut iter2 = iter.clone();
+    assert_eq!(iter.next(), Some([0, 0]));
+    assert_eq!(iter2.next(), Some([0, 0]));
+}
+
+#[test]
+#[should_panic]
+fn array_combinations_with_reps_zero_k() {
+    let _it = (1..5).array_combinations_with_reps::<0>();
+}
+
+#[test]
 fn array_combinations_with_reps_smoke() {
     // N = 4, K = 1
     let v = Vec::from_iter((1..5).array_combinations_with_reps());

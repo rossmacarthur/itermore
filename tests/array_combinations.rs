@@ -3,6 +3,20 @@
 use itermore::prelude::*;
 
 #[test]
+fn array_combinations_debug() {
+    let iter = (0..6).array_combinations::<2>();
+    let _ = format!("{:?}", iter);
+}
+
+#[test]
+fn array_combinations_clone() {
+    let mut iter = (0..6).array_combinations::<2>();
+    let mut iter2 = iter.clone();
+    assert_eq!(iter.next(), Some([0, 1]));
+    assert_eq!(iter2.next(), Some([0, 1]));
+}
+
+#[test]
 #[should_panic]
 fn array_combinations_zero_k() {
     let _it = (1..5).array_combinations::<0>();

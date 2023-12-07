@@ -1,3 +1,5 @@
+use core::fmt;
+use core::fmt::Debug;
 use core::iter::{Cycle, FusedIterator};
 
 use crate::{ArrayWindows, IterArrayWindows};
@@ -65,7 +67,6 @@ impl<I: ?Sized> IterCircularArrayWindows for I where I: Iterator {}
 pub struct CircularArrayWindows<I, const N: usize>
 where
     I: Iterator + Clone,
-    I::Item: Clone,
 {
     iter: ArrayWindows<Cycle<I>, N>,
     len: usize,
@@ -80,6 +81,32 @@ where
         let len = iter.len();
         let iter = iter.cycle().array_windows();
         Self { iter, len }
+    }
+}
+
+impl<I, const N: usize> Debug for CircularArrayWindows<I, N>
+where
+    I: Iterator + Clone + Debug,
+    I::Item: Clone + Debug,
+{
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_struct("CircularArrayWindows")
+            .field("iter", &self.iter)
+            .field("len", &self.len)
+            .finish()
+    }
+}
+
+impl<I, const N: usize> Clone for CircularArrayWindows<I, N>
+where
+    I: Iterator + Clone,
+    I::Item: Clone,
+{
+    fn clone(&self) -> Self {
+        Self {
+            iter: self.iter.clone(),
+            len: self.len,
+        }
     }
 }
 
