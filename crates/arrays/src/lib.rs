@@ -18,10 +18,16 @@
 #![no_std]
 #![warn(unsafe_op_in_unsafe_fn)]
 
+mod into_iter;
+mod transmute;
+
 use core::hint;
 use core::mem;
 use core::mem::MaybeUninit;
 use core::ptr;
+
+pub use crate::into_iter::IntoIter;
+use crate::transmute::transmute_unchecked;
 
 /// Consumes `N` elements from the iterator and returns them as an array. If the
 /// iterator yields fewer than `N` items, `None` is returned and all already
@@ -113,16 +119,4 @@ where
         // SAFETY: Guaranteed by the caller.
         unsafe { hint::unreachable_unchecked() },
     }
-}
-
-/// Size-heterogeneous transmutation.
-///
-/// This is required because the compiler doesn't yet know how to deal with the
-/// size of const arrays. We should be able to use [`mem::transmute()`] but it
-/// doesn't work yet :(.
-#[inline]
-unsafe fn transmute_unchecked<A, B>(a: A) -> B {
-    let b = unsafe { ptr::read(&a as *const A as *const B) };
-    mem::forget(a);
-    b
 }
