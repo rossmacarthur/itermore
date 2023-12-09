@@ -1,3 +1,5 @@
+pub use arrays::IntoIter;
+
 /// An extension trait that provides the [`next_chunk`] method for iterators.
 ///
 /// **Note:** the method provided here has a nightly API:
@@ -9,21 +11,22 @@ pub trait IterNextChunk: Iterator {
     /// Advances the iterator and returns an array containing the next `N`
     /// values.
     ///
-    /// If there are not enough elements to fill the array then `None` is
-    /// returned.
+    /// If there are not enough elements to fill the array then `Err` is
+    /// returned containing the already yielded items.
     ///
     /// # Examples
     ///
     /// Basic usage:
     ///
     /// ```
+    /// # #![allow(unstable_name_collisions)]
     /// use itermore::IterNextChunk;
     ///
     /// let mut iter = "lorem".chars();
     ///
-    /// assert_eq!(iter.next_chunk().unwrap(), ['l', 'o']);              // N is inferred as 2
-    /// assert_eq!(iter.next_chunk().unwrap(), ['r', 'e', 'm']);         // N is inferred as 3
-    /// assert!(iter.next_chunk::<4>().is_none()); // N is explicitly 4
+    /// assert_eq!(iter.next_chunk().unwrap(), ['l', 'o']);      // N is inferred as 2
+    /// assert_eq!(iter.next_chunk().unwrap(), ['r', 'e', 'm']); // N is inferred as 3
+    /// assert!(iter.next_chunk::<4>().is_err());                // N is explicitly 4
     /// ```
     ///
     /// Split a string and get the first three items.
@@ -38,21 +41,21 @@ pub trait IterNextChunk: Iterator {
     /// assert_eq!(third, "those");
     /// ```
     #[inline]
-    fn next_chunk<const N: usize>(&mut self) -> Option<[Self::Item; N]>
+    fn next_chunk<const N: usize>(&mut self) -> Result<[Self::Item; N], IntoIter<Self::Item, N>>
     where
         Self: Sized,
     {
-        arrays::next_chunk(self).ok()
+        arrays::next_chunk(self)
     }
 
     /// Identical to [`next_chunk`][IterNextChunk::next_chunk] but doesn't
     /// collide with the standard library name.
     #[inline]
-    fn next_array<const N: usize>(&mut self) -> Option<[Self::Item; N]>
+    fn next_array<const N: usize>(&mut self) -> Result<[Self::Item; N], IntoIter<Self::Item, N>>
     where
         Self: Sized,
     {
-        arrays::next_chunk(self).ok()
+        arrays::next_chunk(self)
     }
 }
 

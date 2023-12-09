@@ -1,5 +1,7 @@
 use core::iter::FusedIterator;
 
+use arrays::IntoIter;
+
 /// An extension trait that provides the [`array_chunks`] method for iterators.
 ///
 /// Note: the method provided here has a nightly API:
@@ -50,7 +52,8 @@ pub trait IterArrayChunks: Iterator {
 
     /// Identical to [`array_chunks`][IterArrayChunks::array_chunks] but doesn't
     /// collide with the standard library name.
-    fn array_chunked<const N: usize>(self) -> ArrayChunks<Self, N>
+    #[inline]
+    fn arrays<const N: usize>(self) -> ArrayChunks<Self, N>
     where
         Self: Sized,
     {
@@ -69,8 +72,12 @@ impl<I: ?Sized> IterArrayChunks for I where I: Iterator {}
 #[cfg_attr(docsrs, doc(cfg(feature = "array_chunks")))]
 #[derive(Debug, Clone)]
 #[must_use = "iterators are lazy and do nothing unless consumed"]
-pub struct ArrayChunks<I, const N: usize> {
+pub struct ArrayChunks<I, const N: usize>
+where
+    I: Iterator,
+{
     iter: I,
+    remainder: Option<IntoIter<I::Item, N>>,
 }
 
 impl<I, const N: usize> ArrayChunks<I, N>
@@ -80,7 +87,18 @@ where
     #[track_caller]
     fn new(iter: I) -> Self {
         assert!(N != 0, "chunk size must be non-zero");
-        Self { iter }
+        Self {
+            iter,
+            remainder: None,
+        }
+    }
+
+    /// Returns an iterator over the remaining elements of the original iterator
+    /// that are not going to be yielded. The returned iterator will yield at
+    /// most `N-1` elements. Returns `None` if the remainder is not yet known.
+    #[inline]
+    pub fn into_remainder(self) -> Option<IntoIter<I::Item, N>> {
+        self.remainder
     }
 }
 
@@ -92,8 +110,14 @@ where
 
     #[inline]
     fn next(&mut self) -> Option<Self::Item> {
-        let Self { iter } = self;
-        arrays::next_chunk(iter).ok()
+        let Self { iter, remainder } = self;
+        match arrays::next_chunk(iter) {
+            Ok(chunk) => Some(chunk),
+            Err(rem) => {
+                remainder.get_or_insert(rem);
+                None
+            }
+        }
     }
 
     #[inline]
@@ -114,8 +138,8 @@ where
 {
     #[inline]
     fn next_back(&mut self) -> Option<Self::Item> {
-        let rem = self.iter.len() % N;
-        let mut rev = self.iter.by_ref().rev().skip(rem);
+        self.next_back_remainder();
+        let mut rev = self.iter.by_ref().rev();
         let mut chunk = arrays::next_chunk(&mut rev).ok()?;
         chunk.reverse();
         Some(chunk)
@@ -129,6 +153,28 @@ where
     #[inline]
     fn len(&self) -> usize {
         self.iter.len() / N
+    }
+}
+
+impl<I, const N: usize> ArrayChunks<I, N>
+where
+    I: DoubleEndedIterator + ExactSizeIterator,
+{
+    /// Updates `self.remainder` such that `self.iter.len` is divisible by `N`.
+    #[inline]
+    fn next_back_remainder(&mut self) {
+        if self.remainder.is_some() {
+            return;
+        }
+
+        let rem = self.iter.len() % N;
+        let mut rev = self.iter.by_ref().rev().take(rem);
+        // SAFETY: `unwrap_err` always succeeds because x % N < N for all x.
+        let mut remainder = unsafe { arrays::next_chunk(&mut rev).unwrap_err_unchecked() };
+
+        // We used `.rev()` above, so we need to re-reverse the remainder.
+        remainder.as_mut_slice().reverse();
+        self.remainder = Some(remainder);
     }
 }
 
