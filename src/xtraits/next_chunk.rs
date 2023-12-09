@@ -42,7 +42,7 @@ pub trait IterNextChunk: Iterator {
     where
         Self: Sized,
     {
-        arrays::collect(self).ok()
+        arrays::next_chunk(self).ok()
     }
 
     /// Identical to [`next_chunk`][IterNextChunk::next_chunk] but doesn't
@@ -52,7 +52,7 @@ pub trait IterNextChunk: Iterator {
     where
         Self: Sized,
     {
-        arrays::collect(self).ok()
+        arrays::next_chunk(self).ok()
     }
 }
 

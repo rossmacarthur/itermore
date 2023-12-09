@@ -102,7 +102,7 @@ where
         self.0.fill_next_with_reps().map(|it| {
             // SAFETY: The iterator is guaranteed to yield K elements because
             // it is derived from `self.0.comb` which is an array of length K.
-            unsafe { arrays::collect_unchecked(it) }
+            unsafe { arrays::next_chunk_unchecked(it) }
         })
     }
 }

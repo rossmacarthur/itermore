@@ -6,7 +6,7 @@
 [![Docs.rs Latest](https://badgers.space/badge/docs.rs/latest/blue)](https://docs.rs/arrays)
 [![Build Status](https://badgers.space/github/checks/rossmacarthur/itermore?label=build)](https://github.com/rossmacarthur/itermore/actions/workflows/build.yaml)
 
-Collect an iterator into an array
+Get the next N items of an iterator as an array.
 
 ## Getting started
 
@@ -16,10 +16,10 @@ Add the `arrays` crate to your Cargo manifest.
 cargo add arrays
 ```
 
-Now collect any iterator into an array.
+Now get the next N items.
 
 ```rust
-let arr: [_; 3] = arrays::collect(iter).unwrap();
+let arr: [_; 3] = arrays::next_chunk(iter).unwrap();
 ```
 
 ## License
