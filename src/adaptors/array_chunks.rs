@@ -93,7 +93,7 @@ where
     #[inline]
     fn next(&mut self) -> Option<Self::Item> {
         let Self { iter } = self;
-        arrays::collect(iter)
+        arrays::collect(iter).ok()
     }
 
     #[inline]
@@ -116,7 +116,7 @@ where
     fn next_back(&mut self) -> Option<Self::Item> {
         let rem = self.iter.len() % N;
         let mut rev = self.iter.by_ref().rev().skip(rem);
-        let mut chunk = arrays::collect(&mut rev)?;
+        let mut chunk = arrays::collect(&mut rev).ok()?;
         chunk.reverse();
         Some(chunk)
     }

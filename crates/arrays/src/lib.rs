@@ -26,32 +26,30 @@ use core::mem;
 use core::mem::MaybeUninit;
 use core::ptr;
 
-pub use crate::into_iter::IntoIter;
 use crate::transmute::transmute_unchecked;
 
+pub use crate::into_iter::IntoIter;
+
 /// Consumes `N` elements from the iterator and returns them as an array. If the
-/// iterator yields fewer than `N` items, `None` is returned and all already
-/// yielded items are dropped.
+/// iterator yields fewer than `N` items, `Err` is returned containing the
+/// already yielded items.
 ///
 /// # Panics
 ///
 /// If the iterator panics then all already yielded elements will be dropped.
-///
-// Based on the array collect implementation in the Rust standard library.
-// https://github.com/rust-lang/rust/blob/master/library/core/src/array/mod.rs#L476-L531
 #[inline]
-pub fn collect<I, T, const N: usize>(mut iter: I) -> Option<[T; N]>
+pub fn collect<I, T, const N: usize>(mut iter: I) -> Result<[T; N], IntoIter<T, N>>
 where
     I: Iterator<Item = T>,
 {
     struct Guard<'a, T, const N: usize> {
-        array: &'a mut [MaybeUninit<T>; N],
+        arr: &'a mut [MaybeUninit<T>; N],
         init: usize,
     }
 
     impl<T, const N: usize> Drop for Guard<'_, T, N> {
         fn drop(&mut self) {
-            for elem in &mut self.array.as_mut_slice()[..self.init] {
+            for elem in &mut self.arr.as_mut_slice()[..self.init] {
                 // SAFETY: this raw slice up to `self.len` will only contain
                 // the initialized objects.
                 unsafe { ptr::drop_in_place(elem.as_mut_ptr()) };
@@ -66,13 +64,13 @@ where
     // This is not the most ideal way of doing this. In the future when Rust
     // allows inline const expressions we might be able to use the following.
     //
-    //      let mut array = [const { MaybeUninit::<T>::uninit() }; N];
+    //      let mut arr = [const { MaybeUninit::<T>::uninit() }; N];
     //
     // See https://doc.rust-lang.org/std/mem/union.MaybeUninit.html#initializing-an-array-element-by-element
-    let mut array: [MaybeUninit<T>; N] = unsafe { MaybeUninit::uninit().assume_init() };
+    let mut arr: [MaybeUninit<T>; N] = unsafe { MaybeUninit::uninit().assume_init() };
 
     let mut guard = Guard {
-        array: &mut array,
+        arr: &mut arr,
         init: 0,
     };
 
@@ -82,12 +80,16 @@ where
                 // SAFETY: `guard.init` starts at zero, is increased by 1 each
                 // iteration of the loop, and the loop is aborted once M * N
                 // is reached, which is the length of the array.
-                unsafe { guard.array.get_unchecked_mut(guard.init).write(item) };
+                unsafe { guard.arr.get_unchecked_mut(guard.init) }.write(item);
                 guard.init += 1;
             }
             None => {
-                return None;
-                // <-- guard is dropped here with already initialized elements
+                let init = guard.init;
+                mem::forget(guard);
+                // SAFETY: Exactly `guard.init` elements of `arr` have been
+                // initialized.
+                let rem = unsafe { IntoIter::new_unchecked(arr, 0..init) };
+                return Err(rem);
             }
         }
     }
@@ -95,7 +97,7 @@ where
     mem::forget(guard);
     // SAFETY: the loop above loops exactly N times which is the size of the
     // array, so all elements in the array are initialized.
-    Some(unsafe { transmute_unchecked(array) })
+    Ok(unsafe { transmute_unchecked(arr) })
 }
 
 /// Consumes `N` elements from the iterator and returns them as an array.
@@ -103,7 +105,7 @@ where
 /// # Safety
 ///
 /// This function is the same as [`collect`] but the caller must guarantee that
-/// the iterator yields at least N items.
+/// the iterator yields at least N items or panic.
 ///
 /// # Panics
 ///
@@ -114,8 +116,8 @@ where
     I: Iterator<Item = T>,
 {
     match collect(iter) {
-        Some(arr) => arr,
-        None =>
+        Ok(arr) => arr,
+        Err(_) =>
         // SAFETY: Guaranteed by the caller.
         unsafe { hint::unreachable_unchecked() },
     }
