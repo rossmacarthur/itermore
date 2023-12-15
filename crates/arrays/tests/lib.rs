@@ -5,7 +5,7 @@ use std::sync::atomic::Ordering;
 #[test]
 fn next_chunk_fewer() {
     let iter = [1, 2, 3].into_iter();
-    let res: Result<[i32; 4], _> = arrays::next_chunk(iter);
+    let res: Result<[i32; 4], _> = arrays::from_iter(iter);
     let mut rem = res.unwrap_err();
     assert_eq!(rem.next(), Some(1));
     assert_eq!(rem.next(), Some(2));
@@ -33,7 +33,7 @@ fn next_chunk_panic() {
     });
 
     let res = panic::catch_unwind(|| {
-        let _: [Foo; 3] = arrays::next_chunk(iter).unwrap();
+        let _: [Foo; 3] = arrays::from_iter(iter).unwrap();
     });
     assert!(res.is_err());
     assert_eq!(DROP_COUNT.load(Ordering::SeqCst), 3);
@@ -60,7 +60,7 @@ fn next_chunk_unchecked_panic() {
     });
 
     let res = panic::catch_unwind(|| {
-        let _: [Foo; 3] = unsafe { arrays::next_chunk_unchecked(iter) };
+        let _: [Foo; 3] = unsafe { arrays::from_iter_unchecked(iter) };
     });
     assert!(res.is_err());
     assert_eq!(DROP_COUNT.load(Ordering::SeqCst), 3);

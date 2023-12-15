@@ -69,7 +69,7 @@ where
         assert!(K != 0, "combination size must be non-zero");
 
         // SAFETY: The range 0..K yields at least K elements.
-        let comb = unsafe { arrays::next_chunk_unchecked(0..K) };
+        let comb = unsafe { arrays::from_iter_unchecked(0..K) };
 
         Self(GenericCombinations::new(iter, comb))
     }
@@ -106,7 +106,7 @@ where
         self.0.fill_next().map(|it| {
             // SAFETY: The iterator is guaranteed to yield K elements because
             // it is derived from `self.0.comb` which is an array of length K.
-            unsafe { arrays::next_chunk_unchecked(it) }
+            unsafe { arrays::from_iter_unchecked(it) }
         })
     }
 }

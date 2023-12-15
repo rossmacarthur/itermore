@@ -1,4 +1,4 @@
-//! Get the next N items of an iterator as an array.
+//! Construct an array from an iterator and other helpers.
 //!
 //! # Getting started
 //!
@@ -8,11 +8,11 @@
 //! cargo add arrays
 //! ```
 //!
-//! Now get the next N items.
+//! Now get the next N items from an iterator.
 //!
 //! ```
 //! # let iter = 1..5;
-//! let arr: [_; 3] = arrays::next_chunk(iter).unwrap();
+//! let arr: [_; 3] = arrays::from_iter(iter).unwrap();
 //! ```
 
 #![no_std]
@@ -38,7 +38,7 @@ pub use crate::into_iter::IntoIter;
 ///
 /// If the iterator panics then all already yielded elements will be dropped.
 #[inline]
-pub fn next_chunk<I, T, const N: usize>(mut iter: I) -> Result<[T; N], IntoIter<T, N>>
+pub fn from_iter<I, T, const N: usize>(mut iter: I) -> Result<[T; N], IntoIter<T, N>>
 where
     I: Iterator<Item = T>,
 {
@@ -104,18 +104,18 @@ where
 ///
 /// # Safety
 ///
-/// This function is the same as [`next_chunk`] but the caller must guarantee
+/// This function is the same as [`from_iter`] but the caller must guarantee
 /// that the iterator yields at least N items or panic.
 ///
 /// # Panics
 ///
 /// If the iterator panics then all already yielded elements will be dropped.
 #[inline]
-pub unsafe fn next_chunk_unchecked<I, T, const N: usize>(iter: I) -> [T; N]
+pub unsafe fn from_iter_unchecked<I, T, const N: usize>(iter: I) -> [T; N]
 where
     I: Iterator<Item = T>,
 {
-    match next_chunk(iter) {
+    match from_iter(iter) {
         Ok(arr) => arr,
         Err(_) =>
         // SAFETY: Guaranteed by the caller.

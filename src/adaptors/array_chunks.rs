@@ -111,7 +111,7 @@ where
     #[inline]
     fn next(&mut self) -> Option<Self::Item> {
         let Self { iter, remainder } = self;
-        match arrays::next_chunk(iter) {
+        match arrays::from_iter(iter) {
             Ok(chunk) => Some(chunk),
             Err(rem) => {
                 remainder.get_or_insert(rem);
@@ -140,7 +140,7 @@ where
     fn next_back(&mut self) -> Option<Self::Item> {
         self.next_back_remainder();
         let mut rev = self.iter.by_ref().rev();
-        let mut chunk = arrays::next_chunk(&mut rev).ok()?;
+        let mut chunk = arrays::from_iter(&mut rev).ok()?;
         chunk.reverse();
         Some(chunk)
     }
@@ -170,7 +170,7 @@ where
         let rem = self.iter.len() % N;
         let mut rev = self.iter.by_ref().rev().take(rem);
         // SAFETY: `unwrap_err` always succeeds because x % N < N for all x.
-        let mut remainder = unsafe { arrays::next_chunk(&mut rev).unwrap_err_unchecked() };
+        let mut remainder = unsafe { arrays::from_iter(&mut rev).unwrap_err_unchecked() };
 
         // We used `.rev()` above, so we need to re-reverse the remainder.
         remainder.as_mut_slice().reverse();

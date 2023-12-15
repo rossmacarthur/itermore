@@ -101,7 +101,7 @@ where
                 Some(last.clone())
             }
             None => {
-                let tmp = arrays::next_chunk(iter).ok()?;
+                let tmp = arrays::from_iter(iter).ok()?;
                 *last = Some(tmp.clone());
                 Some(tmp)
             }
