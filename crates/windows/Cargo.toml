@@ -12,7 +12,6 @@ keywords = ["no_std", "iterator", "windows"]
 categories = ["algorithms", "rust-patterns"]
 
 [dependencies.itermore]
-version = "0.6.0"
+version = "0.7.0"
 path = "../.."
-default-features = false
 features = ["array_windows"]
