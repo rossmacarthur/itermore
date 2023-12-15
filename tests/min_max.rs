@@ -57,3 +57,15 @@ fn min_max_by_key() {
     assert_eq!([3, 1, 2].into_iter().min_max_by_key(key), Some((3, 1)));
     assert_eq!([3, 2, 1].into_iter().min_max_by_key(key), Some((3, 1)));
 }
+
+#[test]
+fn min_max_shuffled() {
+    use rand::prelude::*;
+    let mut rng = rand::thread_rng();
+    let mut data = (0..100).collect::<Vec<_>>();
+    for _ in 0..100 {
+        data.shuffle(&mut rng);
+        assert_eq!(data.iter().copied().min_max(), Some((0, 99)));
+        assert_eq!(data.iter().copied().min_max_by_key(|x| -x), Some((99, 0)));
+    }
+}

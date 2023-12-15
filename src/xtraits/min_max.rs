@@ -99,7 +99,8 @@ where
         };
         if compare(&a, &min) == Ordering::Less {
             min = a;
-        } else if compare(&b, &max) == Ordering::Greater {
+        }
+        if compare(&b, &max) == Ordering::Greater {
             max = b;
         }
     }
