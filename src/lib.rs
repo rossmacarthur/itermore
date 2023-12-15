@@ -43,10 +43,16 @@
 //!
 //! ## Methods
 //!
+//! - [`collect_array`]: Collects an iterator into an array.
 //! - [`min_max`] and friends: Returns the minimum and maximum element of an
 //!   iterator.
 //! - [`next_chunk`]: Returns the next `N` elements of the iterator as an array.
 //! - [`sorted`] and friends: Returns a new iterator with all elements sorted.
+//!
+//! [`collect_array`]: IterCollectArray::collect_array
+//! [`min_max`]: IterMinMax::min_max
+//! [`next_chunk`]: IterNextChunk::next_chunk
+//! [`sorted`]: IterSorted::sorted
 //!
 //! ## Adaptors
 //!
@@ -69,7 +75,6 @@
 //!   combinations with repetitions/replacements of all the elements in the
 //!   underlying iterator.
 //!
-//! [`next_chunk`]: IterNextChunk::next_chunk
 //! [`array_chunks`]: IterArrayChunks::array_chunks
 //! [`array_combinations`]: IterArrayCombinations::array_combinations
 //! [`array_combinations_with_reps`]: IterArrayCombinationsWithReps::array_combinations_with_reps
@@ -78,8 +83,6 @@
 //! [`circular_array_windows`]: IterCircularArrayWindows::circular_array_windows
 //! [`combinations`]: IterCombinations::combinations
 //! [`combinations_with_reps`]: IterCombinationsWithReps::combinations_with_reps
-//! [`min_max`]: IterMinMax::min_max
-//! [`sorted`]: IterSorted::sorted
 
 #![warn(unsafe_op_in_unsafe_fn)]
 #![cfg_attr(not(feature = "alloc"), no_std)]
@@ -119,6 +122,9 @@ pub use crate::adaptors::cartesian_product::{CartesianProduct, IterCartesianProd
 
 #[cfg(feature = "circular_array_windows")]
 pub use crate::adaptors::circular_array_windows::{CircularArrayWindows, IterCircularArrayWindows};
+
+#[cfg(feature = "collect_array")]
+pub use crate::xtraits::collect_array::IterCollectArray;
 
 #[cfg(feature = "combinations")]
 pub use crate::adaptors::combinations::{Combinations, IterCombinations};
@@ -161,6 +167,9 @@ pub mod prelude {
 
     #[cfg(feature = "circular_array_windows")]
     pub use super::IterCircularArrayWindows;
+
+    #[cfg(feature = "collect_array")]
+    pub use super::IterCollectArray;
 
     #[cfg(feature = "combinations")]
     pub use super::IterCombinations;

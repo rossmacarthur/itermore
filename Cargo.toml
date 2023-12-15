@@ -39,13 +39,14 @@ full = [
     "std",
 
     "array_chunks",
-    "array_combinations",
     "array_combinations_with_reps",
+    "array_combinations",
     "array_windows",
     "cartesian_product",
     "circular_array_windows",
-    "combinations",
+    "collect_array",
     "combinations_with_reps",
+    "combinations",
     "min_max",
     "next_chunk",
     "sorted",
@@ -68,6 +69,9 @@ cartesian_product = []
 
 # Enables the `.circular_array_windows()` adaptor for iterators
 circular_array_windows = ["array_windows"]
+
+# Enables the `.collect_array()` method on iterators
+collect_array = ["dep:arrays"]
 
 # Enables the `.combinations()` adaptor for iterators
 combinations = ["alloc"]

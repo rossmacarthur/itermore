@@ -52,6 +52,7 @@ itermore = { version = "*", features = ["array_combinations"]}
 
 ### Methods
 
+- [`collect_array`]: Collects an iterator into an array.
 - [`min_max`] and friends: Returns the minimum and maximum element of an
   iterator.
 - [`next_chunk`]: Returns the next `N` elements of the iterator as an array.
@@ -80,6 +81,7 @@ itermore = { version = "*", features = ["array_combinations"]}
 
 [`array_windows`]: IterArrayWindows::array_windows
 [`array_combinations`]: IterArrayCombinations::array_combinations
+[`collect_array`]: IterCollectArray::collect_array
 [`min_max`]: IterMinMax::min_max
 [`next_chunk`]: IterNextChunk::next_chunk
 [`sorted`]: IterSorted::sorted
