@@ -12,6 +12,7 @@ repository = "https://github.com/rossmacarthur/itermore"
 license = "MIT OR Apache-2.0"
 keywords = ["iterator", "chunks", "windows"]
 categories = ["algorithms", "rust-patterns"]
+include = ["src/**/*", "LICENSE-*", "README.md"]
 
 [package.metadata.docs.rs]
 features = ["full"]
