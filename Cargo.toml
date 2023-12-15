@@ -3,7 +3,7 @@ members = ["crates/*"]
 
 [package]
 name = "itermore"
-version = "0.7.0"
+version = "0.7.1"
 authors = ["Ross MacArthur <ross@macarthur.io>"]
 edition = "2021"
 rust-version = "1.60"
