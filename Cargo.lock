@@ -24,25 +24,11 @@ dependencies = [
 ]
 
 [[package]]
-name = "iterchunks"
-version = "0.5.0"
-dependencies = [
- "itermore",
-]
-
-[[package]]
 name = "itermore"
 version = "0.7.1"
 dependencies = [
  "arrays",
  "rand",
-]
-
-[[package]]
-name = "iterwindows"
-version = "0.5.0"
-dependencies = [
- "itermore",
 ]
 
 [[package]]

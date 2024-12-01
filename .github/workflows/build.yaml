@@ -106,5 +106,3 @@ jobs:
       run: |
         cargo onedoc --check
         cargo onedoc --check --package arrays
-        cargo onedoc --check --package iterchunks
-        cargo onedoc --check --package iterwindows
