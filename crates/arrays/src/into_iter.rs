@@ -88,7 +88,7 @@ where
     #[inline]
     fn clone(&self) -> Self {
         let mut new = Self {
-            arr: unsafe { MaybeUninit::uninit().assume_init() },
+            arr: [const { MaybeUninit::uninit() }; N],
             init: 0..0,
         };
         for (src, dst) in iter::zip(self.as_slice(), &mut new.arr) {

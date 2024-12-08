@@ -57,18 +57,7 @@ where
         }
     }
 
-    // SAFETY: The `assume_init` is safe because the type we are claiming to
-    // have initialized here is a bunch of `MaybeUninit`s, which do not
-    // require initialization.
-    //
-    // This is not the most ideal way of doing this. In the future when Rust
-    // allows inline const expressions we might be able to use the following.
-    //
-    //      let mut arr = [const { MaybeUninit::<T>::uninit() }; N];
-    //
-    // See https://doc.rust-lang.org/std/mem/union.MaybeUninit.html#initializing-an-array-element-by-element
-    let mut arr: [MaybeUninit<T>; N] = unsafe { MaybeUninit::uninit().assume_init() };
-
+    let mut arr = [const { MaybeUninit::<T>::uninit() }; N];
     let mut guard = Guard {
         arr: &mut arr,
         init: 0,
