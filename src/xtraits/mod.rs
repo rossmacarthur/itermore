@@ -2,6 +2,8 @@
 pub mod collect_array;
 #[cfg(feature = "min_max")]
 pub mod min_max;
+#[cfg(feature = "multi_collect_array")]
+pub mod multi_collect_array;
 #[cfg(feature = "next_chunk")]
 pub mod next_chunk;
 #[cfg(feature = "sorted")]

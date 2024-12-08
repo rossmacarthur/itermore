@@ -83,6 +83,9 @@ combinations_with_reps = ["alloc"]
 # Enables the `.min_max()` and friends methods on iterators
 min_max = []
 
+# Enables the `.multi_collect_array()` method on iterators
+multi_collect_array = []
+
 # Enables the `.next_chunk()` method on iterators
 next_chunk = ["dep:arrays"]
 

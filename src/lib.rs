@@ -135,6 +135,9 @@ pub use crate::adaptors::combinations_with_reps::{CombinationsWithReps, IterComb
 #[cfg(feature = "min_max")]
 pub use crate::xtraits::min_max::IterMinMax;
 
+#[cfg(feature = "multi_collect_array")]
+pub use crate::xtraits::multi_collect_array::IterMultiCollectArray;
+
 #[cfg(feature = "next_chunk")]
 pub use crate::xtraits::next_chunk::IterNextChunk;
 
@@ -179,6 +182,9 @@ pub mod prelude {
 
     #[cfg(feature = "min_max")]
     pub use super::IterMinMax;
+
+    #[cfg(feature = "multi_collect_array")]
+    pub use super::IterMultiCollectArray;
 
     #[cfg(feature = "next_chunk")]
     pub use super::IterNextChunk;
