@@ -83,7 +83,7 @@ pub trait IterSorted: Iterator {
     ///
     /// Simply collects into a [`Vec`] and sorts it using
     /// [`slice::sort_unstable_by`].
-    fn sorted_unstabled_by<F>(self, cmp: F) -> IntoIter<Self::Item>
+    fn sorted_unstable_by<F>(self, cmp: F) -> IntoIter<Self::Item>
     where
         Self: Sized,
         F: FnMut(&Self::Item, &Self::Item) -> Ordering,
