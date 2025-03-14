@@ -78,17 +78,17 @@ fn array_chunks_remainder() {
     assert_eq!(iter.next(), Some([0, 1]));
     assert_eq!(iter.next(), Some([2, 3]));
     assert_eq!(iter.next(), None);
-    assert_eq!(iter.into_remainder().unwrap().collect::<Vec<_>>(), []);
+    assert_eq!(iter.into_remainder().collect::<Vec<_>>(), []);
 
     let mut iter = (0..5).array_chunks::<2>();
     assert_eq!(iter.next(), Some([0, 1]));
     assert_eq!(iter.next(), Some([2, 3]));
     assert_eq!(iter.next(), None);
-    assert_eq!(iter.into_remainder().unwrap().collect::<Vec<_>>(), [4]);
+    assert_eq!(iter.into_remainder().collect::<Vec<_>>(), [4]);
 
     let mut iter = (0..5).array_chunks::<2>();
     assert_eq!(iter.next(), Some([0, 1]));
-    assert!(iter.into_remainder().is_none());
+    assert_eq!(iter.into_remainder().collect::<Vec<_>>(), [4]);
 }
 
 #[test]
@@ -107,7 +107,7 @@ fn array_chunks_next_back_remainder() {
     assert_eq!(iter.next(), Some([0, 1]));
     assert_eq!(iter.next_back(), Some([4, 5]));
     assert_eq!(iter.next(), Some([2, 3]));
-    assert_eq!(iter.into_remainder().unwrap().collect::<Vec<_>>(), [6]);
+    assert_eq!(iter.into_remainder().collect::<Vec<_>>(), [6]);
 }
 
 #[allow(clippy::iter_nth_zero)]

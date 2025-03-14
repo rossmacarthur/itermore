@@ -95,10 +95,13 @@ where
 
     /// Returns an iterator over the remaining elements of the original iterator
     /// that are not going to be yielded. The returned iterator will yield at
-    /// most `N-1` elements. Returns `None` if the remainder is not yet known.
+    /// most `N-1` elements.
     #[inline]
-    pub fn into_remainder(self) -> Option<IntoIter<I::Item, N>> {
-        self.remainder
+    pub fn into_remainder(mut self) -> IntoIter<I::Item, N> {
+        if self.remainder.is_none() {
+            while let Some(_) = self.next() {}
+        }
+        self.remainder.unwrap()
     }
 }
 
