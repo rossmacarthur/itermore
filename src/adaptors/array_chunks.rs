@@ -99,7 +99,7 @@ where
     #[inline]
     pub fn into_remainder(mut self) -> IntoIter<I::Item, N> {
         if self.remainder.is_none() {
-            while let Some(_) = self.next() {}
+            self.by_ref().for_each(drop);
         }
         self.remainder.unwrap()
     }
