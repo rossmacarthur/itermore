@@ -1,0 +1,13 @@
+[links]
+"array_windows" = "https://docs.rs/itermore/latest/itermore/trait.IterArrayWindows.html#method.array_windows"
+"array_combinations" = "https://docs.rs/itermore/latest/itermore/trait.IterArrayCombinations.html#method.array_combinations"
+"collect_array" = "https://docs.rs/itermore/latest/itermore/trait.IterCollectArray.html#method.collect_array"
+"min_max" = "https://docs.rs/itermore/latest/itermore/trait.IterMinMax.html#method.min_max"
+"next_chunk" = "https://docs.rs/itermore/latest/itermore/trait.IterNextChunk.html#method.next_chunk"
+"sorted" = "https://docs.rs/itermore/latest/itermore/trait.IterSorted.html#method.sorted"
+"array_chunks" = "https://docs.rs/itermore/latest/itermore/trait.IterArrayChunks.html#method.array_chunks"
+"array_combinations_with_reps" = "https://docs.rs/itermore/latest/itermore/trait.IterArrayCombinationsWithReps.html#method.array_combinations_with_reps"
+"cartesian_product" = "https://docs.rs/itermore/latest/itermore/trait.IterCartesianProduct.html#method.cartesian_product"
+"circular_array_windows" = "https://docs.rs/itermore/latest/itermore/trait.IterCircularArrayWindows.html#method.circular_array_windows"
+"combinations" = "https://docs.rs/itermore/latest/itermore/trait.IterCombinations.html#method.combinations"
+"combinations_with_reps" = "https://docs.rs/itermore/latest/itermore/trait.IterCombinationsWithReps.html#method.combinations_with_reps"
