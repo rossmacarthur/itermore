@@ -4,7 +4,6 @@ use core::iter::FusedIterator;
 /// iterators.
 ///
 /// [`cartesian_product`]: IterCartesianProduct::cartesian_product
-#[cfg_attr(docsrs, doc(cfg(feature = "cartesian_product")))]
 pub trait IterCartesianProduct: Iterator {
     /// Returns an iterator adaptor that iterates over the cartesian product of
     /// the element sets of two iterators `self` and `other.into_iter()`.
@@ -37,7 +36,6 @@ impl<I: ?Sized> IterCartesianProduct for I where I: Iterator {}
 /// its documentation for more.
 ///
 /// [`cartesian_product`]: IterCartesianProduct::cartesian_product
-#[cfg_attr(docsrs, doc(cfg(feature = "cartesian_product")))]
 #[derive(Debug, Clone)]
 #[must_use = "iterators are lazy and do nothing unless consumed"]
 pub struct CartesianProduct<I, J>
@@ -143,7 +141,6 @@ where
 /// ```
 ///
 /// [`cartesian_product`]: IterCartesianProduct::cartesian_product
-#[cfg_attr(docsrs, doc(cfg(feature = "cartesian_product")))]
 #[macro_export]
 macro_rules! cartesian_product {
     ($I:expr $(,)?) => {

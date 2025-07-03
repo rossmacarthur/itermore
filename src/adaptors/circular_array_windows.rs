@@ -4,7 +4,6 @@ use core::iter::{Cycle, FusedIterator};
 
 use crate::{ArrayWindows, IterArrayWindows};
 
-#[cfg_attr(docsrs, doc(cfg(feature = "circular_array_windows")))]
 pub trait IterCircularArrayWindows: Iterator {
     /// Returns an iterator over all contiguous windows of length `N` wrapping
     /// back to the first elements when the window would otherwise exceed the
@@ -62,7 +61,6 @@ impl<I: ?Sized> IterCircularArrayWindows for I where I: Iterator {}
 /// iterators. See its documentation for more.
 ///
 /// [`circular_array_windows`]: IterCircularArrayWindows::circular_array_windows
-#[cfg_attr(docsrs, doc(cfg(feature = "circular_array_windows")))]
 #[must_use = "iterators are lazy and do nothing unless consumed"]
 pub struct CircularArrayWindows<I, const N: usize>
 where

@@ -8,7 +8,6 @@ use crate::adaptors::generic_combinations::GenericCombinations;
 /// iterators.
 ///
 /// [`array_combinations`]: IterArrayCombinations::array_combinations
-#[cfg_attr(docsrs, doc(cfg(feature = "array_combinations")))]
 pub trait IterArrayCombinations: Iterator {
     /// Returns an iterator adaptor that iterates over `K` length combinations
     /// of all the elements in the underlying iterator.
@@ -53,7 +52,6 @@ impl<I: ?Sized> IterArrayCombinations for I where I: Iterator {}
 /// See its documentation for more.
 ///
 /// [`array_combinations`]: IterArrayCombinations::array_combinations
-#[cfg_attr(docsrs, doc(cfg(feature = "array_combinations")))]
 #[must_use = "iterators are lazy and do nothing unless consumed"]
 pub struct ArrayCombinations<I, const K: usize>(GenericCombinations<I, [usize; K]>)
 where

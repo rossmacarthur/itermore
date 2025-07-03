@@ -7,7 +7,6 @@ use crate::adaptors::generic_combinations::GenericCombinations;
 /// An extension trait that provides the [`combinations`] method for iterators.
 ///
 /// [`combinations`]: IterCombinations::combinations
-#[cfg_attr(docsrs, doc(cfg(feature = "combinations")))]
 pub trait IterCombinations: Iterator {
     /// Returns an iterator adaptor that iterates over `k` length combinations
     /// of all the elements in the underlying iterator.
@@ -52,7 +51,6 @@ impl<I: ?Sized> IterCombinations for I where I: Iterator {}
 /// See its documentation for more.
 ///
 /// [`combinations`]: IterCombinations::combinations
-#[cfg_attr(docsrs, doc(cfg(feature = "combinations")))]
 #[must_use = "iterators are lazy and do nothing unless consumed"]
 pub struct Combinations<I>(GenericCombinations<I, Vec<usize>>)
 where

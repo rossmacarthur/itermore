@@ -1,14 +1,17 @@
 /// An extension trait that provides the [`collect_array`] method for iterators.
 ///
 /// [`collect_array`]: IterCollectArray::collect_array
-#[cfg_attr(docsrs, doc(cfg(feature = "collect_array")))]
 pub trait IterCollectArray: Iterator {
     /// Consumes the entire iterator collecting it into an array.
     ///
     /// # Panics
     ///
     /// If the iterator contains too little or too many elements to fit in the
-    /// array.
+    /// array. If you want to handle these cases, use [`next_chunk`] which
+    /// supports returning the remainder and doesn't panic if there are too many
+    /// elements.
+    ///
+    /// [`next_chunk`]: crate::IterNextChunk::next_chunk
     ///
     /// # Examples
     ///

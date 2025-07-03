@@ -104,41 +104,53 @@ pub use crate::flatten_tuple::flatten_tuple;
 pub use core;
 
 #[cfg(feature = "array_chunks")]
+#[cfg_attr(docsrs, doc(cfg(feature = "array_chunks")))]
 pub use crate::adaptors::array_chunks::{ArrayChunks, IterArrayChunks};
 
 #[cfg(feature = "array_combinations")]
+#[cfg_attr(docsrs, doc(cfg(feature = "array_combinations")))]
 pub use crate::adaptors::array_combinations::{ArrayCombinations, IterArrayCombinations};
 
 #[cfg(feature = "array_combinations_with_reps")]
+#[cfg_attr(docsrs, doc(cfg(feature = "array_combinations_with_reps")))]
 pub use crate::adaptors::array_combinations_with_reps::{
     ArrayCombinationsWithReps, IterArrayCombinationsWithReps,
 };
 
 #[cfg(feature = "array_windows")]
+#[cfg_attr(docsrs, doc(cfg(feature = "array_windows")))]
 pub use crate::adaptors::array_windows::{ArrayWindows, IterArrayWindows};
 
 #[cfg(feature = "cartesian_product")]
+#[cfg_attr(docsrs, doc(cfg(feature = "cartesian_product")))]
 pub use crate::adaptors::cartesian_product::{CartesianProduct, IterCartesianProduct};
 
 #[cfg(feature = "circular_array_windows")]
+#[cfg_attr(docsrs, doc(cfg(feature = "circular_array_windows")))]
 pub use crate::adaptors::circular_array_windows::{CircularArrayWindows, IterCircularArrayWindows};
 
 #[cfg(feature = "collect_array")]
+#[cfg_attr(docsrs, doc(cfg(feature = "collect_array")))]
 pub use crate::xtraits::collect_array::IterCollectArray;
 
 #[cfg(feature = "combinations")]
+#[cfg_attr(docsrs, doc(cfg(feature = "combinations")))]
 pub use crate::adaptors::combinations::{Combinations, IterCombinations};
 
 #[cfg(feature = "combinations_with_reps")]
+#[cfg_attr(docsrs, doc(cfg(feature = "combinations_with_reps")))]
 pub use crate::adaptors::combinations_with_reps::{CombinationsWithReps, IterCombinationsWithReps};
 
 #[cfg(feature = "min_max")]
+#[cfg_attr(docsrs, doc(cfg(feature = "min_max")))]
 pub use crate::xtraits::min_max::IterMinMax;
 
 #[cfg(feature = "next_chunk")]
+#[cfg_attr(docsrs, doc(cfg(feature = "next_chunk")))]
 pub use crate::xtraits::next_chunk::IterNextChunk;
 
 #[cfg(feature = "sorted")]
+#[cfg_attr(docsrs, doc(cfg(feature = "sorted")))]
 pub use crate::xtraits::sorted::IterSorted;
 
 /// Re-exports all iterator extension traits.
@@ -151,38 +163,50 @@ pub use crate::xtraits::sorted::IterSorted;
 /// root.
 pub mod prelude {
     #[cfg(feature = "array_chunks")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "array_chunks")))]
     pub use super::IterArrayChunks;
 
     #[cfg(feature = "array_combinations")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "array_combinations")))]
     pub use super::IterArrayCombinations;
 
     #[cfg(feature = "array_combinations_with_reps")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "array_combinations_with_reps")))]
     pub use super::IterArrayCombinationsWithReps;
 
     #[cfg(feature = "array_windows")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "array_windows")))]
     pub use super::IterArrayWindows;
 
     #[cfg(feature = "cartesian_product")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "cartesian_product")))]
     pub use super::IterCartesianProduct;
 
     #[cfg(feature = "circular_array_windows")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "circular_array_windows")))]
     pub use super::IterCircularArrayWindows;
 
     #[cfg(feature = "collect_array")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "collect_array")))]
     pub use super::IterCollectArray;
 
     #[cfg(feature = "combinations")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "combinations")))]
     pub use super::IterCombinations;
 
     #[cfg(feature = "combinations_with_reps")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "combinations_with_reps")))]
     pub use super::IterCombinationsWithReps;
 
     #[cfg(feature = "min_max")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "min_max")))]
     pub use super::IterMinMax;
 
     #[cfg(feature = "next_chunk")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "next_chunk")))]
     pub use super::IterNextChunk;
 
     #[cfg(feature = "sorted")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "sorted")))]
     pub use super::IterSorted;
 }

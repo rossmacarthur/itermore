@@ -6,7 +6,6 @@ pub use arrays::IntoIter;
 /// [`Iterator::next_chunk`].
 ///
 /// [`next_chunk`]: IterNextChunk::next_chunk
-#[cfg_attr(docsrs, doc(cfg(feature = "next_chunk")))]
 pub trait IterNextChunk: Iterator {
     /// Advances the iterator and returns an array containing the next `N`
     /// values.

@@ -4,12 +4,11 @@ use arrays::IntoIter;
 
 /// An extension trait that provides the [`array_chunks`] method for iterators.
 ///
-/// Note: the method provided here has a nightly API:
-/// [`Iterator::array_chunks`]. The nightly API handles remainders better and
-/// will likely have better performance, so it should be preferred if possible.
+/// **Note:** the method provided here has a nightly API:
+/// [`Iterator::array_chunks`]. The nightly API will likely have better
+/// performance, so it should be preferred if possible.
 ///
 /// [`array_chunks`]: IterArrayChunks::array_chunks
-#[cfg_attr(docsrs, doc(cfg(feature = "array_chunks")))]
 pub trait IterArrayChunks: Iterator {
     /// Returns an iterator over `N` elements of the iterator at a time.
     ///
@@ -69,7 +68,6 @@ impl<I: ?Sized> IterArrayChunks for I where I: Iterator {}
 /// documentation for more.
 ///
 /// [`array_chunks`]: IterArrayChunks::array_chunks
-#[cfg_attr(docsrs, doc(cfg(feature = "array_chunks")))]
 #[derive(Debug, Clone)]
 #[must_use = "iterators are lazy and do nothing unless consumed"]
 pub struct ArrayChunks<I, const N: usize>
