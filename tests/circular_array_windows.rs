@@ -5,7 +5,7 @@ use itermore::prelude::*;
 #[test]
 fn circular_array_windows_debug() {
     let iter = (0..6).circular_array_windows::<2>();
-    let _ = format!("{:?}", iter);
+    let _ = format!("{iter:?}");
 }
 
 #[test]

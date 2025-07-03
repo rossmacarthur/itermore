@@ -31,13 +31,13 @@ pub trait IterCollectArray: Iterator {
         match arrays::from_iter(self.by_ref()) {
             Ok(arr) => {
                 if self.next().is_some() {
-                    panic!("expected exactly {} elements, but collected more", N);
+                    panic!("expected exactly {N} elements, but collected more");
                 }
                 arr
             }
             Err(arr) => {
                 let got = arr.as_slice().len();
-                panic!("expected exactly {} elements, but collected {}", N, got);
+                panic!("expected exactly {N} elements, but collected {got}");
             }
         }
     }

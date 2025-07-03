@@ -9,7 +9,7 @@ use itermore::prelude::*;
 #[test]
 fn cartesian_product_debug() {
     let iter = (0..6).cartesian_product(0..6);
-    let _ = format!("{:?}", iter);
+    let _ = format!("{iter:?}");
 }
 
 #[test]

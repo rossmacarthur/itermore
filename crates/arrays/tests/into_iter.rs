@@ -35,7 +35,7 @@ fn into_iter_debug() {
     let arr: [i32; 3] = [1, 2, 3];
     let mut iter = arrays::IntoIter::new(arr);
     assert_eq!(iter.next(), Some(1));
-    assert_eq!(format!("{:?}", iter), "IntoIter([2, 3])");
+    assert_eq!(format!("{iter:?}"), "IntoIter([2, 3])");
 }
 
 #[test]

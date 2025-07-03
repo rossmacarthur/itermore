@@ -5,7 +5,7 @@ use itermore::prelude::*;
 #[test]
 fn combinations_with_reps_debug() {
     let iter = (0..6).combinations_with_reps(2);
-    let _ = format!("{:?}", iter);
+    let _ = format!("{iter:?}");
 }
 
 #[test]

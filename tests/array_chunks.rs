@@ -8,7 +8,7 @@ use itermore::prelude::*;
 #[test]
 fn array_chunks_debug() {
     let iter = (0..6).arrays::<2>();
-    let _ = format!("{:?}", iter);
+    let _ = format!("{iter:?}");
 }
 
 #[test]
