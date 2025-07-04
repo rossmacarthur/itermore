@@ -2,7 +2,7 @@
 
 ## 0.8.0
 
-*Unreleased*
+*July 4th, 2025*
 
 - [Force exhaustion in `ArrayChunks::into_remainder`][6ab487a9]. This follows
   the [upstream change](https://github.com/rust-lang/rust/pull/123406) in the
