@@ -2,7 +2,7 @@
 
 ## 0.2.1
 
-*Unreleased*
+*July 4th, 2025*
 
 - [Correct MSRV to 1.60][92874a44]
 
