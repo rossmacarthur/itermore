@@ -88,7 +88,6 @@
 //! [`combinations`]: IterCombinations::combinations
 //! [`combinations_with_reps`]: IterCombinationsWithReps::combinations_with_reps
 
-#![warn(unsafe_op_in_unsafe_fn)]
 #![cfg_attr(not(feature = "alloc"), no_std)]
 #![cfg_attr(docsrs, feature(doc_cfg))]
 

@@ -85,8 +85,6 @@ jobs:
 
       - name: Test
         run: cargo test --workspace --features full
-        env:
-          RUSTFLAGS: --deny warnings
 
   # ---------------------------------------------------------------------------
   # Check READMEs

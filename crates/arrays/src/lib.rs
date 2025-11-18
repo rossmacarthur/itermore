@@ -20,7 +20,6 @@
 //! This crate supports Rust 1.60 and above.
 
 #![no_std]
-#![warn(unsafe_op_in_unsafe_fn)]
 
 mod into_iter;
 mod transmute;

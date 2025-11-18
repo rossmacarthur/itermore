@@ -1,6 +1,10 @@
 [workspace]
 members = ["crates/*"]
 
+[workspace.lints.rust]
+elided_lifetimes_in_paths = "warn"
+unsafe_op_in_unsafe_fn = "warn"
+
 [package]
 name = "itermore"
 version = "0.8.0"
@@ -13,6 +17,9 @@ license = "MIT OR Apache-2.0"
 keywords = ["iterator", "chunks", "windows"]
 categories = ["algorithms", "rust-patterns"]
 include = ["src/**/*", "LICENSE-*", "README.md"]
+
+[lints]
+workspace = true
 
 [package.metadata.docs.rs]
 features = ["full"]
