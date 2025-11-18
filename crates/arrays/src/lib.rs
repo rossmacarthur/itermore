@@ -14,6 +14,10 @@
 //! # let iter = 1..5;
 //! let arr: [_; 3] = arrays::from_iter(iter).unwrap();
 //! ```
+//!
+//! # MSRV
+//!
+//! This crate supports Rust 1.60 and above.
 
 #![no_std]
 #![warn(unsafe_op_in_unsafe_fn)]

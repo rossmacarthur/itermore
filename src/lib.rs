@@ -39,6 +39,10 @@
 //! itermore = { version = "*", features = ["array_combinations"]}
 //! ```
 //!
+//! # MSRV
+//!
+//! This crate supports Rust 1.60 and above.
+//!
 //! # Provided functionality
 //!
 //! ## Methods
