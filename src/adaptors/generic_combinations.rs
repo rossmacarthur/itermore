@@ -98,7 +98,7 @@ where
                 // element in the buffer then we need to get another element
                 // from the iterator because the next combination will need this
                 // element.
-                let d = unsafe { self.comb.as_mut().last_mut().unwrap_unchecked() };
+                let d = self.comb.as_mut().last_mut().unwrap();
                 if *d == self.buf.len() - 1 {
                     if let Some(item) = self.iter.next() {
                         self.buf.push(item);

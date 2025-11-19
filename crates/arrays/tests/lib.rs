@@ -60,6 +60,7 @@ fn next_chunk_unchecked_panic() {
     });
 
     let res = panic::catch_unwind(|| {
+        // SAFETY: The iterator yields at least 3 elements
         let _: [Foo; 3] = unsafe { arrays::from_iter_unchecked(iter) };
     });
     assert!(res.is_err());

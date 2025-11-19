@@ -14,7 +14,9 @@ use core::ptr;
 /// alignment.
 #[inline]
 pub unsafe fn transmute_unchecked<A, B>(a: A) -> B {
-    let b = unsafe { ptr::read(&a as *const A as *const B) };
+    let src = &a as *const A as *const B;
+    // SAFETY: The caller ensures all the requirements are met
+    let b = unsafe { ptr::read(src) };
     mem::forget(a);
     b
 }

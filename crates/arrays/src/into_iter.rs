@@ -87,10 +87,11 @@ where
 {
     #[inline]
     fn clone(&self) -> Self {
-        let mut new = Self {
-            arr: unsafe { MaybeUninit::uninit().assume_init() },
-            init: 0..0,
-        };
+        // SAFETY: The `assume_init` is safe because the type we are claiming to
+        // have initialized here is a bunch of `MaybeUninit`s, which do not
+        // require initialization.
+        let arr = unsafe { MaybeUninit::uninit().assume_init() };
+        let mut new = Self { arr, init: 0..0 };
         for (src, dst) in iter::zip(self.as_slice(), &mut new.arr) {
             // Write the clone of the element into the new array, if the clone
             // panics we will correctly drop the elements that have already been
