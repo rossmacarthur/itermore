@@ -100,6 +100,7 @@ where
     I: Iterator + Clone,
     I::Item: Clone,
 {
+    #[inline]
     fn clone(&self) -> Self {
         Self {
             iter: self.iter.clone(),

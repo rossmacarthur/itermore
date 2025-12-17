@@ -10,6 +10,7 @@ pub trait IterSorted: Iterator {
     /// Sorts the iterator.
     ///
     /// Simply collects into a [`Vec`] and sorts it using [`slice::sort`].
+    #[inline]
     fn sorted(self) -> IntoIter<Self::Item>
     where
         Self: Sized,
@@ -23,6 +24,7 @@ pub trait IterSorted: Iterator {
     /// Sorts the iterator with a comparator function.
     ///
     /// Simply collects into a [`Vec`] and sorts it using [`slice::sort_by`].
+    #[inline]
     fn sorted_by<F>(self, cmp: F) -> IntoIter<Self::Item>
     where
         Self: Sized,
@@ -37,6 +39,7 @@ pub trait IterSorted: Iterator {
     ///
     /// Simply collects into a [`Vec`] and sorts it using
     /// [`slice::sort_by_key`].
+    #[inline]
     fn sorted_by_key<K, F>(self, f: F) -> IntoIter<Self::Item>
     where
         Self: Sized,
@@ -52,6 +55,7 @@ pub trait IterSorted: Iterator {
     ///
     /// Simply collects into a [`Vec`] and sorts it using
     /// [`slice::sort_by_cached_key`].
+    #[inline]
     fn sorted_by_cached_key<K, F>(self, f: F) -> IntoIter<Self::Item>
     where
         Self: Sized,
@@ -67,6 +71,7 @@ pub trait IterSorted: Iterator {
     ///
     /// Simply collects into a [`Vec`] and sorts it using
     /// [`slice::sort_unstable`].
+    #[inline]
     fn sorted_unstable(self) -> IntoIter<Self::Item>
     where
         Self: Sized,
@@ -82,6 +87,7 @@ pub trait IterSorted: Iterator {
     ///
     /// Simply collects into a [`Vec`] and sorts it using
     /// [`slice::sort_unstable_by`].
+    #[inline]
     fn sorted_unstable_by<F>(self, cmp: F) -> IntoIter<Self::Item>
     where
         Self: Sized,
@@ -97,6 +103,7 @@ pub trait IterSorted: Iterator {
     ///
     /// Simply collects into a [`Vec`] and sorts it using
     /// [`slice::sort_unstable_by_key`].
+    #[inline]
     fn sorted_unstable_by_key<K, F>(self, f: F) -> IntoIter<Self::Item>
     where
         Self: Sized,

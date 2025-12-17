@@ -18,6 +18,7 @@ pub trait IterMinMax: Iterator {
     ///
     /// [`min`]: Iterator::min
     /// [`max`]: Iterator::max
+    #[inline]
     fn min_max(self) -> Option<(Self::Item, Self::Item)>
     where
         Self: Sized,
@@ -32,6 +33,7 @@ pub trait IterMinMax: Iterator {
     /// See [`min_max`] for more details.
     ///
     /// [`min_max`]: IterMinMax::min_max
+    #[inline]
     fn min_max_by<F>(self, compare: F) -> Option<(Self::Item, Self::Item)>
     where
         Self: Sized,
@@ -49,6 +51,7 @@ pub trait IterMinMax: Iterator {
     /// [`min_max`]: IterMinMax::min_max
     //
     // FIXME: `Clone` bound on `K` is unnecessary but requires refactoring
+    #[inline]
     fn min_max_by_key<F, K>(self, mut key: F) -> Option<(Self::Item, Self::Item)>
     where
         Self: Sized,

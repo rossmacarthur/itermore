@@ -73,6 +73,7 @@ where
     I: Iterator + Clone,
     I::Item: Clone,
 {
+    #[inline]
     fn clone(&self) -> Self {
         Self(self.0.clone())
     }
@@ -95,6 +96,7 @@ where
 {
     type Item = Vec<I::Item>;
 
+    #[inline]
     fn next(&mut self) -> Option<Self::Item> {
         self.0.fill_next().map(Vec::from_iter)
     }

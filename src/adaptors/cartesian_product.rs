@@ -16,6 +16,7 @@ pub trait IterCartesianProduct: Iterator {
     /// let v = Vec::from_iter((0..3).cartesian_product("αβ".chars()));
     /// assert_eq!(v, [(0, 'α'), (0, 'β'), (1, 'α'), (1, 'β'), (2, 'α'), (2, 'β')]);
     /// ```
+    #[inline]
     fn cartesian_product<J>(self, other: J) -> CartesianProduct<Self, J::IntoIter>
     where
         Self: Sized,
@@ -71,6 +72,7 @@ where
 {
     type Item = (I::Item, J::Item);
 
+    #[inline]
     fn next(&mut self) -> Option<Self::Item> {
         let b_item = match self.b_curr.next() {
             Some(b_item) => b_item,

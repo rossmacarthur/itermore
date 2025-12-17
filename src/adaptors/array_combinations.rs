@@ -78,6 +78,7 @@ where
     I: Iterator + Clone,
     I::Item: Clone,
 {
+    #[inline]
     fn clone(&self) -> Self {
         Self(self.0.clone())
     }
@@ -100,6 +101,7 @@ where
 {
     type Item = [I::Item; K];
 
+    #[inline]
     fn next(&mut self) -> Option<Self::Item> {
         self.0.fill_next().map(|it| {
             // SAFETY: The iterator is guaranteed to yield K elements because
